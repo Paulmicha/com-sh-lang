@@ -1,4 +1,4 @@
-# Agnostic shell controller
+# Agnostic Shell Controller (ASC)
 
 ## WHAT
 
@@ -6,30 +6,105 @@ Scripts bash for usual devops tasks aimed at relatively small web projects.
 
 ## PURPOSE
 
-- setup server app dependencies (with variants per env. type: dev, test, live)
+- setup app dependencies (with variants per env. type: dev, test, live)
 - instanciate different environments locally and/or remotely
 - implement deployment / remote 2-way sync
 
 ## HOW
 
-There already are many existing tools to do these tasks, such as :
+There already are free existing tools to do these tasks, such as :
 
-1. Ansible (à la GeerlingGuy/DrupalVM) + Ansistrano
-1. docker-compose, wodby/docker4drupal
-1. Dokku, Rancher, Deis, Mesos...
+1. Ansible roles (e.g. GeerlingGuy/DrupalVM)
+1. docker-compose (e.g. wodby/docker4drupal)
+1. Ansistrano, Portainer, Swarm, Helm, draft.sh, Dokku, Jenkins, Drone, Rancher, Mesos...
 
 The approach here is to provide a minimal base for abstracting out usual tasks (maintain a common set of commands with varying implementations), while allowing to complement, combine, replace or add specific operations **with or without** existing tools.
 
 ## WHY
 
-Over the years, the maintenance of older projects became tedious (typically LAMP stack based projects). For instance, when old VMs are deleted, it can be difficult to recreate a compatible local dev environment supporting all dependencies from that project "era".
+Over the years, the maintenance of older projects became tedious (typically LAMP stack based projects). For instance, when old VMs are deleted, it can be difficult to recreate a compatible local dev environment supporting all dependencies from that project "technological era".
 
-Even newer projects on other stacks may also break when re-instanciated elsewhere after some major changes in the NPM ecosystem (typically old node_modules without shrinkwrap, before the NPM lock mecanism).
-
-While tools like Ansible, `docker-compose` or even `nvm` may help, reworking parts of small-ish projects from different eras to use these tools isn't always possible.
+While tools like Ansible, `docker-compose` or `nvm` already address these concerns, adapting or integrating such projects to use these tools for common tasks requires some amount of work (or "glue").
 
 That's where this collection might help, e.g. by copy/pasting it in existing monolithic - or separate "local dev stack" - repos.
 
+## Preprequisites
+
+Local & remote hosts or VMs with bash support. ASC is tested on Debian and/or Ubuntu Linux hosts.
+
 ## Usage
+
+There are 2 ways to use ASC in existing or new projects :
+
+1. Use a single, "monolothic" repo for everything
+1. Keep application code in a separate Git repo (default, see `.gitignore`)
+
+### Option 1 first steps
+
+- Download & copy/paste ASC files into project
+- Undo default ignored subfolders in `.gitignore` file if/as needed
+
+### Option 2 first steps
+
+- Clone or download ASC in desired location (aka the project root dir)
+- Clone the application into a subfolder named e.g. `web`, `public`, `build`, etc.
+- Gitignore that subfolder by updating the `.gitignore` file accordingly
+- [optional] Make any alterations necessary
+- [optional] Maintain as a separate "dev stack" repo
+
+### Next steps
+
+When ASC files are in place :
+
+- Initialize "stack" (environment settings & remote instance)
+- Provision local and/or remote host
+- Setup application (local and/or remote) instance
+- [optional] Implement automated tests
+- [optional] Implement deployment to desired remote instance(s)
+
+See section *Frequent tasks (howtos / FAQ)* for details.
+
+## Architecture
+
+```txt
+/path/to/project/
+  ├── asc/
+  │   ├── app/                  <- App-related setup scripts + [wip] samples.
+  │   │   ├── bolt/
+  │   │   ├── drupal/
+  │   │   │   ├── 6/
+  │   │   │   ├── 7/
+  │   │   │   │   └── tests/
+  │   │   │   │       └── behat/
+  │   │   │   └── 8/
+  │   │   │       └── tests/
+  │   │   │           └── behat/
+  │   │   ├── laravel/
+  │   │   ├── phoenix/
+  │   │   ├── node/
+  │   │   │   ├── next.js/
+  │   │   │   └── phenomic/
+  │   │   └── symfony/
+  │   ├── db/                   <- Database-related scripts.
+  │   ├── env/
+  │   │   ├── current/          <- Generated values specific to current, local instance.
+  │   │   └── dist/             <- Files used as "models" for env. vars during init.
+  │   ├── git/
+  │   │   └── hooks/
+  │   ├── provision/            <- App dependencies setup scripts.
+  │   │   ├── ansible/
+  │   │   ├── docker-compose/
+  │   │   └── scripts/
+  │   ├── remote/
+  │   │   └── deploy/           <- Deployment-related scripts + [wip] samples.
+  │   │       ├── ansistrano/
+  │   │       └── git/
+  │   ├── specific/             <- Custom ASC scripts overrides.
+  │   └── stack/
+  ├── dumps/
+  └── private/
+```
+
+## Frequent tasks (howtos / FAQ)
 
 TODO
