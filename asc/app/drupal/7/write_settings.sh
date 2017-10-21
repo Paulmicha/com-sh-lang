@@ -4,7 +4,7 @@
 # Write local settings.
 #
 # Usage from project root dir :
-# $ . asc/app/write_settings.sh
+# $ . asc/app/drupal/7/write_settings.sh
 #
 
 . asc/env/load.sh
