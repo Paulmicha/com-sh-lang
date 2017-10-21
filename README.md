@@ -90,7 +90,8 @@ See section *Frequent tasks (howtos / FAQ)* for details.
   │       ├── behat/
   │       └── gemini/
   ├── dumps/
-  └── private/
+  ├── private/
+  └── web/                      <- Public web application dir. May use other names like docroot, www, public...
 ```
 
 ## Frequent tasks (howtos / FAQ)
@@ -144,7 +145,7 @@ Unless otherwise stated, all the examples below are to be run on *local* host fr
 *Prerequisites* :
 
 - Local : `asc/stack/setup.sh
-- Remote : `asc/remote/setup.sh`
+- Remote : `asc/remote/add_host.sh` + `asc/remote/setup.sh`
 
 ```sh
 ./asc/stack/start.sh
@@ -184,7 +185,10 @@ Unless otherwise stated, all the examples below are to be run on *local* host fr
 
 *When to run* : on-demand.
 
-*Prerequisites* : `asc/app/init.sh`
+*Prerequisites* :
+
+- Local : `asc/app/init.sh`
+- Remote : `asc/remote/init.sh`
 
 ```sh
 # To reset local project instance :
@@ -239,7 +243,7 @@ Unless otherwise stated, all the examples below are to be run on *local* host fr
 *Prerequisites* :
 
 - Local : `asc/stack/init.sh`
-- Remote : `asc/remote/init.sh`
+- Remote : `asc/remote/add_host.sh` + `asc/remote/init.sh`
 
 ```sh
 # TODO
