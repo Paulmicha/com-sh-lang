@@ -18,7 +18,7 @@ if [ -f ".remote_hosts.env" ]; then
   fi
 fi
 
-# Potential override from 'asc/specific' dir.
-if [ -f asc/specific/aliases.sh ]; then
-  . asc/specific/aliases.sh
+# Potential override from 'asc/custom' dir.
+if [ -f asc/custom/aliases.sh ]; then
+  . asc/custom/aliases.sh
 fi

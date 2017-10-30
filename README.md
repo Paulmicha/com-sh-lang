@@ -81,6 +81,9 @@ See section *Frequent tasks (howtos / FAQ)* for details.
 /path/to/project/               <- Project root dir.
   ├── asc/
   │   ├── app/                  <- App setup / watch / (re)build scripts + [wip] samples.
+  │   ├── custom/
+  │   │   ├── complements/      <- [optional] Add your custom script complements here (see "Autoload").
+  │   │   └── overrides/        <- [optional] Add your custom script overrides here (see "Autoload").
   │   ├── db/                   <- Database-related scripts.
   │   ├── env/
   │   │   ├── current/          <- Generated values specific to current, local instance.
@@ -93,7 +96,6 @@ See section *Frequent tasks (howtos / FAQ)* for details.
   │   │   └── scripts/
   │   ├── remote/
   │   │   └── deploy/           <- Deployment-related scripts + [wip] samples.
-  │   ├── specific/             <- [optional] Custom ASC scripts overrides.
   │   ├── stack/                <- Manage required services and/or containers, CI tasks, workers + [wip] samples.
   │   └── test/                 <- Automated tests related scripts + [wip] samples.
   │       ├── behat/
@@ -121,17 +123,16 @@ Briefly explains basic architectural aspects of ASC.
 
 ### "Autoload" (dynamic sourcing)
 
-Example: `asc/bash_utils.sh`
+Basic example: `asc/bash_utils.sh`
 
 **Purpose**:
 
 - Leaziness (no manual inclusions to think about)
 - When used in combination with naming conventions, allows :
-    - Automatic overrides and/or complements - i.e. when adding your custom scripts in the `asc/specific` subdir following the same dir/file structure. See `asc/utilities/autoload.sh`
+    - Automatic overrides and/or complements - i.e. when adding your custom scripts in the `asc/custom` subdir following the same dir/file structure. See `asc/utilities/autoload.sh`
     - Drupal-like "hooks" (unclear if needed at this stage)
 
 This pattern might be used to integrate some [existing (and more elaborate) Bash projects](https://github.com/awesome-lists/awesome-bash).
-
 
 ## Conventions
 
@@ -150,8 +151,8 @@ Unless otherwise stated, all the examples below are to be run on *local* host fr
 
 This is important to note in case you're adding your own custom scripts to override and/or complement parts of ASC, because unless you really mean to close the *current shell* (i.e. close the terminal window), you have 2 options :
 
-- Either also use `return`
-- Or just launch every example below as subshells (e.g. replace `. asc/stack/init.sh` with `./asc/stack/init.sh`).
+- Also use `return` when working in the main shell scope - i.e. in your custom scripts autoloaded from `asc/custom/overrides` and `asc/custom/complements`
+- Wrap customizations in functions (or subshells)
 
 ### Initialize local instance env settings
 
