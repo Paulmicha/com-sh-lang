@@ -24,9 +24,15 @@
 !/private/README.md
 !/private/.htaccess
 
-# Custom scripts.
-/asc/custom
+# Customizations.
+/asc/custom/*
 !/asc/custom/README.md
+!/asc/custom/overrides
+/asc/custom/overrides/*
+!/asc/custom/overrides/README.md
+!/asc/custom/complements
+/asc/custom/complements/*
+!/asc/custom/complements/README.md
 
 # DB dumps.
 /dumps/*

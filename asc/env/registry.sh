@@ -38,16 +38,13 @@
 # . asc/env/registry.sh
 #
 
-# If no env var, use default (file) backend.
-if [ -z "$REG_BACKEND" ]; then
-  . asc/env/registry_file.sh
-fi
+# Allows custom override.
+eval `u_autoload_override "$BASH_SOURCE"`
 
-# Potential override from 'asc/specific' dir takes priority.
-if [ -f "asc/specific/env/registry_${REG_BACKEND}.sh" ]; then
-  . "asc/specific/env/registry_${REG_BACKEND}.sh"
-
-# Finally, load default backend type implementation.
-elif [ -f "asc/env/registry_${REG_BACKEND}.sh" ]; then
+# Load default backend type implementation.
+if [[ -f "asc/env/registry_${REG_BACKEND}.sh" ]]; then
   . "asc/env/registry_${REG_BACKEND}.sh"
 fi
+
+# Allows custom complement.
+u_autoload_get_complement "$BASH_SOURCE"
