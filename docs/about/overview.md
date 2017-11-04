@@ -1,4 +1,4 @@
-# Agnostic Shell Controller (ASC) documentation - Overview
+# Overview
 
 This page presents the ASC project.
 
@@ -66,7 +66,3 @@ While tools like Ansible, `docker-compose` or `nvm` already address these concer
   ├── web/                      <- Public web application dir. May use other names like docroot, www, public...
   └── .gitignore                <- Replace with your own and/or edit.
 ```
-
----
-
-Back to [documentation index](index.md)

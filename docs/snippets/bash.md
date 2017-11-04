@@ -1,4 +1,4 @@
-# Agnostic Shell Controller (ASC) documentation - Bash snippets
+# Bash snippets
 
 ## Multi-line variable
 

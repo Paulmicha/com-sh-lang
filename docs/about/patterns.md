@@ -1,4 +1,4 @@
-# Agnostic Shell Controller (ASC) documentation - Patterns
+# Patterns
 
 Briefly explains basic architectural aspects of ASC.
 
