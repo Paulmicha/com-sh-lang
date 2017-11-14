@@ -61,7 +61,7 @@ cat > "$CURRENT_ENV_SETTINGS_FILE" <<'EOF'
 # @see asc/stack/init/aggregate_env_vars.sh
 # @see asc/utilities/env.sh
 #
-# See documentation :
+# Documentation :
 # @see asc/env/README.md
 #
 
