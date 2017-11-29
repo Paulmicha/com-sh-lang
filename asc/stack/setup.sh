@@ -1,7 +1,9 @@
 #!/bin/bash
 
 ##
-# Setup host-level dependencies.
+# Installs host-level dependencies.
+#
+# @requires asc/stack/init.sh (must have already been run at least once).
 #
 # Run as root or sudo.
 #
@@ -10,13 +12,7 @@
 #
 
 . asc/env/load.sh
-
-. asc/git/apply_config.sh
-
-# . asc/app/drupal_setup.sh
-# . asc/stack/lamp_deb/cron_drupal_setup.sh
-# . asc/stack/lamp_deb/vhost_create.sh $INSTANCE_DOMAIN $INSTANCE_ALIAS
-# . asc/stack/lamp_deb/cron_apache_https_setup.sh
+. asc/provision/dependencies.sh
 
 
 # Allow custom complements for this script.

@@ -9,7 +9,6 @@
 # $ . asc/stack/init.sh                 # Will prompt to confirm/edit every default value
 # $ . asc/stack/init.sh -s drupal-7     # Short name/value argument syntax
 # $ . asc/stack/init.sh -s nodejs -y    # "-y" will use default values, no prompts
-# $ . asc/stack/init.sh --stack=drupal-7 --yes      # Longer name/value argument syntax (equivalent)
 #
 
 . asc/bash_utils.sh
@@ -56,6 +55,14 @@ u_exec_foreach_env_vars u_assign_env_value
 # Write env vars in current instance's settings file.
 . asc/env/write.sh
 
+# Apply git-related settings.
+. asc/git/apply_config.sh
+
+# Apply correct ownership and permissions.
+. asc/fixperms.sh
 
 # Allow custom complements for this script.
 u_autoload_get_complement "$BASH_SOURCE"
+
+# Trigger post-init hooks.
+u_hook_call stack init post

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+##
+# Restarts required services.
+#
+# @requires asc/stack/setup.sh (must have already been run at least once).
+#
+# Run as root or sudo.
+#
+# Usage :
+# $ . asc/stack/restart.sh
+#
+
+. asc/env/load.sh
+
+. asc/stack/stop.sh
+
+# Execute the "restart" script corresponding to provisioning method.
+script="$(u_provisioning_get_script 'stack' 'restart')"
+if [[ -f "$script" ]]; then
+  . "$script"
+fi
+
+
+# Allow custom complements for this script.
+u_autoload_get_complement "$BASH_SOURCE"

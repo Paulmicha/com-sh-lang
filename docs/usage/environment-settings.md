@@ -91,6 +91,7 @@ Any existing file is included (sourced) in the order indicated, each one allowin
 . asc/stack/init.sh -s drupal-7--varnish-4,redis -p ansible-2 -y
 
 # ... yields these corresponding stack dependencies lookup paths :
+asc/provision/dependencies.sh
 asc/provision/local_host.dependencies.sh
 asc/provision/ubuntu.dependencies.sh
 asc/provision/ubuntu-14.dependencies.sh
@@ -114,6 +115,18 @@ asc/provision/ansible-2.local_host.dependencies.sh
 asc/provision/ansible-2.ubuntu.local_host.dependencies.sh
 asc/provision/ansible-2.ubuntu-14.local_host.dependencies.sh
 asc/provision/ansible-2.ubuntu-14.04.local_host.dependencies.sh
+asc/provision/dev.dependencies.sh
+asc/provision/dev.ubuntu.dependencies.sh
+asc/provision/dev.ubuntu-14.dependencies.sh
+asc/provision/dev.ubuntu-14.04.dependencies.sh
+asc/provision/dev.local_host.dependencies.sh
+asc/provision/dev.ubuntu.local_host.dependencies.sh
+asc/provision/dev.ubuntu-14.local_host.dependencies.sh
+asc/provision/dev.ubuntu-14.04.local_host.dependencies.sh
+asc/provision/dev.ansible.dependencies.sh
+asc/provision/dev.ansible-2.dependencies.sh
+asc/provision/dev.ansible.local_host.dependencies.sh
+asc/provision/dev.ansible-2.local_host.dependencies.sh
 asc/app/drupal/dependencies.sh
 asc/app/drupal/local_host.dependencies.sh
 asc/app/drupal/ubuntu.dependencies.sh
@@ -231,8 +244,6 @@ Any existing file is included (sourced) in the order indicated, each one allowin
 
 # ... yields these corresponding env models lookup paths :
 asc/provision/docker-compose/vars.sh
-asc/provision/contenta/vars.sh
-asc/provision/contenta/docker-compose.vars.sh
 asc/provision/redis/vars.sh
 asc/provision/redis/docker-compose.vars.sh
 asc/provision/varnish/vars.sh
@@ -263,6 +274,18 @@ asc/provision/mariadb/vars.sh
 asc/provision/mariadb/docker-compose.vars.sh
 asc/provision/mariadb/10/vars.sh
 asc/provision/mariadb/10/docker-compose.vars.sh
+asc/provision/presets/contenta/vars.sh
+asc/provision/presets/contenta/docker-compose.vars.sh
+asc/provision/presets/contenta/1/vars.sh
+asc/provision/presets/contenta/1/docker-compose.vars.sh
+asc/app/presets/contenta/vars.sh
+asc/app/presets/contenta/docker-compose.vars.sh
+asc/app/presets/contenta/1/vars.sh
+asc/app/presets/contenta/1/docker-compose.vars.sh
+asc/custom/presets/contenta/vars.sh
+asc/custom/presets/contenta/docker-compose.vars.sh
+asc/custom/presets/contenta/1/vars.sh
+asc/custom/presets/contenta/1/docker-compose.vars.sh
 asc/app/drupal/env.vars.sh
 asc/app/drupal/env.docker-compose.vars.sh
 ```

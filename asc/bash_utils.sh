@@ -15,6 +15,8 @@
 # $ . asc/bash_utils.sh
 #
 
+. asc/utilities/autoload.sh
+
 for file in $( find asc/utilities/* -type f -print0 | xargs -0 ); do
   . "$file"
   u_autoload_get_complement "$file"
