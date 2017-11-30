@@ -12,6 +12,9 @@
 #
 
 . asc/env/load.sh
+
+# TODO use hook instead
+# @see asc/utilities/hook.sh
 . asc/provision/dependencies.sh
 
 

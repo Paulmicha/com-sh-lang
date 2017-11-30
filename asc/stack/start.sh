@@ -14,6 +14,8 @@
 . asc/env/load.sh
 
 # Execute the "start" script corresponding to provisioning method.
+# TODO use hook instead
+# @see asc/utilities/hook.sh
 script="$(u_provisioning_get_script 'stack' 'start')"
 if [[ -f "$script" ]]; then
   . "$script"

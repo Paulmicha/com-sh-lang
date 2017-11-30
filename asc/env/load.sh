@@ -11,7 +11,7 @@
 # . asc/env/load.sh
 #
 
-if [ ! -f "asc/env/current/vars.sh" ]; then
+if [[ ! -f "asc/env/current/vars.sh" ]]; then
   echo
   echo "Error in $BASH_SOURCE line $LINENO: no env settings found."
   echo "-> Run asc/stack/init.sh first."
@@ -20,9 +20,15 @@ if [ ! -f "asc/env/current/vars.sh" ]; then
 fi
 
 # Load current instance env settings (globals) + ignore readonly errors.
-. asc/env/current/vars.sh 2> /dev/null
+# [wip] TODO evaluate not requiring readonly globals.
+# . asc/env/current/vars.sh 2> /dev/null
+. asc/env/current/vars.sh
 
-# Load global bash utils and aliases.
+# Load global bash utils.
 . asc/bash_utils.sh
+
+# TODO evaluate removing 'registry' feature.
 . asc/env/registry.sh
-. asc/aliases.sh
+
+# Load bash aliases.
+u_hook_app_call 'bash' 'alias'
