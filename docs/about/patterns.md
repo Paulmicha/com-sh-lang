@@ -34,7 +34,7 @@ Notably used in:
 - `asc/stack/init.sh`
 - `asc/utilities/hook.sh`
 
-This pattern should not prevent ASC to co-exist alongside existing tools [and/or Bash projects](https://github.com/awesome-lists/awesome-bash).
+This pattern should not prevent ASC to co-exist alongside [existing tools](https://paulmicha.github.io/asc/about/tools-considerations.html) and/or [Bash projects](https://github.com/awesome-lists/awesome-bash).
 
 ## Folders & files naming
 
