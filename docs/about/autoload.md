@@ -1,6 +1,6 @@
 # ASC Autoload
 
-Explicitly depends on *folders & files naming* convention ([documentation]()).
+Explicitly depends on *folders & files naming* convention (see [patterns](https://paulmicha.github.io/asc/about/patterns.html)).
 
 ## Configuration (env settings)
 
