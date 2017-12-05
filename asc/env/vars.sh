@@ -36,4 +36,12 @@ global ASC_SUBJECTS 'app env git provision remote stack service task worker logg
 global ASC_ACTIONS 'bootstrap init load reload unload install reinstall uninstall build rebuild start restart stop add remove process trigger watch compile test plan delay deploy destroy'
 global ASC_HOOK_TYPES 'pre post'
 
+# Alter / extend base path. TODO evaluate switching this value "on the fly" (see
+# [wip] documentation about recursion).
 global ASC_CUSTOM_DIR "[default]=asc/custom"
+
+# Declaring additional hosts. NB : each host must declare exactly 3 'append'
+# globals - example :
+# global REMOTE_HOSTS "[append]=asc-remote.example.com"
+# global REMOTE_HOSTS_CMDS "[append]='ssh -p123 username@remote.domain.tld'"
+# global REMOTE_HOSTS_TYPES "[append]=dev"
