@@ -1,11 +1,25 @@
 #!/bin/bash
 
 ##
-# ASC-related utility functions.
+# ASC internals related utility functions.
 #
 # This file is dynamically loaded.
 # @see asc/bash_utils.sh
 #
+
+##
+# Centralizes arbitrary unique values (e.g. for delimiters, placeholders, etc).
+#
+# @example
+#   unique_delimiter_str="$(u_asc_common_val globals-key-prefix)"
+#   echo "$unique_delimiter_str"
+#
+u_asc_common_val() {
+  case "$1" in
+    globals-key-prefix) echo ":asc-gkp:" ;;
+    globals-tmp-space-placeholder) echo ":asc-tsph:" ;;
+  esac
+}
 
 ##
 # [debug] Triggers ASC_ACTIONS by ASC_SUBJECTS + ASC_VARIANTS.
