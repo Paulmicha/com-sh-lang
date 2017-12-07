@@ -10,7 +10,7 @@ ASC is not a program; it's a generic, customizable "glue" between programs. Simp
 
 ## PURPOSE
 
-TL;DR the *raison d'être* of - or *need* addressed by - ASC is to **maintain a standard CLI** while easily swapping out implementations (i.e. "not marrying them").
+TL;DR the *raison d'être* of - or *need* addressed by - ASC is to **maintain a standard CLI** while easily swapping out [implementations](https://paulmicha.github.io/asc/about/tools-considerations.html) (i.e. "not marrying them").
 
 ASC provides a common set of commands to execute variable implementations of the following tasks :
 
