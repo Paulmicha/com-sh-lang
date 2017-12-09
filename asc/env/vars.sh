@@ -33,11 +33,6 @@ global REG_BACKEND "[default]=file"
 
 global ASC_CUSTOM_DIR "[default]=asc/custom"
 
-# TODO streamline lookup paths (reuse abstraction in hooks, globals and deps).
-# global ASC_SUBJECTS 'app env git provision remote stack'
-# global ASC_ACTIONS 'load make build rebuild start restart stop deploy destroy process'
-# global ASC_HOOK_TYPES 'pre post'
-
 # Declaring additional hosts. NB : each host must declare exactly 3 'append'
 # globals - example :
 # global REMOTE_INSTANCES "[append]=asc-remote.instance.com"

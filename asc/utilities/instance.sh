@@ -6,10 +6,19 @@
 # See asc/env/README.md
 #
 # This file is dynamically loaded.
-# @see asc/bash_utils.sh
+# @see asc/bootstrap.sh
 #
 # Convention : functions names are all prefixed by "u" (for "utility").
 #
+
+##
+# TODO [wip] Gets current local instance state.
+#
+# Determines if instance was already initialized.
+# TODO evaluate if it's worth to extend (AFAIK currently not).
+#
+# u_instance_state() {
+# }
 
 ##
 # Separates an env item name from its version number.

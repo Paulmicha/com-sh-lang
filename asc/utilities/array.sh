@@ -4,7 +4,7 @@
 # Array-related utility functions.
 #
 # This script is dynamically loaded.
-# @see asc/bash_utils.sh
+# @see asc/bootstrap.sh
 #
 # Convention : functions names are all prefixed by "u" (for "utility").
 #

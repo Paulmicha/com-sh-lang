@@ -25,7 +25,7 @@ fi
 . asc/env/current/vars.sh
 
 # Load global bash utils.
-. asc/bash_utils.sh
+. asc/bootstrap.sh
 
 # TODO evaluate removing 'registry' feature.
 . asc/env/registry.sh

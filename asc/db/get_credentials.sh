@@ -6,7 +6,7 @@
 # This script initializes a random password the first time it is called (but
 # not on subsequent calls). It is idempotent.
 #
-# @requires asc/bash_utils.sh
+# @requires asc/bootstrap.sh
 # @requires global $INSTANCE_DOMAIN in scope.
 #
 # Usage :

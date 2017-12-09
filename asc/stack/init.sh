@@ -11,7 +11,7 @@
 # $ . asc/stack/init.sh -s nodejs -y    # "-y" will use default values, no prompts
 #
 
-. asc/bash_utils.sh
+. asc/bootstrap.sh
 
 # Get named script arguments.
 . asc/stack/init/get_args.sh
