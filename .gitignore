@@ -20,7 +20,7 @@
 /asc/env/current/*
 !/asc/env/current/README.md
 
-# Remote instances.
+# Ignore remote instances defined on current local instance.
 /asc/remote/instances/*
 !/asc/remote/instances/README.md
 
