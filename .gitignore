@@ -20,6 +20,10 @@
 /asc/env/current/*
 !/asc/env/current/README.md
 
+# Remote instances.
+/asc/remote/instances/*
+!/asc/remote/instances/README.md
+
 # Private files, outside of public (web) dir.
 /private/*
 !/private/README.md
