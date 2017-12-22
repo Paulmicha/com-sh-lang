@@ -13,14 +13,35 @@
 # @param 1 [optional] String relative path (defaults to './asc' = ASC "core").
 # @param 2 [optional] String globals "namespace" (defaults to 'ASC').
 #
-# Exports "namespaced" globals (prefixed by 'ASC' or optional 2nd argument). Ex:
-# @export ASC_SUBJECTS
-# @export ASC_ACTIONS
+# Exports "namespaced" globals prefixed by 'ASC' or optional 2nd argument.
+# E.g. :
+# @export ASC_STATES (var name hardcoded. See 1)
+# @export ASC_SUBJECTS (var name hardcoded. See 2)
+# @export ASC_ACTIONS (See 3)
+# @export ASC_VARIANTS (See 3)
+# @export ASC_PREFIX_SUFFIX (See 3)
+#
+# 1. The default state values are read from a dotfile (asc/.asc_states).
+# 2. By default, contains the list of depth 1 folders (in ./asc).
+#   If the dotfile '.asc_subjects' is present in current level, it overrides
+#   the entire list and may introduce values that are not folders.
+#   If the dotfile '.asc_subjects.append' exists, its values are added.
+# 3. These variables names are read from the default asc/.asc_extensions file.
+#   They contain values formed like this, given subject='stack' :
+#   - actions : provide list of all *.sh files in 'asc/stack' by default (without
+#     the file extension.).
+#     The dotfiles '.asc_actions' and '.asc_actions.append' have the same role
+#     as the 'subjects' ones described in 2 but must be placed inside 'asc/stack'.
+#   - variants : TODO
+#   - prefix_suffix : TODO
 #
 # @see "conventions" + "extensibility" documentation.
 #
-# This process uses files similar to .gitignore : they control which functions
-# and files are loaded during "bootstrap".
+# This process uses dotfiles similar to .gitignore (e.g. asc/.asc_subjects) :
+# they control which files are included (sourced) during "bootstrap" depending
+# on current local instance "state" (e.g. uninstalled, initialized, running).
+#
+# The default states are also read from a dotfile (asc/.asc_states).
 #
 u_asc_extend() {
   local p_path="$1"
