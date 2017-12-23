@@ -10,38 +10,49 @@
 ##
 # Initializes hooks and lookups (ASC extension mecanisms).
 #
+# This process uses dotfiles similar to .gitignore (e.g. asc/.asc_subjects) :
+# they control which files are included (sourced) during "bootstrap" depending
+# on current local instance's ASC_STATE (e.g. installed, initialized, running).
+#
 # @param 1 [optional] String relative path (defaults to './asc' = ASC "core").
 # @param 2 [optional] String globals "namespace" (defaults to 'ASC').
 #
 # Exports "namespaced" globals prefixed by 'ASC' or optional 2nd argument.
-# E.g. :
-# @export ASC_STATES (var name hardcoded. See 1)
-# @export ASC_SUBJECTS (var name hardcoded. See 2)
-# @export ASC_ACTIONS (See 3)
-# @export ASC_VARIANTS (See 3)
-# @export ASC_PREFIX_SUFFIX (See 3)
+# E.g. given global NAMESPACE='ASC' :
+# @export ASC_SUBJECTS (var name semi-hardcoded. See 1)
+# @export ASC_ACTIONS (generated var name 1. See 2)
+# @export ASC_VARIANTS (generated var name 2. See 2)
+# @export ASC_PREFIX_SUFFIX (generated var name 3. See 2)
+# @export ASC_... (generated var name n. See 3)
 #
-# 1. The default state values are read from a dotfile (asc/.asc_states).
-# 2. By default, contains the list of depth 1 folders (in ./asc).
+# 1. By default, contains the list of depth 1 folders names in ./asc (w/o slashes).
 #   If the dotfile '.asc_subjects' is present in current level, it overrides
-#   the entire list and may introduce values that are not folders.
+#   the entire list and may introduce values that are not folders (see below).
 #   If the dotfile '.asc_subjects.append' exists, its values are added.
-# 3. These variables names are read from the default asc/.asc_extensions file.
-#   They contain values formed like this, given subject='stack' :
-#   - actions : provide list of all *.sh files in 'asc/stack' by default (without
-#     the file extension.).
+#
+# 2. These variables names are based on the default asc/.asc_extensions file.
+#   They declare how to look for files to include in hooks (events) PER SUBJECT.
+#   Here's an example, given subject='stack' :
+#
+#   - 2.1 actions : provide list of all *.sh files in 'asc/stack' by default (no
+#     extension - values are only the 'name' of the file, see Conventions doc).
 #     The dotfiles '.asc_actions' and '.asc_actions.append' have the same role
-#     as the 'subjects' ones described in 2 but must be placed inside 'asc/stack'.
-#   - variants : TODO
+#     as the 'subjects' ones described in 1 but must be placed inside 'asc/stack'.
+#     NB : the term 'actions' is the first declared in the default
+#     asc/.asc_extensions file. If a preset provides another term, the mecanism
+#     is the same - it will impact the generation of lookup paths.
+#
+#   - 2.2 variants : declare how to look for files to include in hooks (events)
+#     PER ACTION (by subject).
+#     By default - unless overridden, each action gets assigned the following
+#     variants used to form lookup paths :
+#
+#   - variants : contains global variables + describes their use in the "autoload"
+#     process, PER ACTION.
+#
 #   - prefix_suffix : TODO
 #
 # @see "conventions" + "extensibility" documentation.
-#
-# This process uses dotfiles similar to .gitignore (e.g. asc/.asc_subjects) :
-# they control which files are included (sourced) during "bootstrap" depending
-# on current local instance "state" (e.g. uninstalled, initialized, running).
-#
-# The default states are also read from a dotfile (asc/.asc_states).
 #
 u_asc_extend() {
   local p_path="$1"
@@ -57,7 +68,6 @@ u_asc_extend() {
   fi
 
   # Multiple extensions pattern : export as "namespace"-prefixed globals.
-  # See https://stackoverflow.com/a/7950330 for the herestring '<<<' operator.
   local ext
   local extensions="$(u_asc_get 'extensions' 'words' "$p_path" "$p_namespace")"
 
@@ -65,6 +75,7 @@ u_asc_extend() {
   # echo "  extensions = $extensions"
   # echo
 
+  # See https://stackoverflow.com/a/7950330 for the herestring '<<<' operator.
   local extensions_uppercase=$(tr '[a-z]' '[A-Z]' <<< $extensions)
 
   for ext in $extensions_uppercase; do
