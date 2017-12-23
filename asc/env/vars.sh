@@ -25,10 +25,11 @@ global INSTANCE_TYPE "[default]=dev"
 global INSTANCE_DOMAIN "[default]='$(u_get_instance_domain)'"
 global INSTANCE_ALIAS
 
-# This allows supportting multi-repo projects, e.g. 1 repo for the app, 1 for
-# the "dev stack", or any other combination of any number of repos.
-# Use ASC_MODE='monolithic' for single-repo projects.
-# Use ASC_MODE='separate' for multi-repo projects (mandatory app Git details).
+# This allows supporting multi-repo projects, i.e. 1 repo for the app + 1 for
+# the "dev stack" :
+# - Use ASC_MODE='monolithic' for single-repo projects.
+# - Use ASC_MODE='separate' for multi-repo projects (mandatory app Git details).
+# TODO support any other combination of any number of repos ?
 global ASC_MODE "[default]=separate"
 global APP_GIT_ORIGIN "[if-ASC_MODE]=separate"
 global APP_GIT_WORK_TREE "[if-ASC_MODE]=separate [default]=$APP_DOCROOT"
