@@ -33,10 +33,16 @@ if [[ -z "$once" ]]; then
     u_autoload_get_complement "$file"
   done
 
+  # If stack init was run at least once, automatically load global env vars.
+  if [[ -f "asc/env/current/vars.sh" ]]; then
+    . asc/env/load.sh
+  fi
+
   # TODO [wip] workaround instance state limitations (e.g. unhandled shutdown).
   u_instance_get_state
 
-  # Initializes hooks and lookups (ASC extension mecanisms).
+  # Initializes "primitives" for hooks and lookups (ASC extension mecanisms).
+  # These are : subjects, actions, prefixes, variants and presets.
   u_asc_extend
 
   # Load optional additional includes.
@@ -45,11 +51,6 @@ if [[ -z "$once" ]]; then
       . "$file"
       u_autoload_get_complement "$file"
     done
-  fi
-
-  # If stack init was run at least once, automatically load global env vars.
-  if [[ -f "asc/env/current/vars.sh" ]]; then
-    . asc/env/load.sh
   fi
 
   # Call any 'bootstrap' hooks.
