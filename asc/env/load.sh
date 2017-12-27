@@ -26,12 +26,6 @@ fi
 # . asc/env/current/vars.sh 2> /dev/null
 . asc/env/current/vars.sh
 
-# Load global bash utils.
-. asc/bootstrap.sh
-
-# TODO evaluate removing 'registry' feature.
-. asc/env/registry.sh
-
 # Load bash aliases.
 # NB: aliases are not expanded when the shell is not interactive, unless the
 # expand_aliases shell option is set using shopt.
