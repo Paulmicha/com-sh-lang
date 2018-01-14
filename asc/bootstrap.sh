@@ -22,10 +22,10 @@ if [[ -z "$NAMESPACE" ]]; then
   export NAMESPACE='ASC'
 fi
 
-# Makes sure bootstrap runs once per namespace.
-eval "once=\$${NAMESPACE}_BS_FLAG"
+# Makes sure bootstrap runs once per namespace in current shell scope.
+eval "once=\$${NAMESPACE}_bs_flag"
 if [[ -z "$once" ]]; then
-  eval "export ${NAMESPACE}_BS_FLAG=1"
+  eval "${NAMESPACE}_bs_flag=1"
 
   # Include required utilities.
   . asc/utilities/autoload.sh # TODO include once (convenience).
@@ -35,7 +35,7 @@ if [[ -z "$once" ]]; then
   done
 
   # If stack init was run at least once, automatically load global env vars.
-  if [[ -f "asc/env/current/vars.sh" ]]; then
+  if [[ -f "asc/env/current/global.vars.sh" ]]; then
     . asc/env/load.sh
   fi
 

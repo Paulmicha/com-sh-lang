@@ -13,15 +13,14 @@
 # . asc/env/load.sh
 #
 
-if [[ ! -f "asc/env/current/vars.sh" ]]; then
-  echo
-  echo "Error in $BASH_SOURCE line $LINENO: no env settings found."
-  echo "-> Run asc/stack/init.sh first."
-  echo "Aborting (1)."
+if [[ ! -f "asc/env/current/global.vars.sh" ]]; then
+  echo >&2
+  echo "Error in $BASH_SOURCE line $LINENO: no global vars found." >&2
+  echo "-> Run asc/stack/init.sh first." >&2
+  echo "Aborting (1)." >&2
   return 1
 fi
 
 # Load current instance env settings (globals) + ignore readonly errors.
-# [wip] TODO evaluate not requiring readonly globals.
-# . asc/env/current/vars.sh 2> /dev/null
-. asc/env/current/vars.sh
+# [wip] TODO use readonly globals.
+. asc/env/current/global.vars.sh

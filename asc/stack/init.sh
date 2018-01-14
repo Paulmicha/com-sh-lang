@@ -11,8 +11,6 @@
 # $ . asc/stack/init.sh -s nodejs -y    # "-y" will use default values, no prompts
 #
 
-. asc/bootstrap.sh
-
 # Get named script arguments.
 . asc/stack/init/get_args.sh
 
@@ -25,18 +23,26 @@ export GLOBALS_UNIQUE_KEYS
 export PROJECT_STACK="$P_PROJECT_STACK"
 export PROVISION_USING="$P_PROVISION_USING"
 export ASC_CUSTOM_DIR="$P_ASC_CUSTOM_DIR"
-export CURRENT_ENV_SETTINGS_FILE='asc/env/current/global.vars.sh'
+export GLOBALS_FILEPATH='asc/env/current/global.vars.sh'
 
 if [[ (-z "$PROJECT_STACK") && ($P_YES == 0) ]]; then
   read -p "Enter PROJECT_STACK value : " PROJECT_STACK
 fi
 
 if [[ -z "$PROJECT_STACK" ]]; then
-  echo
-  echo "Error in $BASH_SOURCE line $LINENO: cannot carry on without a value for \$PROJECT_STACK."
-  echo "Aborting (1)."
+  echo >&2
+  echo "Error in $BASH_SOURCE line $LINENO: cannot carry on without a value for \$PROJECT_STACK." >&2
+  echo "Aborting (1)." >&2
   return 1
 fi
+
+# Remove previously generated globals to avoid any interference.
+if [[ -f "$GLOBALS_FILEPATH" ]]; then
+  rm "$GLOBALS_FILEPATH"
+fi
+
+# Load ASC includes.
+. asc/bootstrap.sh
 
 # (Re)start dependencies and env vars aggregation.
 unset GLOBALS
@@ -46,7 +52,7 @@ GLOBALS_UNIQUE_NAMES=()
 GLOBALS_UNIQUE_KEYS=()
 
 # Get ASC globals required for aggregating dependencies and env vars.
-. asc/env/vars.sh
+. asc/env/global.vars.sh
 
 # Aggregate dependencies and env vars.
 . asc/stack/init/aggregate_deps.sh
@@ -63,4 +69,4 @@ u_hook_app 'apply' 'ownership_and_perms' '' 'stack'
 u_autoload_get_complement "$BASH_SOURCE"
 
 # Trigger stack/post-init hook.
-# u_hook 'stack' 'init' 'post'
+u_hook 'stack' 'init' 'post'
