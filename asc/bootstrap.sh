@@ -12,26 +12,13 @@
 #   . asc/bootstrap.sh
 #
 
-# TODO remove this.
-# Advanced usage : allows swapping global namespace at runtime. Used for
-# exporting dynamic global variables names.
-# NB : not every global is namespaced. The hardcoded ones are to be considered
-# ASC internal globals.
-# @see u_asc_extend()
-if [[ -z "$NAMESPACE" ]]; then
-  export NAMESPACE='ASC'
-fi
+# Make sure bootstrap runs only once in current shell scope.
+if [[ -z "$asc_bs_flag" ]]; then
+  asc_bs_flag=1
 
-# Makes sure bootstrap runs once per namespace in current shell scope.
-eval "once=\$${NAMESPACE}_bs_flag"
-if [[ -z "$once" ]]; then
-  eval "${NAMESPACE}_bs_flag=1"
-
-  # Include required utilities.
-  . asc/utilities/autoload.sh # TODO include once (convenience).
+  # Include "core" utilities.
   for file in $(find asc/utilities -maxdepth 1 -type f -print0 | xargs -0); do
     . "$file"
-    u_autoload_get_complement "$file"
   done
 
   # If stack init was run at least once, automatically load global env vars.
