@@ -133,7 +133,9 @@ u_asc_extend() {
     # Build up exported generic includes list (by subject).
     inc="$p_path/$subject/${subject}.inc.sh"
     if [[ -f "$inc" ]]; then
-      eval "${p_namespace}_INC+=\"$inc \""
+      # NB : this must not be namespaced, otherwise presets' includes wouldn't
+      # be loaded during bootstrap.
+      ASC_INC+="$inc "
     fi
 
     primitive_values=''
@@ -182,22 +184,23 @@ u_asc_presets() {
   if [[ -n "$ASC_CUSTOM_DIR" ]]; then
     presets_dir="$ASC_CUSTOM_DIR/presets"
   fi
+  if [[ -d "$presets_dir" ]]; then
+    local preset
+    local presets_list=$(u_fs_dir_list "$presets_dir")
 
-  local preset
-  local presets_list=$(u_fs_dir_list "$presets_dir")
+    for preset in $presets_list; do
 
-  for preset in $presets_list; do
+      # Ignore dirnames starting with '.'.
+      if [[ "${preset:0:1}" == '.' ]]; then
+        continue
+      fi
 
-    # Ignore dirnames starting with '.'.
-    if [[ "${preset:0:1}" == '.' ]]; then
-      continue
-    fi
+      eval "ASC_PRESETS+=\"$preset \""
 
-    eval "ASC_PRESETS+=\"$preset \""
-
-    # Aggregate namespaced primitives for every preset.
-    u_asc_extend "$presets_dir/$preset"
-  done
+      # Aggregate namespaced primitives for every preset.
+      u_asc_extend "$presets_dir/$preset"
+    done
+  fi
 }
 
 ##
