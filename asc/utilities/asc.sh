@@ -16,7 +16,7 @@
 # TODO implement local instance's ASC_STATE (e.g. installed, initialized, running).
 #
 # @param 1 [optional] String relative path (defaults to 'asc' = ASC "core").
-#   Provides a preset folder without trailing slash.
+#   Provides a extension folder without trailing slash.
 # @param 2 [optional] String globals "namespace" (defaults to the uppercase name
 #   of the folder passed as 1st arg).
 #
@@ -27,7 +27,7 @@
 # @export ASC_ACTIONS (See 2.1)
 # @export ASC_PREFIXES (See 2.2)
 # @export ASC_VARIANTS (See 2.3)
-# @export ASC_PRESETS (See 3)
+# @export ASC_EXTENSIONS (See 3)
 # @export ASC_INC (See 4)
 #
 # @see hook()
@@ -59,7 +59,7 @@
 #     @see u_hook_build_lookup_by_subject()
 #
 #   - 2.3 variants : declare how to look for files to include in hooks (events)
-#     per action (by subject and/or preset). They define which global variables
+#     per action (by subject and/or extension). They define which global variables
 #     are used during lookup paths generation process.
 #     By default, all actions are assigned the following variants :
 #     - PROVISION_USING
@@ -72,7 +72,7 @@
 # 3. This only applies AFTER stack init has been run once if the global env var
 #   ASC_CUSTOM_DIR was assigned a different value than 'asc/custom'.
 #   It contains a list of folders containing the exact same structure as 'asc'.
-#   Every extension mecanism explained in 1 & 2 above applies to each preset.
+#   Every extension mecanism explained in 1 & 2 above applies to each extension.
 #   NB : folder names can only contain A-Z a-z 0-9 dots . underscores _ dashes -
 #
 # 4. The 'ASC_INC' values are a simple list of files to be sourced in
@@ -101,7 +101,7 @@ u_asc_extend() {
 
   # Export initial global variables for every primitive + always reinit as empty
   # strings on every call to u_asc_extend().
-  local primitives='SUBJECTS ACTIONS PREFIXES VARIANTS PRESETS'
+  local primitives='SUBJECTS ACTIONS PREFIXES VARIANTS EXTENSIONS'
   local prim
   for prim in $primitives; do
     eval "export ${p_namespace}_${prim}=''"
@@ -133,7 +133,7 @@ u_asc_extend() {
     # Build up exported generic includes list (by subject).
     inc="$p_path/$subject/${subject}.inc.sh"
     if [[ -f "$inc" ]]; then
-      # NB : this must not be namespaced, otherwise presets' includes wouldn't
+      # NB : this must not be namespaced, otherwise extensions' includes wouldn't
       # be loaded during bootstrap.
       ASC_INC+="$inc "
     fi
@@ -165,40 +165,40 @@ u_asc_extend() {
     done
   done
 
-  # If presets are detected, loop through each of them to aggregate namespaced
+  # If extensions are detected, loop through each of them to aggregate namespaced
   # primitives + restrict this to ASC namespace only.
   if [[ "$p_namespace" == 'ASC' ]]; then
-    export ASC_PRESETS
-    u_asc_presets
+    export ASC_EXTENSIONS
+    u_asc_extensions
   fi
 }
 
 ##
-# Loads presets if any exist.
+# Loads extensions if any exist.
 #
-# @requires ASC_PRESETS global in calling scope.
+# @requires ASC_EXTENSIONS global in calling scope.
 # @see u_asc_extend()
 #
-u_asc_presets() {
-  local presets_dir="asc/custom/presets"
+u_asc_extensions() {
+  local extensions_dir="asc/custom/extensions"
   if [[ -n "$ASC_CUSTOM_DIR" ]]; then
-    presets_dir="$ASC_CUSTOM_DIR/presets"
+    extensions_dir="$ASC_CUSTOM_DIR/extensions"
   fi
-  if [[ -d "$presets_dir" ]]; then
-    local preset
-    local presets_list=$(u_fs_dir_list "$presets_dir")
+  if [[ -d "$extensions_dir" ]]; then
+    local extension
+    local extensions_list=$(u_fs_dir_list "$extensions_dir")
 
-    for preset in $presets_list; do
+    for extension in $extensions_list; do
 
       # Ignore dirnames starting with '.'.
-      if [[ "${preset:0:1}" == '.' ]]; then
+      if [[ "${extension:0:1}" == '.' ]]; then
         continue
       fi
 
-      eval "ASC_PRESETS+=\"$preset \""
+      eval "ASC_EXTENSIONS+=\"$extension \""
 
-      # Aggregate namespaced primitives for every preset.
-      u_asc_extend "$presets_dir/$preset"
+      # Aggregate namespaced primitives for every extension.
+      u_asc_extend "$extensions_dir/$extension"
     done
   fi
 }
@@ -212,7 +212,7 @@ u_asc_presets() {
 #
 # @param 1 String which primitive values to get (lowercase).
 # @param 2 [optional] String relative path (defaults to 'asc' = ASC "core").
-#   Provides a preset folder without trailing slash.
+#   Provides a extension folder without trailing slash.
 # @param 3 [optional] String an 'action' value.
 #
 # Dotfiles MUST contain a list of words without any special characters nor
@@ -226,7 +226,7 @@ u_asc_presets() {
 #
 #   # Default path 'asc' can be modified by providing the 2nd argument :
 #   primitive_values=''
-#   u_asc_primitive_values 'actions' 'path/to/preset/folder'
+#   u_asc_primitive_values 'actions' 'path/to/extension/folder'
 #   echo "$primitive_values"
 #
 u_asc_primitive_values() {

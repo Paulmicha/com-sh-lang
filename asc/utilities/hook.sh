@@ -17,7 +17,7 @@
 # @see u_asc_extend()
 #
 # Calling this function will source all file includes matched by subject,
-# action, prefix, variant, and preset. Every preset defines a base path from
+# action, prefix, variant, and extension. Every extension defines a base path from
 # which additional lookup paths are derived + a corresponding namespace.
 # Also attempts to call functions matching the corresponding lookup patterns.
 #
@@ -28,12 +28,12 @@
 # - ASC_SUBJECTS or ${NAMESPACE}_SUBJECTS
 # - ASC_PREFIXES or ${NAMESPACE}_PREFIXES
 # - ASC_VARIANTS or ${NAMESPACE}_VARIANTS
-# - ASC_PRESETS or ${NAMESPACE}_PRESETS
+# - ASC_EXTENSIONS or ${NAMESPACE}_EXTENSIONS
 #
 # NB : the default separator used to concatenate parts in file names is
 # the underscore '_', except for variants which use dot '.'.
 # Dashes '-' are reserved for folder names and to separate "semver" suffixes.
-# Semver suffixes can be used in preset folder names and variant values.
+# Semver suffixes can be used in extension folder names and variant values.
 # TODO evaluate separators customization.
 #
 # @examples
@@ -45,10 +45,10 @@
 #   # - asc/<ASC_SUBJECTS>/<ASC_PREFIXES+sep>bootstrap.hook.sh
 #   # - asc/<ASC_SUBJECTS>/bootstrap<sep+ASC_VARIANTS>.hook.sh
 #   # - asc/<ASC_SUBJECTS>/<ASC_PREFIXES+sep>bootstrap<sep+ASC_VARIANTS>.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_PRESETS+semver>/<ASC_SUBJECTS>/bootstrap.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_PRESETS+semver>/<ASC_SUBJECTS>/<ASC_PREFIXES+sep>bootstrap.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_PRESETS+semver>/<ASC_SUBJECTS>/bootstrap<sep+ASC_VARIANTS>.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_PRESETS+semver>/<ASC_SUBJECTS>/<ASC_PREFIXES+sep>bootstrap<sep+ASC_VARIANTS>.hook.sh
+#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS+semver>/<ASC_SUBJECTS>/bootstrap.hook.sh
+#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS+semver>/<ASC_SUBJECTS>/<ASC_PREFIXES+sep>bootstrap.hook.sh
+#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS+semver>/<ASC_SUBJECTS>/bootstrap<sep+ASC_VARIANTS>.hook.sh
+#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS+semver>/<ASC_SUBJECTS>/<ASC_PREFIXES+sep>bootstrap<sep+ASC_VARIANTS>.hook.sh
 #
 #   # 2. When providing an action + a filter by subject :
 #   hook -a 'init' -s 'stack'
@@ -56,10 +56,10 @@
 #   # - asc/stack/init.hook.sh
 #   # - asc/stack/<ASC_PREFIXES+sep>init.hook.sh
 #   # - asc/stack/init<sep+ASC_VARIANTS>.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_PRESETS+semver>/stack/init.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_PRESETS+semver>/stack/<ASC_PREFIXES+sep>init.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_PRESETS+semver>/stack/init<sep+ASC_VARIANTS>.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_PRESETS+semver>/stack/<ASC_PREFIXES+sep>init<sep+ASC_VARIANTS>.hook.sh
+#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS+semver>/stack/init.hook.sh
+#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS+semver>/stack/<ASC_PREFIXES+sep>init.hook.sh
+#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS+semver>/stack/init<sep+ASC_VARIANTS>.hook.sh
+#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS+semver>/stack/<ASC_PREFIXES+sep>init<sep+ASC_VARIANTS>.hook.sh
 #
 #   # 3. When providing an action + a filter by several subjects :
 #   hook -a 'apply_ownership_and_perms' -s 'stack app'
@@ -74,7 +74,7 @@
 #
 #   # 5. Arguments order may be swapped, but it requires at least either :
 #   #   - 1 action
-#   #   - 1 preset + 1 variant
+#   #   - 1 extension + 1 variant
 #   hook -p 'nodejs' -v 'INSTANCE_TYPE'
 #   # Yields the following lookup paths (ALL includes found are sourced) :
 #   # - $ASC_CUSTOM_DIR/nodejs<+semver>/<ASC_SUBJECTS>/<ASC_PREFIXES+sep><ASC_ACTIONS+sep>init<sep+ASC_VARIANTS>.hook.sh
@@ -93,8 +93,8 @@ hook() {
   local p_subjects_filter
   local p_prefixes_filter
   local p_variants_filter
-  local p_presets_filter
-  # local p_namespace_filter # [wip] evaluate merging namespace and preset for current purpose.
+  local p_extensions_filter
+  # local p_namespace_filter # [wip] evaluate merging namespace and extension for current purpose.
   local p_debug
 
   # Parse current function arguments.
@@ -106,8 +106,8 @@ hook() {
       -s) p_subjects_filter="$2"; shift 2;;
       -x) p_prefixes_filter="$2"; shift 2;;
       -v) p_variants_filter="$2"; shift 2;;
-      -p) p_presets_filter="$2"; shift 2;;
-      # -n) p_namespace_filter="$2"; shift 2;; # [wip] evaluate merging namespace and preset for current purpose.
+      -p) p_extensions_filter="$2"; shift 2;;
+      # -n) p_namespace_filter="$2"; shift 2;; # [wip] evaluate merging namespace and extension for current purpose.
       # Flag (arg without any value).
       -d) p_debug=1; shift 1;;
       # Warn for unhandled arguments.
@@ -117,9 +117,9 @@ hook() {
   done
 
   # Enforce minimum conditions for triggering hook (see 5 in function docblock).
-  if [[ (-z "$p_actions_filter") && (-z "$p_presets_filter") && (-z "$p_variants_filter") ]]; then
+  if [[ (-z "$p_actions_filter") && (-z "$p_extensions_filter") && (-z "$p_variants_filter") ]]; then
     echo
-    echo "Error in $BASH_SOURCE line $LINENO: cannot trigger hook without either 1 action filter (or 1 preset + 1 variant)." >&2
+    echo "Error in $BASH_SOURCE line $LINENO: cannot trigger hook without either 1 action filter (or 1 extension + 1 variant)." >&2
     echo "-> Aborting." >&2
     echo
     return 1
@@ -128,19 +128,19 @@ hook() {
   local subjects="$ASC_SUBJECTS"
   local actions="$ASC_ACTIONS"
   local variants="$ASC_VARIANTS"
-  local presets="$ASC_PRESETS"
+  local extensions="$ASC_EXTENSIONS"
   local prefixes="$ASC_PREFIXES"
 
   local base_paths=("asc")
-  local presets_dir="$ASC_CUSTOM_DIR/presets"
-  local preset
+  local extensions_dir="$ASC_CUSTOM_DIR/extensions"
+  local extension
   local lowercase
   local uppercase
 
-  # Allow using only a particular preset (see the '-p' argument).
-  if [[ -n "$p_preset_filter" ]]; then
-    for preset in $p_preset_filter; do
-      uppercase="$preset"
+  # Allow using only a particular extension (see the '-p' argument).
+  if [[ -n "$p_extension_filter" ]]; then
+    for extension in $p_extension_filter; do
+      uppercase="$extension"
       u_str_uppercase
       uppercase="${uppercase//\./_}"
       uppercase="${uppercase//-/_}"
@@ -149,16 +149,16 @@ hook() {
       eval "prefixes=\"\$${uppercase}_PREFIXES\""
       eval "variants=\"\$${uppercase}_VARIANTS\""
       # Override base path for lookups.
-      base_paths=("$presets_dir/$preset")
+      base_paths=("$extensions_dir/$extension")
     done
 
-  # By default, any preset can append its own "primitives".
-  # NB : this process will create duplicates e.g. when preset has identical
+  # By default, any extension can append its own "primitives".
+  # NB : this process will create duplicates e.g. when extension has identical
   # subject(s) than asc core. They are dealt with below.
   # @see u_asc_extend()
-  elif [[ -n "$presets" ]]; then
-    for preset in $presets; do
-      uppercase="$preset"
+  elif [[ -n "$extensions" ]]; then
+    for extension in $extensions; do
+      uppercase="$extension"
       u_str_uppercase
       uppercase="${uppercase//\./_}"
       uppercase="${uppercase//-/_}"
@@ -166,8 +166,8 @@ hook() {
       eval "actions+=\" \$${uppercase}_ACTIONS\""
       eval "prefixes+=\" \$${uppercase}_PREFIXES\""
       eval "variants+=\" \$${uppercase}_VARIANTS\""
-      # Every preset defines an additional base path for lookups.
-      base_paths+=("$presets_dir/$preset")
+      # Every extension defines an additional base path for lookups.
+      base_paths+=("$extensions_dir/$extension")
     done
   fi
 
@@ -200,7 +200,7 @@ hook() {
 
   for f in $filters; do
 
-    # Use the same loop to remove potential duplicate values (cf. presets above).
+    # Use the same loop to remove potential duplicate values (cf. extensions above).
     eval "dedup=\"\$$f\""
     dedup_arr=()
     for dedup_val in $dedup; do
@@ -250,7 +250,7 @@ hook() {
 
   # Debug.
   if [[ $p_debug == 1 ]]; then
-    u_autoload_print_lookup_paths lookup_paths "hook -a '$p_actions_filter' -s '$p_subjects_filter' -x '$p_prefixes_filter' -v '$p_variants_filter' -p '$p_presets_filter'"
+    u_autoload_print_lookup_paths lookup_paths "hook -a '$p_actions_filter' -s '$p_subjects_filter' -x '$p_prefixes_filter' -v '$p_variants_filter' -p '$p_extensions_filter'"
   fi
 
   # Source each file include (with optional override mecanism).
@@ -378,458 +378,5 @@ u_hook_build_lookup_by_subject() {
         done
       esac
     done
-  done
-}
-
-##
-# TODO [wip] Adds lookup paths by preset.
-#
-# @requires the following vars in calling scope :
-# - $lookup_paths
-# - $filters
-# - $actions
-# - $subjects
-#
-# @uses the following optional vars in calling scope if available :
-# - $prefixes
-# - $variants
-#
-# @see hook()
-#
-u_hook_build_lookup_by_preset() {
-  local p_path="$1"
-
-  echo "  u_hook_build_lookup_by_preset $@"
-
-  # lookup_paths+=("$p_path/${p_subject}/${p_event}.hook.sh")
-  # u_autoload_add_lookup_level "$p_path/${p_subject}/" "${p_event}.hook.sh" "$PROVISION_USING" lookup_paths '' '/'
-
-  # lookup_paths+=("$p_path/${p_subject}_${p_event}.hook.sh")
-  # u_autoload_add_lookup_level "$p_path/${p_subject}_${p_event}." "hook.sh" "$PROVISION_USING" lookup_paths
-}
-
-
-##
-# Sources scripts for specific app.
-#
-# @requires the following global in calling scope :
-# - $PROJECT_STACK
-# - $PROVISION_USING
-#
-# @param 1 String : prefix for hook files lookups.
-# @param 2 String : suffix for hook files lookups.
-# @param 3 [optional] String : additional variant for hook files lookups.
-# @param 4 [optional] String : additional "base" lookups.
-#
-# @example
-#   PROJECT_STACK='drupal-8.4--p-contenta-1,redis,solr'
-#   PROVISION_USING='docker-compose'
-#
-#   u_hook_app 'apply' 'ownership_and_perms'
-#
-#   # Yields the following lookup paths :
-#     asc/app/drupal/apply/ownership_and_perms.hook.sh
-#     asc/app/drupal/apply/docker-compose/ownership_and_perms.hook.sh
-#     asc/app/drupal/apply_ownership_and_perms.hook.sh
-#     asc/app/drupal/apply_ownership_and_perms.docker-compose.hook.sh
-#     asc/app/drupal/8/apply/ownership_and_perms.hook.sh
-#     asc/app/drupal/8/apply/docker-compose/ownership_and_perms.hook.sh
-#     asc/app/drupal/8/apply_ownership_and_perms.hook.sh
-#     asc/app/drupal/8/apply_ownership_and_perms.docker-compose.hook.sh
-#     asc/app/drupal/8/4/apply/ownership_and_perms.hook.sh
-#     asc/app/drupal/8/4/apply/docker-compose/ownership_and_perms.hook.sh
-#     asc/app/drupal/8/4/apply_ownership_and_perms.hook.sh
-#     asc/app/drupal/8/4/apply_ownership_and_perms.docker-compose.hook.sh
-#     asc/app/drupal/presets/contenta/apply/ownership_and_perms.hook.sh
-#     asc/app/drupal/presets/contenta/apply/docker-compose/ownership_and_perms.hook.sh
-#     asc/app/drupal/presets/contenta/apply_ownership_and_perms.hook.sh
-#     asc/app/drupal/presets/contenta/apply_ownership_and_perms.docker-compose.hook.sh
-#     asc/app/drupal/presets/contenta/1/apply/ownership_and_perms.hook.sh
-#     asc/app/drupal/presets/contenta/1/apply/docker-compose/ownership_and_perms.hook.sh
-#     asc/app/drupal/presets/contenta/1/apply_ownership_and_perms.hook.sh
-#     asc/app/drupal/presets/contenta/1/apply_ownership_and_perms.docker-compose.hook.sh
-#     asc/app/drupal/8/presets/contenta/apply/ownership_and_perms.hook.sh
-#     asc/app/drupal/8/presets/contenta/apply/docker-compose/ownership_and_perms.hook.sh
-#     asc/app/drupal/8/presets/contenta/apply_ownership_and_perms.hook.sh
-#     asc/app/drupal/8/presets/contenta/apply_ownership_and_perms.docker-compose.hook.sh
-#     asc/app/drupal/8/presets/contenta/1/apply/ownership_and_perms.hook.sh
-#     asc/app/drupal/8/presets/contenta/1/apply/docker-compose/ownership_and_perms.hook.sh
-#     asc/app/drupal/8/presets/contenta/1/apply_ownership_and_perms.hook.sh
-#     asc/app/drupal/8/presets/contenta/1/apply_ownership_and_perms.docker-compose.hook.sh
-#     asc/app/drupal/8/4/presets/contenta/apply/ownership_and_perms.hook.sh
-#     asc/app/drupal/8/4/presets/contenta/apply/docker-compose/ownership_and_perms.hook.sh
-#     asc/app/drupal/8/4/presets/contenta/apply_ownership_and_perms.hook.sh
-#     asc/app/drupal/8/4/presets/contenta/apply_ownership_and_perms.docker-compose.hook.sh
-#     asc/app/drupal/8/4/presets/contenta/1/apply/ownership_and_perms.hook.sh
-#     asc/app/drupal/8/4/presets/contenta/1/apply/docker-compose/ownership_and_perms.hook.sh
-#     asc/app/drupal/8/4/presets/contenta/1/apply_ownership_and_perms.hook.sh
-#     asc/app/drupal/8/4/presets/contenta/1/apply_ownership_and_perms.docker-compose.hook.sh
-#     asc/custom/presets/contenta/apply/ownership_and_perms.hook.sh
-#     asc/custom/presets/contenta/apply/docker-compose/ownership_and_perms.hook.sh
-#     asc/custom/presets/contenta/apply_ownership_and_perms.hook.sh
-#     asc/custom/presets/contenta/apply_ownership_and_perms.docker-compose.hook.sh
-#     asc/custom/presets/contenta/1/apply/ownership_and_perms.hook.sh
-#     asc/custom/presets/contenta/1/apply/docker-compose/ownership_and_perms.hook.sh
-#     asc/custom/presets/contenta/1/apply_ownership_and_perms.hook.sh
-#     asc/custom/presets/contenta/1/apply_ownership_and_perms.docker-compose.hook.sh
-#
-u_hook_app() {
-  if [[ -z "$APP" ]]; then
-    u_stack_get_specs "$PROJECT_STACK"
-  fi
-
-  local lookup_subjects="app app/$APP $ASC_CUSTOM_DIR"
-  if [[ -n "$4" ]]; then
-    lookup_subjects+=" $4"
-  fi
-
-  # Also match app version specific scripts.
-  if [[ -n "$APP_VERSION" ]]; then
-    local app_v=''
-    local app_version_arr=()
-    local app_path="app/$APP"
-    u_str_split1 app_version_arr "$APP_VERSION" '.'
-
-    for app_v in "${app_version_arr[@]}"; do
-      app_path+="/$app_v"
-      lookup_subjects+=" $app_path"
-    done
-  fi
-
-  u_hook "$1" "$2" "$3" "$lookup_subjects"
-}
-
-##
-# Sources scripts matching specific path & filename by subject + event (phase).
-#
-# @requires the following global in calling scope :
-# - $PROJECT_STACK
-# - $PROVISION_USING
-#
-# @param 1 String : the "subject" (app, env, git, provision, remote, stack).
-# @param 2 String : the event name.
-# @param 3 [optional] String : the event "phase".
-# @param 4 [optional] String : subjects lookup (base paths).
-#
-# @example 1 : event only
-#
-#   PROJECT_STACK='drupal-8.4--p-contenta-1,redis,solr'
-#   PROVISION_USING='docker-compose'
-#   u_hook 'stack' 'setup'
-#
-#   # Yields the following lookup paths :
-#     asc/app/stack/setup.hook.sh
-#     asc/app/stack/docker-compose/setup.hook.sh
-#     asc/app/stack_setup.hook.sh
-#     asc/app/stack_setup.docker-compose.hook.sh
-#     asc/env/stack/setup.hook.sh
-#     asc/env/stack/docker-compose/setup.hook.sh
-#     asc/env/stack_setup.hook.sh
-#     asc/env/stack_setup.docker-compose.hook.sh
-#     asc/git/stack/setup.hook.sh
-#     asc/git/stack/docker-compose/setup.hook.sh
-#     asc/git/stack_setup.hook.sh
-#     asc/git/stack_setup.docker-compose.hook.sh
-#     asc/provision/stack/setup.hook.sh
-#     asc/provision/stack/docker-compose/setup.hook.sh
-#     asc/provision/stack_setup.hook.sh
-#     asc/provision/stack_setup.docker-compose.hook.sh
-#     asc/remote/stack/setup.hook.sh
-#     asc/remote/stack/docker-compose/setup.hook.sh
-#     asc/remote/stack_setup.hook.sh
-#     asc/remote/stack_setup.docker-compose.hook.sh
-#     asc/stack/docker-compose/setup.hook.sh
-#     asc/stack/docker-compose.setup.hook.sh
-#     asc/app/presets/contenta/stack/setup.hook.sh
-#     asc/app/presets/contenta/stack/docker-compose/setup.hook.sh
-#     asc/app/presets/contenta/stack_setup.hook.sh
-#     asc/app/presets/contenta/stack_setup.docker-compose.hook.sh
-#     asc/app/presets/contenta/1/stack/setup.hook.sh
-#     asc/app/presets/contenta/1/stack/docker-compose/setup.hook.sh
-#     asc/app/presets/contenta/1/stack_setup.hook.sh
-#     asc/app/presets/contenta/1/stack_setup.docker-compose.hook.sh
-#     asc/env/presets/contenta/stack/setup.hook.sh
-#     asc/env/presets/contenta/stack/docker-compose/setup.hook.sh
-#     asc/env/presets/contenta/stack_setup.hook.sh
-#     asc/env/presets/contenta/stack_setup.docker-compose.hook.sh
-#     asc/env/presets/contenta/1/stack/setup.hook.sh
-#     asc/env/presets/contenta/1/stack/docker-compose/setup.hook.sh
-#     asc/env/presets/contenta/1/stack_setup.hook.sh
-#     asc/env/presets/contenta/1/stack_setup.docker-compose.hook.sh
-#     asc/git/presets/contenta/stack/setup.hook.sh
-#     asc/git/presets/contenta/stack/docker-compose/setup.hook.sh
-#     asc/git/presets/contenta/stack_setup.hook.sh
-#     asc/git/presets/contenta/stack_setup.docker-compose.hook.sh
-#     asc/git/presets/contenta/1/stack/setup.hook.sh
-#     asc/git/presets/contenta/1/stack/docker-compose/setup.hook.sh
-#     asc/git/presets/contenta/1/stack_setup.hook.sh
-#     asc/git/presets/contenta/1/stack_setup.docker-compose.hook.sh
-#     asc/provision/presets/contenta/stack/setup.hook.sh
-#     asc/provision/presets/contenta/stack/docker-compose/setup.hook.sh
-#     asc/provision/presets/contenta/stack_setup.hook.sh
-#     asc/provision/presets/contenta/stack_setup.docker-compose.hook.sh
-#     asc/provision/presets/contenta/1/stack/setup.hook.sh
-#     asc/provision/presets/contenta/1/stack/docker-compose/setup.hook.sh
-#     asc/provision/presets/contenta/1/stack_setup.hook.sh
-#     asc/provision/presets/contenta/1/stack_setup.docker-compose.hook.sh
-#     asc/remote/presets/contenta/stack/setup.hook.sh
-#     asc/remote/presets/contenta/stack/docker-compose/setup.hook.sh
-#     asc/remote/presets/contenta/stack_setup.hook.sh
-#     asc/remote/presets/contenta/stack_setup.docker-compose.hook.sh
-#     asc/remote/presets/contenta/1/stack/setup.hook.sh
-#     asc/remote/presets/contenta/1/stack/docker-compose/setup.hook.sh
-#     asc/remote/presets/contenta/1/stack_setup.hook.sh
-#     asc/remote/presets/contenta/1/stack_setup.docker-compose.hook.sh
-#     asc/stack/presets/contenta/stack/setup.hook.sh
-#     asc/stack/presets/contenta/stack/docker-compose/setup.hook.sh
-#     asc/stack/presets/contenta/stack_setup.hook.sh
-#     asc/stack/presets/contenta/stack_setup.docker-compose.hook.sh
-#     asc/stack/presets/contenta/1/stack/setup.hook.sh
-#     asc/stack/presets/contenta/1/stack/docker-compose/setup.hook.sh
-#     asc/stack/presets/contenta/1/stack_setup.hook.sh
-#     asc/stack/presets/contenta/1/stack_setup.docker-compose.hook.sh
-#     asc/custom/presets/contenta/stack/setup.hook.sh
-#     asc/custom/presets/contenta/stack/docker-compose/setup.hook.sh
-#     asc/custom/presets/contenta/stack_setup.hook.sh
-#     asc/custom/presets/contenta/stack_setup.docker-compose.hook.sh
-#     asc/custom/presets/contenta/1/stack/setup.hook.sh
-#     asc/custom/presets/contenta/1/stack/docker-compose/setup.hook.sh
-#     asc/custom/presets/contenta/1/stack_setup.hook.sh
-#     asc/custom/presets/contenta/1/stack_setup.docker-compose.hook.sh
-#
-#
-# @example 2 : event + phase
-#
-#   PROJECT_STACK='drupal-8.4--p-contenta-1,redis,solr'
-#   PROVISION_USING='docker-compose'
-#   u_hook 'stack' 'init' 'post'
-#
-#   # Yields the following lookup paths :
-#     asc/app/stack/post_init.hook.sh
-#     asc/app/stack/docker-compose/post_init.hook.sh
-#     asc/app/stack_post_init.hook.sh
-#     asc/app/stack_post_init.docker-compose.hook.sh
-#     asc/env/stack/post_init.hook.sh
-#     asc/env/stack/docker-compose/post_init.hook.sh
-#     asc/env/stack_post_init.hook.sh
-#     asc/env/stack_post_init.docker-compose.hook.sh
-#     asc/git/stack/post_init.hook.sh
-#     asc/git/stack/docker-compose/post_init.hook.sh
-#     asc/git/stack_post_init.hook.sh
-#     asc/git/stack_post_init.docker-compose.hook.sh
-#     asc/provision/stack/post_init.hook.sh
-#     asc/provision/stack/docker-compose/post_init.hook.sh
-#     asc/provision/stack_post_init.hook.sh
-#     asc/provision/stack_post_init.docker-compose.hook.sh
-#     asc/remote/stack/post_init.hook.sh
-#     asc/remote/stack/docker-compose/post_init.hook.sh
-#     asc/remote/stack_post_init.hook.sh
-#     asc/remote/stack_post_init.docker-compose.hook.sh
-#     asc/stack/docker-compose.post_init.hook.sh
-#     asc/stack/docker-compose/post_init.hook.sh
-#     asc/app/presets/contenta/stack/post_init.hook.sh
-#     asc/app/presets/contenta/stack/docker-compose/post_init.hook.sh
-#     asc/app/presets/contenta/stack_post_init.hook.sh
-#     asc/app/presets/contenta/stack_post_init.docker-compose.hook.sh
-#     asc/app/presets/contenta/1/stack/post_init.hook.sh
-#     asc/app/presets/contenta/1/stack/docker-compose/post_init.hook.sh
-#     asc/app/presets/contenta/1/stack_post_init.hook.sh
-#     asc/app/presets/contenta/1/stack_post_init.docker-compose.hook.sh
-#     asc/env/presets/contenta/stack/post_init.hook.sh
-#     asc/env/presets/contenta/stack/docker-compose/post_init.hook.sh
-#     asc/env/presets/contenta/stack_post_init.hook.sh
-#     asc/env/presets/contenta/stack_post_init.docker-compose.hook.sh
-#     asc/env/presets/contenta/1/stack/post_init.hook.sh
-#     asc/env/presets/contenta/1/stack/docker-compose/post_init.hook.sh
-#     asc/env/presets/contenta/1/stack_post_init.hook.sh
-#     asc/env/presets/contenta/1/stack_post_init.docker-compose.hook.sh
-#     asc/git/presets/contenta/stack/post_init.hook.sh
-#     asc/git/presets/contenta/stack/docker-compose/post_init.hook.sh
-#     asc/git/presets/contenta/stack_post_init.hook.sh
-#     asc/git/presets/contenta/stack_post_init.docker-compose.hook.sh
-#     asc/git/presets/contenta/1/stack/post_init.hook.sh
-#     asc/git/presets/contenta/1/stack/docker-compose/post_init.hook.sh
-#     asc/git/presets/contenta/1/stack_post_init.hook.sh
-#     asc/git/presets/contenta/1/stack_post_init.docker-compose.hook.sh
-#     asc/provision/presets/contenta/stack/post_init.hook.sh
-#     asc/provision/presets/contenta/stack/docker-compose/post_init.hook.sh
-#     asc/provision/presets/contenta/stack_post_init.hook.sh
-#     asc/provision/presets/contenta/stack_post_init.docker-compose.hook.sh
-#     asc/provision/presets/contenta/1/stack/post_init.hook.sh
-#     asc/provision/presets/contenta/1/stack/docker-compose/post_init.hook.sh
-#     asc/provision/presets/contenta/1/stack_post_init.hook.sh
-#     asc/provision/presets/contenta/1/stack_post_init.docker-compose.hook.sh
-#     asc/remote/presets/contenta/stack/post_init.hook.sh
-#     asc/remote/presets/contenta/stack/docker-compose/post_init.hook.sh
-#     asc/remote/presets/contenta/stack_post_init.hook.sh
-#     asc/remote/presets/contenta/stack_post_init.docker-compose.hook.sh
-#     asc/remote/presets/contenta/1/stack/post_init.hook.sh
-#     asc/remote/presets/contenta/1/stack/docker-compose/post_init.hook.sh
-#     asc/remote/presets/contenta/1/stack_post_init.hook.sh
-#     asc/remote/presets/contenta/1/stack_post_init.docker-compose.hook.sh
-#     asc/stack/presets/contenta/stack/post_init.hook.sh
-#     asc/stack/presets/contenta/stack/docker-compose/post_init.hook.sh
-#     asc/stack/presets/contenta/stack_post_init.hook.sh
-#     asc/stack/presets/contenta/stack_post_init.docker-compose.hook.sh
-#     asc/stack/presets/contenta/1/stack/post_init.hook.sh
-#     asc/stack/presets/contenta/1/stack/docker-compose/post_init.hook.sh
-#     asc/stack/presets/contenta/1/stack_post_init.hook.sh
-#     asc/stack/presets/contenta/1/stack_post_init.docker-compose.hook.sh
-#     asc/custom/presets/contenta/stack/post_init.hook.sh
-#     asc/custom/presets/contenta/stack/docker-compose/post_init.hook.sh
-#     asc/custom/presets/contenta/stack_post_init.hook.sh
-#     asc/custom/presets/contenta/stack_post_init.docker-compose.hook.sh
-#     asc/custom/presets/contenta/1/stack/post_init.hook.sh
-#     asc/custom/presets/contenta/1/stack/docker-compose/post_init.hook.sh
-#     asc/custom/presets/contenta/1/stack_post_init.hook.sh
-#     asc/custom/presets/contenta/1/stack_post_init.docker-compose.hook.sh
-#
-u_hook() {
-  local p_subject="$1"
-  local p_event="$2"
-  local p_phase="$3"
-  local p_lookup_subjects="$4"
-
-  local lookup_paths=()
-  local lookup_subject=''
-  local lookup_subjects='app env git provision remote stack'
-  if [[ -n "$p_lookup_subjects" ]]; then
-    lookup_subjects="$p_lookup_subjects"
-  fi
-
-  local stack_preset=''
-  local sp_arr=()
-  local sp_v=''
-  local sp_path=''
-  u_stack_get_presets "$PROJECT_STACK"
-
-  # When hook is event only.
-  if [[ -z "$p_phase" ]]; then
-    for lookup_subject in $lookup_subjects; do
-      if [[ "$lookup_subject" != "$p_subject" ]]; then
-        u_hook_add_e_lookup_variants "asc/$lookup_subject"
-      else
-        u_autoload_add_lookup_level "asc/${p_subject}/" "${p_event}.hook.sh" "$PROVISION_USING" lookup_paths '' '/'
-        u_autoload_add_lookup_level "asc/${p_subject}/" "${p_event}.hook.sh" "$PROVISION_USING" lookup_paths
-      fi
-    done
-
-    u_hook_add_presets_lookup_variants 'event_only'
-
-  # When hook is event + phase.
-  else
-    for lookup_subject in $lookup_subjects; do
-
-      if [[ "$lookup_subject" != "$p_subject" ]]; then
-        u_hook_add_ep_lookup_variants "asc/$lookup_subject"
-      else
-        u_autoload_add_lookup_level "asc/${p_subject}/" "${p_phase}_${p_event}.hook.sh" "$PROVISION_USING" lookup_paths
-        u_autoload_add_lookup_level "asc/${p_subject}/" "${p_phase}_${p_event}.hook.sh" "$PROVISION_USING" lookup_paths '' '/'
-      fi
-    done
-
-    u_hook_add_presets_lookup_variants 'event_phase'
-  fi
-
-  # Debug.
-  if [[ $P_VERBOSE == 1 ]]; then
-    u_autoload_print_lookup_paths lookup_paths "u_hook $p_subject $p_event $p_phase $p_lookup_subjects"
-  fi
-
-  local hook_script=''
-  for hook_script in "${lookup_paths[@]}"; do
-    if [[ -f "$hook_script" ]]; then
-      eval $(u_autoload_override "$hook_script" 'continue')
-      . "$hook_script"
-    fi
-    u_autoload_get_complement "$hook_script"
-  done
-}
-
-##
-# Adds event-only hook lookups variants.
-#
-# (internal lookups helper)
-#
-u_hook_add_e_lookup_variants() {
-  local p_path="$1"
-
-  lookup_paths+=("$p_path/${p_subject}/${p_event}.hook.sh")
-  u_autoload_add_lookup_level "$p_path/${p_subject}/" "${p_event}.hook.sh" "$PROVISION_USING" lookup_paths '' '/'
-
-  lookup_paths+=("$p_path/${p_subject}_${p_event}.hook.sh")
-  u_autoload_add_lookup_level "$p_path/${p_subject}_${p_event}." "hook.sh" "$PROVISION_USING" lookup_paths
-}
-
-##
-# Adds event + phase hook lookups variants.
-#
-# (internal lookups helper)
-#
-u_hook_add_ep_lookup_variants() {
-  local p_path="$1"
-
-  lookup_paths+=("$p_path/${p_subject}/${p_phase}_${p_event}.hook.sh")
-  u_autoload_add_lookup_level "$p_path/${p_subject}/" "${p_phase}_${p_event}.hook.sh" "$PROVISION_USING" lookup_paths '' '/'
-
-  lookup_paths+=("$p_path/${p_subject}_${p_phase}_${p_event}.hook.sh")
-  u_autoload_add_lookup_level "$p_path/${p_subject}_${p_phase}_${p_event}." "hook.sh" "$PROVISION_USING" lookup_paths
-}
-
-##
-# Adds presets-related hook lookups variants.
-#
-# (internal lookups helper)
-#
-u_hook_add_presets_lookup_variants() {
-  local p_type="$1"
-
-  for stack_preset in "${STACK_PRESETS[@]}"; do
-    u_instance_item_split_version sp_arr "$stack_preset"
-
-    if [[ -n "${sp_arr[1]}" ]]; then
-      for lookup_subject in $lookup_subjects; do
-        sp_path="asc/${lookup_subject}/presets"
-        for sp_v in "${sp_arr[@]}"; do
-          sp_path+="/$sp_v"
-          case "$p_type" in
-            event_only)
-              u_hook_add_e_lookup_variants "$sp_path" ;;
-            event_phase)
-              u_hook_add_ep_lookup_variants "$sp_path" ;;
-          esac
-        done
-      done
-
-      sp_path="$(u_autoload_get_custom_dir)/presets"
-      for sp_v in "${sp_arr[@]}"; do
-        sp_path+="/$sp_v"
-        case "$p_type" in
-          event_only)
-            u_hook_add_e_lookup_variants "$sp_path" ;;
-          event_phase)
-            u_hook_add_ep_lookup_variants "$sp_path" ;;
-        esac
-      done
-
-    else
-      for lookup_subject in $lookup_subjects; do
-        sp_path="asc/${lookup_subject}/presets/$stack_preset"
-        case "$p_type" in
-          event_only)
-            u_hook_add_e_lookup_variants "$sp_path" ;;
-          event_phase)
-            u_hook_add_ep_lookup_variants "$sp_path" ;;
-        esac
-      done
-
-      sp_path="$(u_autoload_get_custom_dir)/presets/$stack_preset"
-      case "$p_type" in
-        event_only)
-          u_hook_add_e_lookup_variants "$sp_path" ;;
-        event_phase)
-          u_hook_add_ep_lookup_variants "$sp_path" ;;
-      esac
-    fi
   done
 }

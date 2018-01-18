@@ -33,7 +33,7 @@ The `$PROJECT_STACK` variable is the main source used to determine all the possi
 - version numbers are extracted after the last `-` and may use dots to indicate minor and/or patch versions
 - variants are indicated after the "name" part of any declaration (project stack, software, etc.) by using 2 dashes `--`
 - multiple values are separated using a single comma `,`
-- presets are special variants meant to provide a group of tools, and are declared using the prefix `p-`
+- extensions are special variants meant to provide a group of tools, and are declared using the prefix `p-`
 
 Note that there can be **no space** between these characters for a single declaration.
 
@@ -314,18 +314,18 @@ asc/provision/mariadb/vars.sh
 asc/provision/mariadb/docker-compose.vars.sh
 asc/provision/mariadb/10/vars.sh
 asc/provision/mariadb/10/docker-compose.vars.sh
-asc/provision/presets/contenta/vars.sh
-asc/provision/presets/contenta/docker-compose.vars.sh
-asc/provision/presets/contenta/1/vars.sh
-asc/provision/presets/contenta/1/docker-compose.vars.sh
-asc/app/presets/contenta/vars.sh
-asc/app/presets/contenta/docker-compose.vars.sh
-asc/app/presets/contenta/1/vars.sh
-asc/app/presets/contenta/1/docker-compose.vars.sh
-asc/custom/presets/contenta/vars.sh
-asc/custom/presets/contenta/docker-compose.vars.sh
-asc/custom/presets/contenta/1/vars.sh
-asc/custom/presets/contenta/1/docker-compose.vars.sh
+asc/provision/extensions/contenta/vars.sh
+asc/provision/extensions/contenta/docker-compose.vars.sh
+asc/provision/extensions/contenta/1/vars.sh
+asc/provision/extensions/contenta/1/docker-compose.vars.sh
+asc/app/extensions/contenta/vars.sh
+asc/app/extensions/contenta/docker-compose.vars.sh
+asc/app/extensions/contenta/1/vars.sh
+asc/app/extensions/contenta/1/docker-compose.vars.sh
+asc/custom/extensions/contenta/vars.sh
+asc/custom/extensions/contenta/docker-compose.vars.sh
+asc/custom/extensions/contenta/1/vars.sh
+asc/custom/extensions/contenta/1/docker-compose.vars.sh
 asc/app/drupal/env.vars.sh
 asc/app/drupal/env.docker-compose.vars.sh
 ```
@@ -350,7 +350,7 @@ TODO
 
 TODO
 
-### Lookup paths related to "preset" variants
+### Lookup paths related to "extension" variants
 
 TODO
 
@@ -362,7 +362,7 @@ TODO
 SECRETS_BACKEND=ansible_vault
 SECRETS_BACKEND=hashicorp_vault
 
-# Implement automated tests / Visual Regression Testing (as presets ?) - ex:
+# Implement automated tests / Visual Regression Testing (as extensions ?) - ex:
 APP_TESTS_PRESET=behat
 APP_TESTS_PRESET=gatling
 

@@ -5,7 +5,7 @@
 #
 # Loads includes containing bash functions along with readonly global vars if
 # available, initializes "primitives" for hooks and lookups (ASC extension
-# mecanisms), and call 'bootstrap' hook used to load bash aliases.
+# mecanisms), and call 'bootstrap' hook (i.e. to load bash aliases).
 #
 # @example
 #   . asc/bootstrap.sh
@@ -24,8 +24,8 @@ if [[ -z "$asc_bs_flag" ]]; then
   . "asc/utilities/hook.sh"
   . "asc/utilities/host.sh"
   . "asc/utilities/instance.sh"
-  . "asc/utilities/once.sh" # TODO evaluate removal / make opt-in.
-  . "asc/utilities/registry.sh" # TODO evaluate removal / make opt-in.
+  . "asc/utilities/once.sh" # TODO remove or make opt-in.
+  . "asc/utilities/registry.sh" # TODO remove or make opt-in.
   . "asc/utilities/string.sh"
 
   # If stack init was run at least once, automatically load global env vars.
