@@ -3,8 +3,6 @@
 ##
 # ASC core utility functions.
 #
-# TODO refacto 'stack' into 2 different subjects : 'instance' + 'service'.
-#
 # This file is sourced during core ASC bootstrap.
 # @see asc/bootstrap.sh
 #
@@ -25,8 +23,8 @@
 # of 2nd argument) :
 # @export ASC_SUBJECTS (See 1)
 # @export ASC_ACTIONS (See 2.1)
-# @export ASC_PREFIXES (See 2.2)
-# @export ASC_VARIANTS (See 2.3)
+# @export ASC_PREFIXES (See 2.2) # TODO (WIP) evaluate removal, see u_hook_build_lookup_by_subject()
+# @export ASC_VARIANTS (See 2.3) # TODO (WIP) evaluate removal, see u_hook_build_lookup_by_subject()
 # @export ASC_EXTENSIONS (See 3)
 # @export ASC_INC (See 4)
 #
@@ -51,6 +49,7 @@
 #     have the same role as the 'subjects' ones described in 1 but must be placed
 #     inside 'asc/stack'.
 #
+#   # TODO (WIP) evaluate removal, see u_hook_build_lookup_by_subject()
 #   - 2.2 prefixes : 'pre' + 'post' are provided by default for all actions.
 #     The previous dotfile pattern applies (see 2.1) + additional dotfiles can
 #     alter the default prefixes *per action* by using the following convention,
@@ -58,6 +57,7 @@
 #     '.asc_init_prefixes_append' and '.asc_init_prefixes_ignore'.
 #     @see u_hook_build_lookup_by_subject()
 #
+#   # TODO (WIP) evaluate removal, see u_hook_build_lookup_by_subject()
 #   - 2.3 variants : declare how to look for files to include in hooks (events)
 #     per action (by subject and/or extension). They define which global variables
 #     are used during lookup paths generation process.

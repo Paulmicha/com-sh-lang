@@ -17,10 +17,13 @@
 ##
 # Single arg hook : action.
 #
+# Must trigger lookups
+#
 test_asc_hook_single_action() {
-  local dry_run_hook=1
-  hook -a 'install'
-  assertFalse 'Global ASC_INC is empty (bootstrap test failed)' "[ -e \"$ASC_INC\" ]"
+  local inc_dry_run_files_list=''
+  hook -a 'bootstrap' -t -d
+  echo "inc_dry_run_files_list = $inc_dry_run_files_list"
+  # assertFalse 'Global ASC_INC is empty (bootstrap test failed)' "[ -e $ASC_INC ]"
 }
 
 # Load and run shUnit2.
