@@ -10,9 +10,6 @@
 ##
 # Initializes primitives (fundamental values for ASC extension mecanisms).
 #
-# TODO evaluate merging base 'path' and 'namespace' options.
-# TODO implement local instance's ASC_STATE (e.g. installed, initialized, running).
-#
 # @param 1 [optional] String relative path (defaults to 'asc' = ASC "core").
 #   Provides a extension folder without trailing slash.
 # @param 2 [optional] String globals "namespace" (defaults to the uppercase name
@@ -22,9 +19,7 @@
 # all primitives required by hooks - e.g. given p_namespace='ASC' (default value
 # of 2nd argument) :
 # @export ASC_SUBJECTS (See 1)
-# @export ASC_ACTIONS (See 2.1)
-# @export ASC_PREFIXES (See 2.2) # TODO (WIP) evaluate removal, see u_hook_build_lookup_by_subject()
-# @export ASC_VARIANTS (See 2.3) # TODO (WIP) evaluate removal, see u_hook_build_lookup_by_subject()
+# @export ASC_ACTIONS (See 2)
 # @export ASC_EXTENSIONS (See 3)
 # @export ASC_INC (See 4)
 #
@@ -33,47 +28,27 @@
 # This process uses dotfiles similar to .gitignore (e.g. asc/.asc_subjects_ignore).
 # they control hooks lookup paths generation. See explanations below.
 #
-# 1. By default, contains the list of depth 1 folders names in ./asc.
+# 1. By default, ASC_SUBJECTS contains the list of depth 1 folders names in ./asc.
 #   If the dotfile '.asc_subjects' is present in current level, it overrides
 #   the entire list and may introduce values that are not folders (see below).
 #   If the dotfile '.asc_subjects_append' exists, its values are added.
 #   If the dotfile '.asc_subjects_ignore' exists, its values are removed from
 #     the list of subjects (level 1 folders by default).
 #
-# 2. These variables determine how to look for files to include during hooks
-#   (events) PER SUBJECT. Here's an example, given subject='stack' :
+# 2. ASC_ACTIONS provides a list of *.sh files per subject : for each
+#   ASC_SUBJECTS, it will generate values consisting of the file name (without
+#   extension, see "Conventions" documentation).
+#   The dotfiles '.asc_actions', '.asc_actions_append' and '.asc_actions_ignore'
+#   have the same role as the 'subjects' ones described in 1 but must be placed
+#   inside relevant subject's folder.
 #
-#   - 2.1 actions : provide list of all *.sh files in 'asc/stack' by default (no
-#     extension - values are only the 'name' of the file, see Conventions doc).
-#     The dotfiles '.asc_actions', '.asc_actions_append' and '.asc_actions_ignore'
-#     have the same role as the 'subjects' ones described in 1 but must be placed
-#     inside 'asc/stack'.
-#
-#   # TODO (WIP) evaluate removal, see u_hook_build_lookup_by_subject()
-#   - 2.2 prefixes : 'pre' + 'post' are provided by default for all actions.
-#     The previous dotfile pattern applies (see 2.1) + additional dotfiles can
-#     alter the default prefixes *per action* by using the following convention,
-#     e.g. given action = 'init' : '.asc_init_prefixes',
-#     '.asc_init_prefixes_append' and '.asc_init_prefixes_ignore'.
-#     @see u_hook_build_lookup_by_subject()
-#
-#   # TODO (WIP) evaluate removal, see u_hook_build_lookup_by_subject()
-#   - 2.3 variants : declare how to look for files to include in hooks (events)
-#     per action (by subject and/or extension). They define which global variables
-#     are used during lookup paths generation process.
-#     By default, all actions are assigned the following variants :
-#     - PROVISION_USING
-#     - INSTANCE_TYPE
-#     The previous naming + dotfile pattern applies (see 2.2),
-#     e.g. given action = 'init' : '.asc_init_variants',
-#     '.asc_init_variants_append' and '.asc_init_variants_ignore'.
-#     @see u_hook_build_lookup_by_subject()
-#
-# 3. This only applies AFTER stack init has been run once if the global env var
-#   ASC_CUSTOM_DIR was assigned a different value than 'asc/custom'.
-#   It contains a list of folders containing the exact same structure as 'asc'.
-#   Every extension mecanism explained in 1 & 2 above applies to each extension.
-#   NB : folder names can only contain A-Z a-z 0-9 dots . underscores _ dashes -
+# 3. ASC_EXTENSIONS contains a list of folders using the same structure as
+#   the 'asc' folder. The primitive mecanisms explained in 1 & 2 above apply
+#   to each one of these extensions.
+#   Important notes : extensions' folder names can only contain the following
+#   characters : A-Z a-z 0-9 dots . underscores _ dashes -
+#   Also, if the ASC customization dir (ASC_CUSTOM_DIR = 'asc/custom' by default)
+#   is altered, extensions can only be detected AFTER stack init has been run once.
 #
 # 4. The 'ASC_INC' values are a simple list of files to be sourced in
 #   asc/bootstrap.sh scope directly. They are meant to contain bash functions
@@ -286,10 +261,12 @@ u_asc_primitive_values() {
     local dyn_values
     case "$p_primitive" in
       subjects)
-        dyn_values=$(u_fs_dir_list "$p_path")
+        u_fs_dir_list "$p_path"
+        dyn_values=$dir_list
       ;;
       actions)
-        dyn_values=$(u_fs_file_list "$p_path")
+        u_fs_file_list "$p_path"
+        dyn_values=$file_list
       ;;
     esac
 

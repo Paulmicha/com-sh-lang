@@ -13,9 +13,9 @@
 
 . asc/bootstrap.sh
 
-asc_tests=$(u_fs_file_list asc/test/asc 1 '*.test.sh')
+u_fs_file_list asc/test/asc '*.test.sh'
 
-for test_script in $asc_tests; do
+for test_script in $file_list; do
   echo "Executing ASC core $test_script ..."
   asc/test/asc/$test_script
   echo "Executing ASC core $test_script : done."

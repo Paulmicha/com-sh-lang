@@ -23,7 +23,6 @@ if [[ -z "$ASC_BS_FLAG" ]]; then
   . asc/utilities/global.sh
   . asc/utilities/hook.sh
   . asc/utilities/host.sh
-  . asc/utilities/instance.sh
   . asc/utilities/once.sh # TODO remove or make opt-in.
   . asc/utilities/registry.sh # TODO remove or make opt-in.
   . asc/utilities/string.sh
