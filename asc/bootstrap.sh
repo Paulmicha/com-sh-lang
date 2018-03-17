@@ -5,28 +5,27 @@
 #
 # Loads includes containing bash functions along with readonly global vars if
 # available, initializes "primitives" for hooks and lookups (ASC extension
-# mecanisms), and call 'bootstrap' hook used to load bash aliases.
+# mecanisms), and call 'bootstrap' hook (i.e. to load bash aliases).
 #
 # @example
 #   . asc/bootstrap.sh
 #
 
 # Make sure bootstrap runs only once in current shell scope.
-if [[ -z "$asc_bs_flag" ]]; then
-  asc_bs_flag=1
+if [[ $ASC_BS_FLAG -ne 1 ]]; then
+  ASC_BS_FLAG=1
 
-  # Include "core" utilities.
-  . "asc/utilities/array.sh"
-  . "asc/utilities/autoload.sh"
-  . "asc/utilities/asc.sh"
-  . "asc/utilities/fs.sh"
-  . "asc/utilities/global.sh"
-  . "asc/utilities/hook.sh"
-  . "asc/utilities/host.sh"
-  . "asc/utilities/instance.sh"
-  . "asc/utilities/once.sh" # TODO evaluate removal / make opt-in.
-  . "asc/utilities/registry.sh" # TODO evaluate removal / make opt-in.
-  . "asc/utilities/string.sh"
+  # Include ASC core utilities.
+  . asc/utilities/array.sh
+  . asc/utilities/autoload.sh
+  . asc/utilities/asc.sh
+  . asc/utilities/fs.sh
+  . asc/utilities/global.sh
+  . asc/utilities/hook.sh
+  . asc/utilities/host.sh
+  . asc/utilities/once.sh # TODO remove or make opt-in.
+  . asc/utilities/registry.sh # TODO remove or make opt-in.
+  . asc/utilities/string.sh
 
   # If stack init was run at least once, automatically load global env vars.
   # NB : this must happen before u_asc_extend() gets called because it uses the
@@ -42,7 +41,12 @@ if [[ -z "$asc_bs_flag" ]]; then
   # Load additional includes (including extensions').
   if [[ -n "$ASC_INC" ]]; then
     for file in $ASC_INC; do
+      # Any additional include may be overridden.
+      u_autoload_override "$file" 'continue'
+      eval "$inc_override_evaled_code"
+
       . "$file"
+
       # Any additional include may be altered using the 'complement' pattern.
       u_autoload_get_complement "$file"
     done
