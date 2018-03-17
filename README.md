@@ -1,5 +1,7 @@
 # Agnostic Shell Controller (ASC)
 
+TODO rewrite README + documentation to match the `develop` branch just merged.
+
 WIP / not ready for use yet (re-organization + evaluation stage, documentation-driven).
 
 **Documentation** : [paulmicha.github.io/asc](https://paulmicha.github.io/asc/)
