@@ -150,12 +150,6 @@ u_asc_extensions() {
       # Aggregate namespaced primitives for every extension.
       u_asc_extend "$extensions_dir/$extension"
     done
-  # Fail if extensions dir does not exist.
-  # else
-  #   echo >&2
-  #   echo "Error (1) in $BASH_SOURCE line $LINENO: ASC extensions dir does not exist." >&2
-  #   echo >&2
-  #   exit 1
   fi
 }
 
