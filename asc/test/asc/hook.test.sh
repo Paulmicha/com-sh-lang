@@ -54,15 +54,19 @@ oneTimeSetUp() {
 
   mkdir "$extensions_dir/nftaschdehnc/stack"
   mkdir "$extensions_dir/nftaschdehnc/remote"
+  mkdir "$extensions_dir/nftaschdehnc/test"
 
+  # Empty files are enough to trigger positive detection during ASC primitives
+  # values aggregation during bootstrap and during hook lookup paths generation.
+  # @see u_asc_extend()
+  # @see hook()
   touch "$extensions_dir/nftaschdehnc/app/nftaschhnc_dry_run.hook.sh"
   touch "$extensions_dir/nftaschdehnc/stack/nftaschhnc_dry_run.hook.sh"
   touch "$extensions_dir/nftaschdehnc/remote/nftaschhnc_dry_run.hook.sh"
+  touch "$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.sh"
 
   # Forces detection of our newly created temporary extension.
   u_asc_extend
-
-  echo "  ASC_EXTENSIONS = '$ASC_EXTENSIONS'"
 }
 
 ##
@@ -70,13 +74,36 @@ oneTimeSetUp() {
 #
 test_asc_hook_single_action() {
   local inc_dry_run_files_list=''
-
-  echo "  ASC_EXTENSIONS = '$ASC_EXTENSIONS'"
+  local flag=0
+  local i
 
   hook -a 'nftaschhnc_dry_run' -t
-  echo "inc_dry_run_files_list = $inc_dry_run_files_list"
 
-  assertTrue 'Global ASC_INC is empty (bootstrap test failed)' "[ -ne $ASC_INC ]"
+  # All these matches must be found.
+  for i in $inc_dry_run_files_list; do
+    case "$i" in
+      'asc/app/nftaschhnc_dry_run.hook.sh' | \
+      "$extensions_dir/nftaschdehnc/app/nftaschhnc_dry_run.hook.sh" | \
+      'asc/cron/nftaschhnc_dry_run.hook.sh' | \
+      'asc/db/nftaschhnc_dry_run.hook.sh' | \
+      'asc/env/nftaschhnc_dry_run.hook.sh' | \
+      'asc/git/nftaschhnc_dry_run.hook.sh' | \
+      'asc/instance/nftaschhnc_dry_run.hook.sh' | \
+      'asc/remote/nftaschhnc_dry_run.hook.sh' | \
+      "$extensions_dir/nftaschdehnc/remote/nftaschhnc_dry_run.hook.sh" | \
+      'asc/service/nftaschhnc_dry_run.hook.sh' | \
+      'asc/stack/nftaschhnc_dry_run.hook.sh' | \
+      "$extensions_dir/nftaschdehnc/stack/nftaschhnc_dry_run.hook.sh")
+        flag=1
+      ;;
+    esac
+  done
+
+  # None of these matches must be found.
+  # TODO debug (wip).
+  # echo "inc_dry_run_files_list = $inc_dry_run_files_list"
+
+  assertTrue 'Single action hook test failed (missing matches)' "[ $flag -ne 0 ]"
 }
 
 ##
