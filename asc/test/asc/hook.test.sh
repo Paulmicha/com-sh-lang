@@ -65,23 +65,56 @@ oneTimeSetUp() {
   touch "$extensions_dir/nftaschdehnc/remote/nftaschhnc_dry_run.hook.sh"
   touch "$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.sh"
 
+  # Variants tests require the following globals. We set them with dummy values
+  # if stack init hasn't been run in current instance yet.
+  # @see asc/stack/init.sh
+  # @see asc/env/write.sh
+  if [[ -z "$INSTANCE_TYPE" ]]; then
+    INSTANCE_TYPE='dev'
+  fi
+  if [[ -z "$HOST_TYPE" ]]; then
+    HOST_TYPE='local'
+  fi
+  touch "$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh"
+  touch "$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$HOST_TYPE.hook.sh"
+
   # Forces detection of our newly created temporary extension.
   u_asc_extend
 }
 
 ##
-# Do single action hooks call every matching files ?
+# Custom hook test assertion helper.
+#
+# @param 1 String : failed test error message.
+# @param 2 Int : numerical flag (error number).
+#
+_asc_hook_test_assertion_helper() {
+  local p_msg="$1"
+  local p_flag=$2
+
+  local fail_reason
+  case $flag in
+    1) fail_reason='missing matching lookup paths' ;;
+    2) fail_reason='too many matching lookup paths' ;;
+    *) fail_reason='unexpected error' ;;
+  esac
+
+  assertTrue "$p_msg (error $flag : $fail_reason)" "[ $flag -eq 0 ]"
+}
+
+##
+# Will single action hooks load every matching files and none other ?
 #
 test_asc_hook_single_action() {
   local inc_dry_run_files_list=''
-  local flag=0
+  local flag=1
   local i
 
   hook -a 'nftaschhnc_dry_run' -t
 
-  # All these matches must be found.
   for i in $inc_dry_run_files_list; do
     case "$i" in
+      # All these matches must be found.
       'asc/app/nftaschhnc_dry_run.hook.sh' | \
       "$extensions_dir/nftaschdehnc/app/nftaschhnc_dry_run.hook.sh" | \
       'asc/cron/nftaschhnc_dry_run.hook.sh' | \
@@ -93,17 +126,67 @@ test_asc_hook_single_action() {
       "$extensions_dir/nftaschdehnc/remote/nftaschhnc_dry_run.hook.sh" | \
       'asc/service/nftaschhnc_dry_run.hook.sh' | \
       'asc/stack/nftaschhnc_dry_run.hook.sh' | \
-      "$extensions_dir/nftaschdehnc/stack/nftaschhnc_dry_run.hook.sh")
-        flag=1
+      "$extensions_dir/nftaschdehnc/stack/nftaschhnc_dry_run.hook.sh" | \
+      "$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh")
+        flag=0
+      ;;
+      # None other must match.
+      *)
+        flag=2
       ;;
     esac
   done
 
-  # None of these matches must be found.
-  # TODO debug (wip).
-  # echo "inc_dry_run_files_list = $inc_dry_run_files_list"
+  _asc_hook_test_assertion_helper "Single action hook test failed." $flag
+}
 
-  assertTrue 'Single action hook test failed (missing matches)' "[ $flag -ne 0 ]"
+##
+# Do subject filter work ?
+#
+test_asc_hook_subject_filter() {
+  local inc_dry_run_files_list=''
+  local flag=0
+  local i
+
+  hook -a 'nftaschhnc_dry_run' -s 'test' -t
+
+  for i in $inc_dry_run_files_list; do
+    case "$i" in
+      "$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh")
+        flag=0
+      ;;
+      *)
+        flag=2
+      ;;
+    esac
+  done
+
+  _asc_hook_test_assertion_helper "Subject filter hook test failed." $flag
+}
+
+##
+# Do combinatory variants filter work ?
+#
+test_asc_hook_combinatory_variants() {
+  local inc_dry_run_files_list=''
+  local flag=0
+  local i
+
+  hook -a 'nftaschhnc_dry_run' -s 'test' -v 'INSTANCE_TYPE HOST_TYPE' -t
+
+  for i in $inc_dry_run_files_list; do
+    case "$i" in
+      "$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh" | \
+      "$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$HOST_TYPE.hook.sh")
+        flag=0
+      ;;
+      *)
+        flag=2
+      ;;
+    esac
+  done
+
+  _asc_hook_test_assertion_helper "Combinatory variants filter hook test failed." $flag
 }
 
 ##
@@ -116,7 +199,6 @@ oneTimeTearDown() {
   for s in $ASC_SUBJECTS; do
     rm -f "asc/$s/nftaschhnc_dry_run.hook.sh"
   done
-  u_asc_get_extensions_dir
   rm -fr "$extensions_dir/nftaschdehnc"
 }
 
