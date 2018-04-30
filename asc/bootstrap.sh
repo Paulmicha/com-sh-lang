@@ -12,7 +12,7 @@
 #
 
 # Make sure bootstrap runs only once in current shell scope.
-if [[ $ASC_BS_FLAG -ne 1 ]]; then
+if [ $ASC_BS_FLAG -ne 1 ]; then
   ASC_BS_FLAG=1
 
   # Include ASC core utilities.
@@ -22,7 +22,6 @@ if [[ $ASC_BS_FLAG -ne 1 ]]; then
   . asc/utilities/fs.sh
   . asc/utilities/global.sh
   . asc/utilities/hook.sh
-  . asc/utilities/host.sh
   . asc/utilities/once.sh # TODO remove or make opt-in.
   . asc/utilities/registry.sh # TODO remove or make opt-in.
   . asc/utilities/string.sh
@@ -30,8 +29,8 @@ if [[ $ASC_BS_FLAG -ne 1 ]]; then
   # If stack init was run at least once, automatically load global env vars.
   # NB : this must happen before u_asc_extend() gets called because it uses the
   # customizable global var ASC_CUSTOM_DIR to populate primitive values.
-  if [[ -f "asc/env/current/global.vars.sh" ]]; then
-    . asc/env/load.sh
+  if [ -f "asc/env/current/global.vars.sh" ]; then
+    . asc/env/current/global.vars.sh
   fi
 
   # Initializes "primitives" for hooks and lookups (ASC extension mecanisms).

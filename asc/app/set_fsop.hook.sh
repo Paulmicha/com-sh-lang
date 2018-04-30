@@ -4,6 +4,7 @@
 # Implements hook -a 'set_fsop' -s 'app stack'.
 #
 # This file is dynamically included when the "hook" is triggered.
+# @see asc/instance/instance.inc.sh
 #
 
 if [[ -n "$PROTECTED_FILES" ]]; then
