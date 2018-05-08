@@ -47,7 +47,7 @@
 #   to each one of these extensions.
 #   Important notes : extensions' folder names can only contain the following
 #   characters : A-Z a-z 0-9 dots . underscores _ dashes -
-#   Also, if the ASC customization dir (ASC_CUSTOM_DIR = 'asc/custom' by default)
+#   Also, if the ASC customization dir (PROJECT_SCRIPTS = 'asc/custom' by default)
 #   is altered, extensions can only be detected AFTER stack init has been run once.
 #
 # 4. The 'ASC_INC' values are a simple list of files to be sourced in
@@ -134,23 +134,20 @@ u_asc_extend() {
 # @see u_asc_extend()
 #
 u_asc_extensions() {
-  u_asc_get_extensions_dir
-  if [[ -d "$extensions_dir" ]]; then
-    local extension
-    u_fs_dir_list "$extensions_dir"
-    for extension in $dir_list; do
+  local extension
+  u_fs_dir_list "asc/extensions"
+  for extension in $dir_list; do
 
-      # Ignore dirnames starting with '.'.
-      if [[ "${extension:0:1}" == '.' ]]; then
-        continue
-      fi
+    # Ignore dirnames starting with '.'.
+    if [[ "${extension:0:1}" == '.' ]]; then
+      continue
+    fi
 
-      eval "ASC_EXTENSIONS+=\"$extension \""
+    eval "ASC_EXTENSIONS+=\"$extension \""
 
-      # Aggregate namespaced primitives for every extension.
-      u_asc_extend "$extensions_dir/$extension"
-    done
-  fi
+    # Aggregate namespaced primitives for every extension.
+    u_asc_extend "asc/extensions/$extension"
+  done
 }
 
 ##
@@ -288,23 +285,4 @@ u_asc_primitive_values() {
       fi
     fi
   done
-}
-
-##
-# Gets ASC extensions base path.
-#
-# NB : for performance reasons (to avoid using a subshell), this function
-# writes its result to a variable subject to collision in calling scope.
-#
-# @var extensions_dir
-#
-# @example
-#   u_asc_get_extensions_dir
-#   echo "$extensions_dir"
-#
-u_asc_get_extensions_dir() {
-  extensions_dir="asc/custom/extensions"
-  if [[ -n "$ASC_CUSTOM_DIR" ]]; then
-    extensions_dir="$ASC_CUSTOM_DIR/extensions"
-  fi
 }

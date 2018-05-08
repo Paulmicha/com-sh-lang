@@ -30,10 +30,8 @@ oneTimeSetUp() {
   done
 
   # Also test with a dummy extension (requires bootstrap reload, see below).
-  u_asc_get_extensions_dir
-
   # Failsafe : cannot carry on without an existing ASC extensions dir.
-  if [[ ! -d "$extensions_dir" ]]; then
+  if [[ ! -d "asc/extensions" ]]; then
     echo >&2
     echo "Error (3) in $BASH_SOURCE line $LINENO: ASC extensions dir does not exist." >&2
     echo "-> aborting" >&2
@@ -41,7 +39,7 @@ oneTimeSetUp() {
     exit 3
   fi
 
-  mkdir -p "$extensions_dir/nftaschdehnc/app"
+  mkdir -p "asc/extensions/nftaschdehnc/app"
 
   # Failsafe : cannot carry on without successful temporary extension dir creation.
   if [[ $? -ne 0 ]]; then
@@ -52,18 +50,18 @@ oneTimeSetUp() {
     exit 4
   fi
 
-  mkdir "$extensions_dir/nftaschdehnc/stack"
-  mkdir "$extensions_dir/nftaschdehnc/remote"
-  mkdir "$extensions_dir/nftaschdehnc/test"
+  mkdir "asc/extensions/nftaschdehnc/stack"
+  mkdir "asc/extensions/nftaschdehnc/remote"
+  mkdir "asc/extensions/nftaschdehnc/test"
 
   # Empty files are enough to trigger positive detection during ASC primitives
   # values aggregation during bootstrap and during hook lookup paths generation.
   # @see u_asc_extend()
   # @see hook()
-  touch "$extensions_dir/nftaschdehnc/app/nftaschhnc_dry_run.hook.sh"
-  touch "$extensions_dir/nftaschdehnc/stack/nftaschhnc_dry_run.hook.sh"
-  touch "$extensions_dir/nftaschdehnc/remote/nftaschhnc_dry_run.hook.sh"
-  touch "$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.sh"
+  touch "asc/extensions/nftaschdehnc/app/nftaschhnc_dry_run.hook.sh"
+  touch "asc/extensions/nftaschdehnc/stack/nftaschhnc_dry_run.hook.sh"
+  touch "asc/extensions/nftaschdehnc/remote/nftaschhnc_dry_run.hook.sh"
+  touch "asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.sh"
 
   # Variants tests require the following globals. We set them with dummy values
   # if stack init hasn't been run in current instance yet.
@@ -75,16 +73,16 @@ oneTimeSetUp() {
   if [[ -z "$HOST_TYPE" ]]; then
     HOST_TYPE='local'
   fi
-  touch "$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh"
-  touch "$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$HOST_TYPE.hook.sh"
-  touch "$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.$HOST_TYPE.hook.sh"
+  touch "asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh"
+  touch "asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$HOST_TYPE.hook.sh"
+  touch "asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.$HOST_TYPE.hook.sh"
 
   # Prefix tests.
-  touch "$extensions_dir/nftaschdehnc/test/pre_nftaschhnc_dry_run.hook.sh"
-  touch "$extensions_dir/nftaschdehnc/test/post_nftaschhnc_dry_run.hook.sh"
-  touch "$extensions_dir/nftaschdehnc/test/post_nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh"
-  touch "$extensions_dir/nftaschdehnc/test/post_nftaschhnc_dry_run.$HOST_TYPE.hook.sh"
-  touch "$extensions_dir/nftaschdehnc/test/undo_nftaschhnc_dry_run.$INSTANCE_TYPE.$HOST_TYPE.hook.sh"
+  touch "asc/extensions/nftaschdehnc/test/pre_nftaschhnc_dry_run.hook.sh"
+  touch "asc/extensions/nftaschdehnc/test/post_nftaschhnc_dry_run.hook.sh"
+  touch "asc/extensions/nftaschdehnc/test/post_nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh"
+  touch "asc/extensions/nftaschdehnc/test/post_nftaschhnc_dry_run.$HOST_TYPE.hook.sh"
+  touch "asc/extensions/nftaschdehnc/test/undo_nftaschhnc_dry_run.$INSTANCE_TYPE.$HOST_TYPE.hook.sh"
 
   # Forces detection of our newly created temporary extension.
   u_asc_extend
@@ -164,18 +162,18 @@ _asc_hook_compare_expected_result_helper() {
 test_asc_hook_single_action() {
   local inc_dry_run_files_list=''
   local expected_list="asc/app/nftaschhnc_dry_run.hook.sh
-$extensions_dir/nftaschdehnc/app/nftaschhnc_dry_run.hook.sh
+asc/extensions/nftaschdehnc/app/nftaschhnc_dry_run.hook.sh
 asc/cron/nftaschhnc_dry_run.hook.sh
 asc/db/nftaschhnc_dry_run.hook.sh
 asc/env/nftaschhnc_dry_run.hook.sh
 asc/git/nftaschhnc_dry_run.hook.sh
 asc/instance/nftaschhnc_dry_run.hook.sh
 asc/remote/nftaschhnc_dry_run.hook.sh
-$extensions_dir/nftaschdehnc/remote/nftaschhnc_dry_run.hook.sh
+asc/extensions/nftaschdehnc/remote/nftaschhnc_dry_run.hook.sh
 asc/service/nftaschhnc_dry_run.hook.sh
 asc/stack/nftaschhnc_dry_run.hook.sh
-$extensions_dir/nftaschdehnc/stack/nftaschhnc_dry_run.hook.sh
-$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
+asc/extensions/nftaschdehnc/stack/nftaschhnc_dry_run.hook.sh
+asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
 "
 
   hook -a 'nftaschhnc_dry_run' -t
@@ -189,7 +187,7 @@ $extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
 #
 test_asc_hook_subject() {
   local inc_dry_run_files_list=''
-  local expected_list="$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh"
+  local expected_list="asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh"
 
   hook -a 'nftaschhnc_dry_run' -s 'test' -t
 
@@ -202,9 +200,9 @@ test_asc_hook_subject() {
 #
 test_asc_hook_combinatory_variants() {
   local inc_dry_run_files_list=''
-  local expected_list="$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
-$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$HOST_TYPE.hook.sh
-$extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.$HOST_TYPE.hook.sh
+  local expected_list="asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
+asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$HOST_TYPE.hook.sh
+asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.$HOST_TYPE.hook.sh
 "
 
   hook -a 'nftaschhnc_dry_run' -s 'test' -v 'INSTANCE_TYPE HOST_TYPE' -t
@@ -218,7 +216,7 @@ $extensions_dir/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.$HOST_TYPE.h
 #
 test_asc_hook_prefix() {
   local inc_dry_run_files_list=''
-  local expected_list="$extensions_dir/nftaschdehnc/test/pre_nftaschhnc_dry_run.hook.sh"
+  local expected_list="asc/extensions/nftaschdehnc/test/pre_nftaschhnc_dry_run.hook.sh"
 
   hook -a 'nftaschhnc_dry_run' -p 'pre' -t
 
@@ -231,8 +229,8 @@ test_asc_hook_prefix() {
 #
 test_asc_hook_prefix_variants() {
   local inc_dry_run_files_list=''
-  local expected_list="$extensions_dir/nftaschdehnc/test/post_nftaschhnc_dry_run.hook.sh
-$extensions_dir/nftaschdehnc/test/post_nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
+  local expected_list="asc/extensions/nftaschdehnc/test/post_nftaschhnc_dry_run.hook.sh
+asc/extensions/nftaschdehnc/test/post_nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
 "
 
   hook -a 'nftaschhnc_dry_run' -s 'test' -p 'post' -t
@@ -246,7 +244,7 @@ $extensions_dir/nftaschdehnc/test/post_nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
 #
 test_asc_hook_prefix_combinatory_variants() {
   local inc_dry_run_files_list=''
-  local expected_list="$extensions_dir/nftaschdehnc/test/undo_nftaschhnc_dry_run.$INSTANCE_TYPE.$HOST_TYPE.hook.sh"
+  local expected_list="asc/extensions/nftaschdehnc/test/undo_nftaschhnc_dry_run.$INSTANCE_TYPE.$HOST_TYPE.hook.sh"
 
   hook -a 'nftaschhnc_dry_run' -s 'test' -v 'INSTANCE_TYPE HOST_TYPE' -p 'undo' -t
 
@@ -264,7 +262,7 @@ oneTimeTearDown() {
   for s in $ASC_SUBJECTS; do
     rm -f "asc/$s/nftaschhnc_dry_run.hook.sh"
   done
-  rm -fr "$extensions_dir/nftaschdehnc"
+  rm -fr "asc/extensions/nftaschdehnc"
 }
 
 # Load and run shUnit2.

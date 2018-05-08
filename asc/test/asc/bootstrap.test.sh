@@ -39,8 +39,8 @@ test_asc_autoload_complement_works() {
 
   # Test with match (populates the local complement_flag variable).
   local base_dir='asc/custom'
-  if [[ -n "$ASC_CUSTOM_DIR" ]]; then
-    base_dir="$ASC_CUSTOM_DIR"
+  if [[ -n "$PROJECT_SCRIPTS" ]]; then
+    base_dir="$PROJECT_SCRIPTS"
   fi
   mkdir -p "$base_dir/complements/test"
   cat > ${complement_source/asc/"$base_dir/complements"} <<'EOF'
@@ -66,8 +66,8 @@ test_asc_autoload_override_works() {
 
   # Test with match (populates the local override_flag variable).
   local base_dir='asc/custom'
-  if [[ -n "$ASC_CUSTOM_DIR" ]]; then
-    base_dir="$ASC_CUSTOM_DIR"
+  if [[ -n "$PROJECT_SCRIPTS" ]]; then
+    base_dir="$PROJECT_SCRIPTS"
   fi
   mkdir -p "$base_dir/overrides/test"
   cat > ${override_source/asc/"$base_dir/overrides"} <<'EOF'
@@ -86,8 +86,8 @@ EOF
 #
 oneTimeTearDown() {
   local base_dir='asc/custom'
-  if [[ -n "$ASC_CUSTOM_DIR" ]]; then
-    base_dir="$ASC_CUSTOM_DIR"
+  if [[ -n "$PROJECT_SCRIPTS" ]]; then
+    base_dir="$PROJECT_SCRIPTS"
   fi
   rm -rf "$base_dir/complements/test"
   rm -rf "$base_dir/overrides/test"

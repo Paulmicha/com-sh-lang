@@ -42,7 +42,7 @@
 # - asc/my_subject/my_action.docker-compose.dev.hook.sh
 #
 # @requires the following global variables in calling scope :
-# - ASC_CUSTOM_DIR
+# - PROJECT_SCRIPTS
 # - ASC_ACTIONS
 # - ASC_SUBJECTS
 # - ASC_EXTENSIONS
@@ -68,8 +68,8 @@
 #   # (given INSTANCE_TYPE='prod')
 #   # - asc/<ASC_SUBJECTS>/bootstrap.hook.sh
 #   # - asc/<ASC_SUBJECTS>/bootstrap.prod.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS>/<EXT_SUBJECTS>/bootstrap.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS>/<EXT_SUBJECTS>/bootstrap.prod.hook.sh
+#   # - $PROJECT_SCRIPTS/<ASC_EXTENSIONS>/<EXT_SUBJECTS>/bootstrap.hook.sh
+#   # - $PROJECT_SCRIPTS/<ASC_EXTENSIONS>/<EXT_SUBJECTS>/bootstrap.prod.hook.sh
 #
 #   # 2. When providing an action + a filter by subject :
 #   hook -a 'init' -s 'stack'
@@ -77,8 +77,8 @@
 #   # (given INSTANCE_TYPE='prod')
 #   # - asc/stack/init.hook.sh
 #   # - asc/stack/init.prod.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS>/stack/init.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS>/stack/init.prod.hook.sh
+#   # - $PROJECT_SCRIPTS/<ASC_EXTENSIONS>/stack/init.hook.sh
+#   # - $PROJECT_SCRIPTS/<ASC_EXTENSIONS>/stack/init.prod.hook.sh
 #
 #   # 3. When providing an action + a filter by 1 or several subjects + 1 or
 #   #   several variants filter :
@@ -89,16 +89,16 @@
 #   # - asc/stack/init.dev.hook.sh
 #   # - asc/stack/init.local.hook.sh
 #   # - asc/stack/init.dev.local.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS>/stack/init.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS>/stack/init.dev.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS>/stack/init.local.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS>/stack/init.dev.local.hook.sh
+#   # - $PROJECT_SCRIPTS/<ASC_EXTENSIONS>/stack/init.hook.sh
+#   # - $PROJECT_SCRIPTS/<ASC_EXTENSIONS>/stack/init.dev.hook.sh
+#   # - $PROJECT_SCRIPTS/<ASC_EXTENSIONS>/stack/init.local.hook.sh
+#   # - $PROJECT_SCRIPTS/<ASC_EXTENSIONS>/stack/init.dev.local.hook.sh
 #
 #   # 4. Extensions filter :
 #   hook -e 'nodejs'
 #   # Yields the following lookup paths (ALL includes found are sourced) :
 #   # (given INSTANCE_TYPE='prod')
-#   # - $ASC_CUSTOM_DIR/extensions/nodejs/<EXT_SUBJECTS>/<SUBJECT_ACTIONS>.prod.hook.sh
+#   # - $PROJECT_SCRIPTS/extensions/nodejs/<EXT_SUBJECTS>/<SUBJECT_ACTIONS>.prod.hook.sh
 #
 #   # 5. Prefixes filter are exclusive by default, which means pure actions are
 #   #   not included. Ex :
@@ -107,8 +107,8 @@
 #   # (given INSTANCE_TYPE='prod')
 #   # - asc/<ASC_SUBJECTS>/pre_bootstrap.hook.sh
 #   # - asc/<ASC_SUBJECTS>/pre_bootstrap.prod.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS>/<EXT_SUBJECTS>/pre_bootstrap.hook.sh
-#   # - $ASC_CUSTOM_DIR/<ASC_EXTENSIONS>/<EXT_SUBJECTS>/pre_bootstrap.prod.hook.sh
+#   # - $PROJECT_SCRIPTS/<ASC_EXTENSIONS>/<EXT_SUBJECTS>/pre_bootstrap.hook.sh
+#   # - $PROJECT_SCRIPTS/<ASC_EXTENSIONS>/<EXT_SUBJECTS>/pre_bootstrap.prod.hook.sh
 #
 # We exceptionally name that function without following the usual convention.
 #
@@ -156,7 +156,7 @@ hook() {
   local prefixes=""
 
   local base_paths=("asc")
-  local extensions_dir="$ASC_CUSTOM_DIR/extensions"
+  local extensions_dir="$PROJECT_SCRIPTS/extensions"
   local extension
   local lowercase
   local uppercase

@@ -23,7 +23,6 @@
 # @see asc/bootstrap.sh
 #
 
-global PROJECT_STACK
 global PROJECT_DOCROOT "[default]=$PWD"
 global APP_DOCROOT "[default]=$PROJECT_DOCROOT/web"
 global INSTANCE_TYPE "[default]=dev"
@@ -52,7 +51,8 @@ global REG_BACKEND "[default]=file"
 # TODO else consider using a separate store for secrets, see asc/env/README.md.
 # global SECRETS_BACKEND
 
-# This path indicates where extensions, overrides and complements are to be found.
-# That folder should contain current project's private (or "vendor") includes
-# used to generate lookup paths in hooks (events), overrides and/or complements.
-global ASC_CUSTOM_DIR "[default]=asc/custom"
+# Path to custom scripts ~ commonly automated processes. ASC will also use this
+# path to look for overrides and complements.
+# @see u_autoload_override()
+# @see u_autoload_get_complement()
+global PROJECT_SCRIPTS "[default]=scripts"

@@ -89,7 +89,7 @@ TODO evaluate minimalist GUI opportunity (Electron ?)
 
 ASC is under construction. Folders might still move around depending on its use, until I feel it can start proper versionning. Consider this repo a scratchpad for now.
 
-ASC essentially relies on a relative global namepace. Its creation process involves building it "on the fly" in other side projects in which each step listed above (*Next steps*) is achieved by specific, custom scripts placed in a different `scripts` dir alongside `asc` in `PROJECT_DOCROOT`. In such cases, `ASC_CUSTOM_DIR` is also set to `$PROJECT_DOCROOT/scripts` (See the *Alter / Extend ASC* section).
+ASC essentially relies on a relative global namepace. Its creation process involves building it "on the fly" in other side projects in which each step listed above (*Next steps*) is achieved by specific, custom scripts placed in a different `scripts` dir alongside `asc` in `PROJECT_DOCROOT`. In such cases, `PROJECT_SCRIPTS` is also set to `$PROJECT_DOCROOT/scripts` (See the *Alter / Extend ASC* section).
 
 Ultimately, it should not compete with [other projects](https://paulmicha.github.io/asc/about/tools-considerations.html) (and I couldn't find a better word than "glue" for now, sorry).
 
@@ -101,7 +101,7 @@ The file structure follows [loose naming and folder structure conventions](https
 /path/to/project/           <- Project root dir ($PROJECT_DOCROOT).
   ├── asc/
   │   ├── app/              <- [WIP] App init / (re)build / watch includes.
-  │   ├── custom/           <- [configurable] default "modules" dir (alter or extend ASC. $ASC_CUSTOM_DIR).
+  │   ├── custom/           <- [configurable] default "modules" dir (alter or extend ASC. $PROJECT_SCRIPTS).
   │   ├── db/               <- [WIP] Database-related includes.
   │   ├── env/              <- Environment settings includes (global variables).
   │   │   └── current/      <- Generated settings specific to local instance (git-ignored).

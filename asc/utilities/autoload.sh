@@ -149,8 +149,8 @@ u_autoload_override() {
   fi
 
   local base_dir='asc/custom'
-  if [[ -n "$ASC_CUSTOM_DIR" ]]; then
-    base_dir="$ASC_CUSTOM_DIR"
+  if [[ -n "$PROJECT_SCRIPTS" ]]; then
+    base_dir="$PROJECT_SCRIPTS"
   fi
 
   inc_override_evaled_code=''
@@ -183,8 +183,8 @@ u_autoload_get_complement() {
   local p_reaction="$2"
 
   local base_dir='asc/custom'
-  if [[ -n "$ASC_CUSTOM_DIR" ]]; then
-    base_dir="$ASC_CUSTOM_DIR"
+  if [[ -n "$PROJECT_SCRIPTS" ]]; then
+    base_dir="$PROJECT_SCRIPTS"
   fi
 
   local complement=${p_script_path/asc/"$base_dir/complements"}

@@ -1,6 +1,6 @@
 # Alter / Extend ASC
 
-There a different ways to alter or extend ASC. They usually consist in providing your own bash files in `ASC_CUSTOM_DIR` following the conventions listed below.
+There a different ways to alter or extend ASC. They usually consist in providing your own bash files in `PROJECT_SCRIPTS` following the conventions listed below.
 
 It relies on [a minimalist "autoload" pattern](https://paulmicha.github.io/asc/about/patterns.html) (see **caveats** and **ways to mitigate** in documentation).
 
@@ -11,7 +11,7 @@ Notable alteration/extension entry points :
 
 ## Complements
 
-Given any bash include (sourced script include), the **complement** pattern simply attempts to include another corresponding file. The correspondance matches the relative path from `$PROJECT_DOCROOT/asc` in `$ASC_CUSTOM_DIR` : if the complementary file exists, it is included (sourced) right where `u_autoload_get_complement()` is called.
+Given any bash include (sourced script include), the **complement** pattern simply attempts to include another corresponding file. The correspondance matches the relative path from `$PROJECT_DOCROOT/asc` in `$PROJECT_SCRIPTS` : if the complementary file exists, it is included (sourced) right where `u_autoload_get_complement()` is called.
 
 Simple example from `asc/bash_utils.sh` :
 
@@ -30,7 +30,7 @@ TODO
 
 Same as the **complement** pattern, but this only includes the corresponding file :
 
-Given any bash include (sourced script include), the **override** pattern attempts to include another corresponding file. The correspondance matches the relative path from `$PROJECT_DOCROOT/asc` in `$ASC_CUSTOM_DIR` : if the overriding file exists, it is included (sourced) instead.
+Given any bash include (sourced script include), the **override** pattern attempts to include another corresponding file. The correspondance matches the relative path from `$PROJECT_DOCROOT/asc` in `$PROJECT_SCRIPTS` : if the overriding file exists, it is included (sourced) instead.
 
 Example in `asc/git/apply_config.sh` :
 
