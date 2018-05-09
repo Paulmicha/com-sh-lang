@@ -72,7 +72,7 @@ The way this process works is :
 
 Here's a "stack init" example listing its corresponding env includes lookup paths. They represent all possibilities matching the `$PROJECT_STACK` and provisioning method (`$PROVISION_USING`).
 
-Any existing file is included (sourced) in the order indicated, each one allowing to provide its own customization. See *complements* documentation at `asc/custom/complements/README.md`.
+Any existing file is included (sourced) in the order indicated, each one allowing to provide its own customization. See *complements* documentation at `scripts/complements/README.md`.
 
 ```sh
 # Calling stack init with these parameters :
@@ -118,10 +118,10 @@ asc/app/extensions/contenta/vars.sh
 asc/app/extensions/contenta/docker-compose.vars.sh
 asc/app/extensions/contenta/1/vars.sh
 asc/app/extensions/contenta/1/docker-compose.vars.sh
-asc/custom/extensions/contenta/vars.sh
-asc/custom/extensions/contenta/docker-compose.vars.sh
-asc/custom/extensions/contenta/1/vars.sh
-asc/custom/extensions/contenta/1/docker-compose.vars.sh
+asc/extensions/contenta/vars.sh
+asc/extensions/contenta/docker-compose.vars.sh
+asc/extensions/contenta/1/vars.sh
+asc/extensions/contenta/1/docker-compose.vars.sh
 asc/app/drupal/env.vars.sh
 asc/app/drupal/env.docker-compose.vars.sh
 ```

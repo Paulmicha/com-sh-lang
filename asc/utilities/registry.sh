@@ -7,7 +7,7 @@
 # @see asc/bootstrap.sh
 #
 # Loads the file containing registry Bash utility functions corresponding to
-# this env's reg backend. Allows override from 'asc/custom' dir.
+# this env's reg backend. Allows override from 'scripts' dir.
 #
 # Note : each registry implementation must provide at least these 3 functions :
 # - u_registry_set_val()
