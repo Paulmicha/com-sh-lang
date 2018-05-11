@@ -17,4 +17,4 @@
 
 . asc/bootstrap.sh
 
-hook -s 'instance' -a 'start' -v 'PROVISION_USING INSTANCE_TYPE HOST_TYPE'
+hook -s 'instance app' -a 'start' -v 'PROVISION_USING INSTANCE_TYPE HOST_TYPE'
