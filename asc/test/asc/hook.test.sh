@@ -103,7 +103,7 @@ oneTimeSetUp() {
 # Will single action hooks load every matching files and none other ?
 #
 test_asc_hook_single_action() {
-  local inc_dry_run_files_list=''
+  local hook_dry_run_matches=''
   local expected_list="asc/app/nftaschhnc_dry_run.hook.sh
 asc/extensions/nftaschdehnc/app/nftaschhnc_dry_run.hook.sh
 asc/cron/nftaschhnc_dry_run.hook.sh
@@ -129,7 +129,7 @@ asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
 # Does subject filter work ?
 #
 test_asc_hook_subject() {
-  local inc_dry_run_files_list=''
+  local hook_dry_run_matches=''
   local expected_list="asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh"
 
   hook -a 'nftaschhnc_dry_run' -s 'test' -t
@@ -142,7 +142,7 @@ test_asc_hook_subject() {
 # Does combinatory variants filter work ?
 #
 test_asc_hook_combinatory_variants() {
-  local inc_dry_run_files_list=''
+  local hook_dry_run_matches=''
   local expected_list="asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
 asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$HOST_TYPE.hook.sh
 asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.$HOST_TYPE.hook.sh
@@ -158,7 +158,7 @@ asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.$HOST_TYPE.ho
 # Does prefix filter work ?
 #
 test_asc_hook_prefix() {
-  local inc_dry_run_files_list=''
+  local hook_dry_run_matches=''
   local expected_list="asc/extensions/nftaschdehnc/test/pre_nftaschhnc_dry_run.hook.sh"
 
   hook -a 'nftaschhnc_dry_run' -p 'pre' -t
@@ -171,7 +171,7 @@ test_asc_hook_prefix() {
 # Does prefix filter work with default variants ?
 #
 test_asc_hook_prefix_variants() {
-  local inc_dry_run_files_list=''
+  local hook_dry_run_matches=''
   local expected_list="asc/extensions/nftaschdehnc/test/post_nftaschhnc_dry_run.hook.sh
 asc/extensions/nftaschdehnc/test/post_nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
 "
@@ -186,7 +186,7 @@ asc/extensions/nftaschdehnc/test/post_nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
 # Does prefix filter work with combinatory variants ?
 #
 test_asc_hook_prefix_combinatory_variants() {
-  local inc_dry_run_files_list=''
+  local hook_dry_run_matches=''
   local expected_list="asc/extensions/nftaschdehnc/test/undo_nftaschhnc_dry_run.$INSTANCE_TYPE.$HOST_TYPE.hook.sh"
 
   hook -a 'nftaschhnc_dry_run' -s 'test' -v 'INSTANCE_TYPE HOST_TYPE' -p 'undo' -t
