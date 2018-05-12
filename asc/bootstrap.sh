@@ -33,6 +33,7 @@ if [[ $ASC_BS_FLAG -ne 1 ]]; then
 
   # Initializes "primitives" for hooks and lookups (ASC extension mecanisms).
   # These are : subjects, actions, prefixes, variants and extensions.
+  ASC_INC=''
   u_asc_extend
 
   # Load additional includes (including extensions').

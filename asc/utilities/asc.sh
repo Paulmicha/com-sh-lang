@@ -134,7 +134,9 @@ u_asc_extend() {
 # @see u_asc_extend()
 #
 u_asc_extensions() {
+  local inc
   local extension
+
   u_fs_dir_list "asc/extensions"
   for extension in $dir_list; do
 
@@ -143,10 +145,16 @@ u_asc_extensions() {
       continue
     fi
 
-    eval "ASC_EXTENSIONS+=\"$extension \""
+    ASC_EXTENSIONS+="$extension "
 
     # Aggregate namespaced primitives for every extension.
     u_asc_extend "asc/extensions/$extension"
+
+    # For convenience, also accept generic includes at the root of extensions.
+    inc="asc/extensions/$extension/${extension}.inc.sh"
+    if [[ -f "$inc" ]]; then
+      ASC_INC+="$inc "
+    fi
   done
 }
 
