@@ -14,4 +14,4 @@
 #
 
 . asc/bootstrap.sh
-u_instance_registry_del $@
+u_instance_registry_del "$@"

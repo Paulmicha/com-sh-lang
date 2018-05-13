@@ -13,4 +13,4 @@
 #
 
 . asc/bootstrap.sh
-u_host_registry_set $@
+u_host_registry_set "$@"

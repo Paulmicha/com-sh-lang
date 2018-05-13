@@ -11,4 +11,4 @@
 #
 
 . asc/bootstrap.sh
-u_instance_init $@
+u_instance_init "$@"
