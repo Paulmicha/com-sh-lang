@@ -7,8 +7,16 @@
 #
 
 -include .env
-
-# TODO [wip] provide instance init by default in this "root" Makefile.
-
 -include asc/env/current/default.mk
 -include $(ASC_MAKE_INC)
+
+# By default, always provide (instance) init action.
+.PHONY: init
+default: init
+init:
+	@ asc/instance/init.sh $(filter-out $@,$(MAKECMDGOALS))
+
+# Automatically append arguments to make calls.
+# @see https://stackoverflow.com/a/6273809/1826109
+%:
+	@:

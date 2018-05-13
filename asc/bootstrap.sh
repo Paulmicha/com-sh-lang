@@ -27,7 +27,9 @@ if [[ $ASC_BS_FLAG -ne 1 ]]; then
   # If instance init was run at least once, automatically load global env vars.
   # NB : this must happen before u_asc_extend() gets called because it uses the
   # customizable global var PROJECT_SCRIPTS to populate primitive values.
-  if [ -f "asc/env/current/global.vars.sh" ]; then
+  # This can be opted-out by setting the flag ASC_BS_SKIP_GLOBALS to 1.
+  # @see asc/instance/init.sh
+  if [[ -f "asc/env/current/global.vars.sh" ]] && [[ $ASC_BS_SKIP_GLOBALS -ne 1 ]]; then
     . asc/env/current/global.vars.sh
   fi
 
