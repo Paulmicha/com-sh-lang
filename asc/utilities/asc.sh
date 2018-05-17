@@ -72,6 +72,8 @@ u_asc_extend() {
     p_namespace="$uppercase"
     p_namespace="${p_namespace//\./_}"
     p_namespace="${p_namespace//-/_}"
+  else
+    u_str_sanitize_var_name "$p_namespace" 'p_namespace'
   fi
 
   # Export initial global variables for every primitive + always reinit as empty
@@ -177,7 +179,7 @@ u_asc_extensions() {
 # @example
 #   primitive_values=''
 #   u_asc_primitive_values 'subjects'
-#   echo "$primitive_values" # Yields 'app cron db env git provision remote stack test'
+#   echo "$primitive_values" # Yields 'app git host instance remote test'
 #
 #   # Default path 'asc' can be modified by providing the 2nd argument :
 #   primitive_values=''

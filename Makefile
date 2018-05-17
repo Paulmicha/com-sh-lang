@@ -19,6 +19,9 @@
 #   make
 #   make init # <- Alternative call (the 'init' task is the default).
 #
+#   # Print lookup paths used for globals aggregation during instance init.
+#   make globals-lp
+#
 #   # Print lookup paths for the ASC hook call :
 #   # hook -s 'instance' -a 'stop' -v 'PROVISION_USING HOST_TYPE'
 #   make hook-debug s:instance a:stop v:PROVISION_USING HOST_TYPE
@@ -46,10 +49,13 @@ init:
 	@ asc/instance/init.sh $(filter-out $@,$(MAKECMDGOALS))
 
 hook-call:
-	@ asc/instance/hook.mk.sh $(filter-out $@,$(MAKECMDGOALS))
+	@ asc/instance/hook.make.sh $(filter-out $@,$(MAKECMDGOALS))
 
 hook-debug:
-	@ asc/instance/hook.mk.sh -d -t $(filter-out $@,$(MAKECMDGOALS))
+	@ asc/instance/hook.make.sh -d -t $(filter-out $@,$(MAKECMDGOALS))
+
+globals-lp:
+	@ asc/env/global_lookup_paths.make.sh
 
 # Automatically append arguments to tasks calls.
 # @see https://stackoverflow.com/a/6273809/1826109
