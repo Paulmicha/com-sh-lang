@@ -147,7 +147,7 @@ asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$HOST_TYPE.hook.sh
 asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.$HOST_TYPE.hook.sh
 "
 
-  hook -a 'nftaschhnc_dry_run' -s 'test' -v 'INSTANCE_TYPE HOST_TYPE' -t
+  hook -a 'nftaschhnc_dry_run' -s 'test' -v 'HOST_TYPE INSTANCE_TYPE' -t
 
   u_test_compare_expected_lookup_paths
   u_test_lookup_paths_assertion "Combinatory variants filter hook test failed." $flag
@@ -188,7 +188,7 @@ test_asc_hook_prefix_combinatory_variants() {
   local hook_dry_run_matches=''
   local expected_list="asc/extensions/nftaschdehnc/test/undo_nftaschhnc_dry_run.$INSTANCE_TYPE.$HOST_TYPE.hook.sh"
 
-  hook -a 'nftaschhnc_dry_run' -s 'test' -v 'INSTANCE_TYPE HOST_TYPE' -p 'undo' -t
+  hook -a 'nftaschhnc_dry_run' -s 'test' -v 'HOST_TYPE INSTANCE_TYPE' -p 'undo' -t
 
   u_test_compare_expected_lookup_paths
   u_test_lookup_paths_assertion "Prefix + combinatory variants filter hook test failed." $flag

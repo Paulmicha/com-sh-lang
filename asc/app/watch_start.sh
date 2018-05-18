@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 ##
-# [abstract] Starts this project instance's necessary services on host.
+# [abstract] Starts watchers in current app instance.
+#
+# "Watchers" are programs running continuously in the background to react upon
+# code modifications. They usually compile source files when they are modified.
 #
 # This script provides an entry point for triggering a specific hook. "Abstract"
 # means that ASC core itself doesn't provide any actual implementation for this
@@ -9,9 +12,9 @@
 # to use an extension that does.
 #
 # @example
-#   asc/instance/start.sh
+#   asc/app/watch_start.sh
 #
 
 . asc/bootstrap.sh
 
-hook -s 'instance app' -a 'start' -v 'PROVISION_USING HOST_TYPE INSTANCE_TYPE'
+hook -s 'app' -a 'watch_start' -v 'PROVISION_USING HOST_TYPE INSTANCE_TYPE'

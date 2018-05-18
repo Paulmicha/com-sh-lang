@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 
 ##
-# [abstract] ASC host provision action.
+# [abstract] Installs required software on current host.
 #
-# This generic implementation provides entry points for installing some software
-# on current host. It supports variants by :
-# - HOST_OS
-# - HOST_TYPE
-# - PROVISION_USING
-#
-# @see hook()
+# This script provides an entry point for triggering a specific hook. "Abstract"
+# means that ASC core itself doesn't provide any actual implementation for this
+# functionality. In order for this script to have any effect, it is necessary
+# to use an extension that does.
 #
 # @example
 #   asc/host/provision.sh
