@@ -45,7 +45,7 @@
 -include $(ASC_MAKE_INC)
 
 default: init
-.PHONY: init hook-call hook-debug
+.PHONY: init hook-call hook-debug globals-lp
 
 init:
 	@ asc/instance/init.sh $(filter-out $@,$(MAKECMDGOALS))

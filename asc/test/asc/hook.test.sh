@@ -111,7 +111,6 @@ asc/extensions/nftaschdehnc/app/nftaschhnc_dry_run.hook.sh
 asc/git/nftaschhnc_dry_run.hook.sh
 asc/host/nftaschhnc_dry_run.hook.sh
 asc/instance/nftaschhnc_dry_run.hook.sh
-asc/remote/nftaschhnc_dry_run.hook.sh
 asc/extensions/nftaschdehnc/remote/nftaschhnc_dry_run.hook.sh
 asc/test/nftaschhnc_dry_run.hook.sh
 asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
@@ -142,7 +141,8 @@ asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh"
 #
 test_asc_hook_combinatory_variants() {
   local hook_dry_run_matches=''
-  local expected_list="asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
+  local expected_list="asc/test/nftaschhnc_dry_run.hook.sh
+asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
 asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$HOST_TYPE.hook.sh
 asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.$HOST_TYPE.hook.sh
 "

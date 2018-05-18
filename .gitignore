@@ -22,8 +22,8 @@
 !/asc/env/current/README.md
 
 # Ignore remote instances defined on current local instance.
-/asc/remote/instances/*
-!/asc/remote/instances/README.md
+/asc/extensions/remote/remote/instances/*
+!/asc/extensions/remote/remote/instances/README.md
 
 # Private files, outside of public (web) dir.
 /private/*
