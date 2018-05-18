@@ -126,12 +126,31 @@ u_asc_extend() {
 u_asc_extensions() {
   local inc
   local extension
+  local exclusions_arr
+  local exclusions
+  local excl
+
+  # ALlow to deactivate some extensions using dotfile '.asc_extensions_ignore'.
+  exclusions=()
+  if [[ -f 'asc/extensions/.asc_extensions_ignore' ]]; then
+    u_fs_get_file_contents 'asc/extensions/.asc_extensions_ignore' 'exclusions'
+    if [[ -n "$exclusions" ]]; then
+      for excl in $exclusions; do
+        exclusions_arr+=("$excl")
+      done
+    fi
+  fi
 
   u_fs_dir_list "asc/extensions"
   for extension in $dir_list; do
 
     # Ignore dirnames starting with '.'.
     if [[ "${extension:0:1}" == '.' ]]; then
+      continue
+    fi
+
+    # Exclusions check.
+    if u_in_array "$extension" exclusions_arr; then
       continue
     fi
 
