@@ -3,6 +3,8 @@
 ##
 # ASC core generic utilities tests.
 #
+# TODO [wip] to complete for all ASC core utilities.
+#
 # @requires asc/vendor/shunit2
 #
 # This file may be dynamically executed.
