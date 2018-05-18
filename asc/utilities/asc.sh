@@ -131,7 +131,7 @@ u_asc_extensions() {
   local excl
 
   # ALlow to deactivate some extensions using dotfile '.asc_extensions_ignore'.
-  exclusions=()
+  exclusions_arr=()
   if [[ -f 'asc/extensions/.asc_extensions_ignore' ]]; then
     u_fs_get_file_contents 'asc/extensions/.asc_extensions_ignore' 'exclusions'
     if [[ -n "$exclusions" ]]; then
