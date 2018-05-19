@@ -3,7 +3,7 @@
 ##
 # Instance-related utility functions.
 #
-# This file is dynamically loaded.
+# This file is sourced during core ASC bootstrap.
 # @see asc/bootstrap.sh
 #
 # Convention : functions names are all prefixed by "u" (for "utility").
@@ -203,7 +203,6 @@ u_instance_write_mk() {
 
   echo "Writing generic Makefile include asc/env/current/default.mk ..."
 
-  # (Re)init destination file (make empty).
   cat > asc/env/current/default.mk <<'EOF'
 
 ##

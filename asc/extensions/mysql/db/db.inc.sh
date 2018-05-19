@@ -3,7 +3,7 @@
 ##
 # Database-related utility functions.
 #
-# This file is dynamically loaded.
+# This file is sourced during core ASC bootstrap.
 # @see asc/bootstrap.sh
 #
 
