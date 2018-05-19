@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
 ##
-# Implements Git 'pre-commit' hook.
+# Sample implementation of hook -s 'git' -a 'pre-commit'.
 #
-# @see asc/git/hooks_setup.sh
+# @see asc/git/git.inc.sh
+#
+# This example is inactive. To be used for real when ASC hook is triggered,
+# this file would have to be placed in 'git/pre-commit.hook.sh' in an extension.
+# To list all the possible paths that can be used, use :
+#
+# $ make hook-debug s:git a:pre-commit
 #
 
 # Include globals, aliases, utility functions (ASC).

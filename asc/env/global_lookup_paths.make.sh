@@ -15,3 +15,19 @@
 . asc/bootstrap.sh
 
 hook -a 'global' -c 'vars.sh' -v 'PROVISION_USING' -t -d
+
+# Allow extra lookup paths at the root of extensions.
+if [ -n "$ASC_EXTENSIONS" ]; then
+  for extension in $ASC_EXTENSIONS; do
+    echo "asc/extensions/$extension/global.vars.sh"
+    if [ -f "asc/extensions/$extension/global.vars.sh" ]; then
+      echo "  exists"
+    fi
+  done
+fi
+
+# Allow extra lookup path at the root of project's scripts, *after* all
+# dynamic lookups above.
+echo "$PROJECT_SCRIPTS/global.vars.sh"
+
+echo

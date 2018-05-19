@@ -104,8 +104,8 @@ u_global_lookup_paths() {
   if [ -n "$ASC_EXTENSIONS" ]; then
     local extension
     for extension in $ASC_EXTENSIONS; do
-      if [ -f "$extension/global.vars.sh" ]; then
-        global_lookup_paths+="$extension/global.vars.sh "
+      if [ -f "asc/extensions/$extension/global.vars.sh" ]; then
+        global_lookup_paths+="asc/extensions/$extension/global.vars.sh "
       fi
     done
   fi
