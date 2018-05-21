@@ -12,6 +12,9 @@
 # - nftascgevhnc = name for testing ASC global env vars hopefully not colliding
 # - nftascgevdehnc = name for testing ASC global env vars dummy extension hopefully not colliding
 #
+# TODO test the different globals keys.
+# @see global() in asc/utilities/global.sh
+#
 # @example
 #   asc/test/asc/global.test.sh
 #
@@ -87,6 +90,7 @@ test_asc_global_aggregate() {
   local global_lookup_paths=''
   local p_ascii_dry_run=1
   local p_ascii_yes=1
+  local test_asc_global_aggregate=1
 
   unset GLOBALS
   declare -A GLOBALS
@@ -95,14 +99,14 @@ test_asc_global_aggregate() {
   GLOBALS_UNIQUE_KEYS=()
 
   u_global_aggregate
-  u_global_debug
+  # u_global_debug
 
   local s
   local s_upper
   local s_test_val
   for s in $ASC_SUBJECTS; do
     u_str_uppercase "$s" 's_upper'
-    eval "s_test_val=\"\$$NFTASCGEVHNC_VAR_ASC_$s_upper\""
+    eval "s_test_val=\"\$NFTASCGEVHNC_VAR_ASC_$s_upper\""
     assertEquals "Value of NFTASCGEVHNC_VAR_ASC_$s_upper is missing or incorrect." "test" "$s_test_val"
   done
 
