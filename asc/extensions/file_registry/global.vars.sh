@@ -11,4 +11,4 @@
 # @see asc/bootstrap.sh
 #
 
-global FILE_REGISTRY_PATH "[default]='/opt/asc-registry' [help]='Specifies where the files used as key/value store "backend" should be written.'"
+global FILE_REGISTRY_PATH "[default]='/opt/asc-registry' [help]='Specifies where the files used as key/value store backend should be written.'"

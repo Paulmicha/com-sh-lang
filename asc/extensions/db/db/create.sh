@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+##
+# [abstract] Creates (+ sets up) new database.
+#
+# @param 1 [optional] String : $DB_NAME override.
+#
+# This script provides an entry point for triggering a specific hook. "Abstract"
+# means that this extension doesn't provide any actual implementation for this
+# functionality. In order for this script to have any effect, it is necessary
+# to use an extension that does. E.g. :
+# @see asc/extensions/mysql
+#
+# @example
+#   asc/extensions/db/db/create.sh
+#   asc/extensions/db/db/create.sh 'custom_db_name'
+#
+
+. asc/bootstrap.sh
+u_db_create "$@"
