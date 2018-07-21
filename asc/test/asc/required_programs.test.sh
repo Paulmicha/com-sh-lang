@@ -1,23 +1,18 @@
 #!/usr/bin/env bash
 
 ##
-# MySQL extension program-related tests.
+# ASC core program-related tests.
 #
 # This group of tests ensures current host has all the programs (and versions)
-# required to execute this extension's actions.
-#
-# Important note : for stacks provisionned by tools like docker-compose,
-# these tests require prior initialization in order to include aliases.
+# required to execute ASC core actions.
 #
 # @requires asc/vendor/shunit2
 #
 # This file may be dynamically executed.
-# @see asc/extensions/mysql/test/self_test.hook.sh
+# @see asc/test/self_test.sh
 #
 # @example
-#   make self-test
-#   asc/test/self_test.sh
-#   asc/extensions/mysql/test/mysql/required_programs.test.sh
+#   asc/test/asc/required_programs.test.sh
 #
 
 . asc/bootstrap.sh
@@ -25,9 +20,9 @@
 ##
 # Can we use all required commands from this instance ?
 #
-test_mysql_extension_required_programs() {
+test_asc_required_programs() {
   local p
-  local programs_to_check='mysql mysqldump'
+  local programs_to_check='git tar'
 
   for p in $programs_to_check; do
     u_test_program_is_executable "$p"
