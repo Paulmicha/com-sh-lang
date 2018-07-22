@@ -12,6 +12,9 @@
 # @see asc/extensions/mysql
 #
 # @example
+#   make db-destroy
+#   make db-destroy 'custom_db_name'
+#   # Or :
 #   asc/extensions/db/db/destroy.sh
 #   asc/extensions/db/db/destroy.sh 'custom_db_name'
 #

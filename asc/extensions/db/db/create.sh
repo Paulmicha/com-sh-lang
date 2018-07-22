@@ -12,6 +12,9 @@
 # @see asc/extensions/mysql
 #
 # @example
+#   make db-create
+#   make db-create 'custom_db_name'
+#   # Or :
 #   asc/extensions/db/db/create.sh
 #   asc/extensions/db/db/create.sh 'custom_db_name'
 #
