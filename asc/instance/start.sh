@@ -9,6 +9,8 @@
 # to use an extension that does.
 #
 # @example
+#   make start
+#   # Or :
 #   asc/instance/start.sh
 #
 

@@ -17,3 +17,7 @@ drush:
 .PHONY: drupal
 drupal:
 	@ asc/extensions/docker4drupal/cli/drupal.make.sh $(filter-out $@,$(MAKECMDGOALS))
+
+.PHONY: composer
+composer:
+	@ asc/extensions/docker4drupal/cli/composer.make.sh $(filter-out $@,$(MAKECMDGOALS))

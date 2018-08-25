@@ -9,6 +9,8 @@
 # to use an extension that does.
 #
 # @example
+#   make destroy
+#   # Or :
 #   asc/instance/destroy.sh
 #
 

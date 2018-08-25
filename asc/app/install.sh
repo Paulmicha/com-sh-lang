@@ -16,6 +16,8 @@
 # @see asc/instance/start.sh
 #
 # @example
+#   make app-install
+#   # Or :
 #   asc/app/install.sh
 #
 
