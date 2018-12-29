@@ -373,3 +373,72 @@ u_asc_namespace_has_subject() {
 
   false
 }
+
+##
+# Gets all actions + their script path defined in current project instance.
+#
+# NB : for performance reasons (to avoid using a subshell), this function
+# writes its result to variables subject to collision in calling scope.
+#
+# @var asc_action_names
+# @var asc_action_scripts
+#
+# @example
+#   u_asc_get_actions
+#   # Check result (names) :
+#   declare -p asc_action_names
+#   # -> output (names) :
+#   #   declare -a asc_action_names='([0]="app/compile" [1]="app/git" ...)'
+#   # Check result (script files path) :
+#   for f in "${asc_action_scripts[@]}"; do
+#     echo "$f"
+#   done
+#
+# @example (sorted)
+#   u_asc_get_actions
+#   u_array_qsort "${asc_action_names[@]}"
+#   u_array_print sorted_arr
+#
+u_asc_get_actions() {
+  local subjects="$ASC_SUBJECTS"
+  local actions="$ASC_ACTIONS"
+  local extensions="$ASC_EXTENSIONS"
+  local base_paths=("asc")
+
+  local a
+  local s
+  local bp
+  local extension
+  local uppercase
+
+  asc_action_names=()
+  asc_action_scripts=()
+
+  for extension in $extensions; do
+    uppercase="$extension"
+    u_str_sanitize_var_name "$uppercase" 'uppercase'
+    u_str_uppercase "$uppercase"
+    eval "subjects+=\" \$${uppercase}_SUBJECTS\""
+    eval "actions+=\" \$${uppercase}_ACTIONS\""
+    base_paths+=("asc/extensions/$extension")
+  done
+
+  for s in $subjects; do
+    for bp in "${base_paths[@]}"; do
+      if ! u_asc_namespace_has_subject "$bp" "$s" ; then
+        continue
+      fi
+      for a in $actions; do
+        case "$a" in "$s"*)
+          lookup_path="$bp/${a}.sh"
+          if [[ -f "$lookup_path" ]]; then
+            if ! u_in_array $lookup_path asc_action_scripts; then
+              asc_action_names+=("$a")
+              asc_action_scripts+=("$lookup_path")
+            fi
+          fi
+        esac
+      done
+    done
+  done
+}
