@@ -12,6 +12,8 @@
 # @see asc/extensions/file_registry
 #
 # @example
+#   make reg-del
+#   # Or :
 #   asc/instance/registry_del.sh my_key
 #
 

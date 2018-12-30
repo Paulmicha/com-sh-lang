@@ -12,6 +12,8 @@
 # @see asc/extensions/file_registry
 #
 # @example
+#   make reg-set
+#   # Or :
 #   asc/instance/registry_set.sh my_key 'my value'
 #
 

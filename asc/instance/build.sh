@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ##
-# [abstract] Starts this project instance's necessary services on host.
+# [abstract] Triggers a generic 'build' operation for this project instance.
 #
 # This script provides an entry point for triggering a specific hook. "Abstract"
 # means that ASC core itself doesn't provide any actual implementation for this
@@ -10,14 +10,14 @@
 #
 # To list all the possible paths that can be used - among which existing files
 # will be sourced when the hook is triggered, use :
-# $ make hook-debug s:instance a:start v:PROVISION_USING HOST_TYPE INSTANCE_TYPE
+# $ make hook-debug s:instance a:build v:PROVISION_USING HOST_TYPE INSTANCE_TYPE
 #
 # @example
-#   make start
+#   make build
 #   # Or :
-#   asc/instance/start.sh
+#   asc/instance/build.sh
 #
 
 . asc/bootstrap.sh
 
-hook -s 'instance' -a 'start' -v 'PROVISION_USING HOST_TYPE INSTANCE_TYPE'
+hook -s 'instance' -a 'build' -v 'PROVISION_USING HOST_TYPE INSTANCE_TYPE'

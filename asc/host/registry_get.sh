@@ -12,6 +12,8 @@
 # @see asc/extensions/file_registry
 #
 # @example
+#   make host-reg-get
+#   # Or :
 #   asc/host/registry_get.sh my_key
 #
 
