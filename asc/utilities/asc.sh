@@ -167,7 +167,9 @@ u_asc_extensions() {
     fi
   done
 
-  # Consider "$PROJECT_SCRIPTS/asc/extend" as an extension.
+  # Consider "$PROJECT_SCRIPTS/asc/extend" as an extension. This allows to
+  # provide any implementation like "normal" ASC extensions, but dedicated to
+  # current project-specific operations (non-reusable).
   custom_extend_path="scripts/asc/extend"
   if [[ -n "$PROJECT_SCRIPTS" ]]; then
     custom_extend_path="$PROJECT_SCRIPTS/asc/extend"
