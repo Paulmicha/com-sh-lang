@@ -9,6 +9,8 @@
 # @see Makefile
 #
 # @example
+#   make globals-lp
+#   # Or :
 #   asc/env/global_lookup_paths.make.sh
 #
 
