@@ -42,11 +42,13 @@
 #   have the same role as the 'subjects' ones described in 1 but must be placed
 #   inside relevant subject's folder.
 #
-# 3. ASC_EXTENSIONS contains a list of folders using the same structure as
-#   the 'asc' folder. The primitive mecanisms explained in 1 & 2 above apply
-#   to each one of these extensions.
+# 3. ASC_EXTENSIONS contains a list of all active extensions' folder names. Each
+#   one uses the same structure as the 'asc' folder. The primitive mecanisms
+#   explained in 1 & 2 above apply to each one of these extensions.
 #   Important notes : extensions' folder names can only contain the following
 #   characters : A-Z a-z 0-9 dots . underscores _ dashes -
+#   Exception : the name 'extend' is reserved for project-specific
+#   implementations.
 #
 # 4. The 'ASC_INC' values are a simple list of files to be sourced in
 #   asc/bootstrap.sh scope directly. They are meant to contain bash functions
@@ -170,16 +172,32 @@ u_asc_extensions() {
   # project-specific operations (non-reusable).
   custom_extend_path="scripts/asc/extend"
   if [[ -d "$custom_extend_path" ]]; then
-
-    # TODO [wip] Workaround by using reserved keyword ? -> adapt everywhere ?
     ASC_EXTENSIONS+="extend "
-
     u_asc_extend "$custom_extend_path"
-    inc="$custom_extend_path/custom.inc.sh"
+    inc="$custom_extend_path/extend.inc.sh"
     if [[ -f "$inc" ]]; then
       ASC_INC+="$inc "
     fi
   fi
+}
+
+##
+# Get extension path by name.
+#
+# @requires local var $ext_path in calling scope.
+# This function modifies an existing variable for performance reasons (in order
+# to avoid using a subshell).
+#
+# @example
+#   ext_path=''
+#   u_asc_extension_path 'extend'
+#   echo "$ext_path" # Yields 'scripts/asc'
+#
+u_asc_extension_path() {
+  ext_path='asc/extensions'
+  case "$1" in 'extend')
+    ext_path='scripts/asc'
+  esac
 }
 
 ##
@@ -425,6 +443,7 @@ u_asc_get_actions() {
   local bp
   local extension
   local uppercase
+  local ext_path
 
   asc_action_names=()
   asc_action_scripts=()
@@ -435,7 +454,9 @@ u_asc_get_actions() {
     u_str_uppercase "$uppercase"
     eval "subjects+=\" \$${uppercase}_SUBJECTS\""
     eval "actions+=\" \$${uppercase}_ACTIONS\""
-    base_paths+=("asc/extensions/$extension")
+    ext_path=''
+    u_asc_extension_path "$extension"
+    base_paths+=("$ext_path/$extension")
   done
 
   for s in $subjects; do
