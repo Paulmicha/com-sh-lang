@@ -2,73 +2,41 @@
 ##
 # ASC main Makefile.
 #
-# This is meant to be a "hub" including other *.mk files. It also attempts to
-# load all the globals aggregated during instance init.
-# @see asc/env/current/README.md
+# By default, ASC will attempt to load the following includes if they exist, and
+# silently fail if they don't.
 #
-# It provides the following tasks out of the box for all project instances :
-# - [default] 'init': the 1st common step necessary to actually make ASC & its
-#   extensions useful;
-# - 'hook', a convenience wrapper to ASC hook() calls;
-# - 'hook-debug', the same except it will just print out the lookup paths.
-#   Useful for looking up positive matches to then provide overrides and/or
-#   complements;
-# - 'globals-lp', to show every globals lookup paths checked for aggregation
-#   during instance init for current project instance.
+# For convenience, make is used to produce shortcuts for operations and all
+# arguments are automatically appended to commands using the following syntax.
+# See https://stackoverflow.com/a/6273809/1826109 for details about this
+# technique.
+# @ path/to/my-script.sh $(filter-out $@,$(MAKECMDGOALS))
 #
-# @example
-#   # Initialize current project instance = trigger "instance init" :
-#   make
-#   make init # <- Alternative call (the 'init' task is the default).
-#
-#   # Print lookup paths used for globals aggregation during instance init.
-#   make globals-lp
-#
-#   # Print lookup paths for the ASC hook call :
-#   # hook -s 'instance' -a 'stop' -v 'PROVISION_USING HOST_TYPE'
-#   make hook-debug s:instance a:stop v:PROVISION_USING HOST_TYPE
-#
-#   # Print result of the "most specific" hook call variant :
-#   make hook-debug ms s:instance a:stop v:PROVISION_USING HOST_TYPE
-#
-#   # Trigger "instance start" manually :
-#   make hook s:instance a:start
-#
-#   # Print lookup paths for "instance start" using PROVISION_USING variant :
-#   make hook-debug s:instance a:start v:PROVISION_USING
-#   # Same but using more variants :
-#   make hook-debug s:instance a:start v:PROVISION_USING HOST_TYPE INSTANCE_TYPE
-#
-#   # Trigger "test self_test" manually :
-#   make self-test
+# Default ASC tasks are defined separately :
+# @see asc/default.mk
 #
 
+# The default task will be "instance init", shortened to just "init".
+# @see asc/default.mk
 .DEFAULT_GOAL := init
 
+# This '.env' file is generated during instance init.
 -include .env
--include asc/env/current/default.mk
+
+# Since the path to this project instance's scripts can be altered using a
+# global, and since its value is only available after instance init has run, we
+# attempt to include the default location if that global is not available yet.
+ifndef PROJECT_SCRIPTS
+-include scripts/asc/extend/custom.mk
+else
+-include $(PROJECT_SCRIPTS)/asc/extend/custom.mk
+endif
+
+ifdef ASC_MAKE_INC
 -include $(ASC_MAKE_INC)
+endif
 
-.PHONY: default init init-debug hook hook-debug globals-lp self-test
-default: init
-
-init:
-	@ asc/instance/init.make.sh $(filter-out $@,$(MAKECMDGOALS))
-
-init-debug:
-	@ asc/instance/init.make.sh -d -r $(filter-out $@,$(MAKECMDGOALS))
-
-hook:
-	@ asc/instance/hook.make.sh $(filter-out $@,$(MAKECMDGOALS))
-
-hook-debug:
-	@ asc/instance/hook.make.sh -d -t $(filter-out $@,$(MAKECMDGOALS))
-
-globals-lp:
-	@ asc/env/global_lookup_paths.make.sh
-
-self-test:
-	@ asc/test/self_test.sh
+# Default ASC tasks.
+-include asc/default.mk
 
 # Automatically append arguments to tasks calls.
 # @see https://stackoverflow.com/a/6273809/1826109

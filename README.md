@@ -10,9 +10,9 @@ make
 
 ## WHAT
 
-ASC is a scaffolding bash shell CLI for usual web project tasks. It's a customizable and extensible toolbox for local (internal) development tasks.
+ASC is a scaffolding bash shell CLI to usual web project tasks. It's a generic, customizable and extensible toolbox for local (internal) development tasks.
 
-ASC is not a program; it's a generic, customizable "glue" between programs. Third-party tools integration is provided by extensions which could have their own respective Git repositories. ASC includes by default (for now) a predefined list of extensions - like in the [DrupalVM](https://www.drupalvm.com/) project.
+ASC is not a program; it's the "glue" between programs. Third-party tools integration is provided by extensions which could have their own respective Git repositories. ASC includes by default (for now) a predefined list of extensions - like in the [DrupalVM](https://www.drupalvm.com/) project.
 
 ASC "core" - this repo - contains common utilities related to managing global environment variables, some minimal local and remote host operations, optional git hooks intergration, and project instance self-tests.
 
@@ -77,37 +77,38 @@ These steps are mere indications : in real life, you probably want to "wrap" the
 ## File structure
 
 ```txt
-/path/to/project.instance/  ← Project root dir ($PROJECT_DOCROOT)
-  ├── asc/                  ← ASC "core" source files. Update = delete + replace entire folder
-  │   ├── app/              ← App-level tasks (e.g. watch, compile, deploy, etc.)
-  │   ├── env/              ← Default generic global env. vars
-  │   ├── extensions/       ← Bundled generic ASC extensions (opt-in : see .asc_extensions_ignore)
-  │   ├── git/              ← Integration of Git hooks with ASC hooks + Git-related utilities
-  │   │   └── samples/      ← [doc] Examples of git hooks implementations
-  │   ├── host/             ← Host-level metadata / crontab / network utils + "abstract" provision action
-  │   ├── instance/         ← Actions related to the entire project instance (init, destroy, start, stop)
-  │   ├── test/             ← Self-test entry point / automated tests actions
-  │   │   └── asc/          ← ASC 'core' internal tests (uses shunit2 - see 'vendor' dir)
-  │   ├── utilities/        ← ASC internal functions (hides complexity)
-  │   └── vendor/           ← Bundled third-party dependencies (only shunit2 by default)
-  ├── scripts/              ← [configurable] default path to current project's scripts ($PROJECT_SCRIPTS)
-  │   └── asc/              ← [configurable] ASC-related alterations and/or extensions
-  │       ├── extend/       ← [optional] Custom, project-specific ASC extension
-  │       ├── local/        ← [git-ignored] Generated files specific to this instance ($INSTANCE_LOCAL_FILES)
-  │       └── override/     ← [optional] Allows to replace virtually any bash file used by ASC
-  ├── web/                  ← [optional+configurable] Application dir ($APP_DOCROOT or $APP_GIT_WORK_TREE*)
-  │   └── dist/             ← [optional+configurable] Publicly accessible application dir ($APP_DOCROOT*)
-  └── .gitignore            ← Replace with your own and/or edit
+/path/to/my-project/    ← Project root dir ($PROJECT_DOCROOT)
+  ├── asc/              ← ASC "core" source files. Update = delete + replace entire folder
+  │   ├── app/          ← App-level tasks (e.g. watch, compile, lint, etc.)
+  │   ├── env/          ← Default generic global env. vars
+  │   ├── extensions/   ← Bundled generic ASC extensions (opt-in : see .asc_extensions_ignore)
+  │   ├── git/          ← Integration of Git hooks with ASC hooks + Git-related utilities
+  │   │   └── samples/  ← [doc] Examples of git hooks implementations
+  │   ├── host/         ← Host-level metadata / crontab / network utils + "abstract" provision action
+  │   ├── instance/     ← Actions related to the entire project instance (init, destroy, start, stop)
+  │   ├── test/         ← Self-test entry point / automated tests actions
+  │   │   └── asc/      ← ASC 'core' internal tests (uses shunit2 - see 'vendor' dir)
+  │   ├── utilities/    ← ASC internal functions (hides complexity)
+  │   └── vendor/       ← Bundled third-party dependencies (only shunit2 by default)
+  ├── scripts/          ← [configurable] default path to current project's scripts ($PROJECT_SCRIPTS)
+  │   └── asc/          ← ASC-related project-specific alterations and/or extension
+  │       ├── extend/   ← [optional] Custom, project-specific ASC extension
+  │       ├── local/    ← [configurable] Generated files specific to this instance ($INSTANCE_LOCAL_FILES)
+  │       └── override/ ← [optional] Allows to replace virtually any bash file used by ASC
+  ├── web/              ← [optional+configurable] Application dir ($APP_DOCROOT or $APP_GIT_WORK_TREE*)
+  │   └── dist/         ← [optional+configurable] Publicly accessible application dir ($APP_DOCROOT*)
+  └── .gitignore        ← Replace with your own and/or edit
 ```
 
 `*` : if using the multi-repo pattern, which is the default assumption.
 
-## Alter / Extend ASC
+## Adapt / Alter / Extend ASC
 
 Altering or extending ASC involves either :
 
 - creating bash shell scripts in the `scripts` dir (this path may be overridden using the `PROJECT_SCRIPTS` global)
-- creating your own extension(s) in `asc/extensions` (1 folder = 1 extension)
+- creating your own generic extension(s) in `asc/extensions` (1 folder = 1 extension)
+- provide your own operations, globals, or implement ASC hooks in `$PROJECT_SCRIPTS/asc/extend` (`scripts/asc/extend` by default)
 
 Here are the different ways to adapt ASC to current project needs :
 
@@ -151,7 +152,7 @@ make globals-lp
 asc/env/global_lookup_paths.make.sh
 ```
 
-ASC core provides the followig globals by default (see `asc/env/global.vars.sh`), which show the syntax to provide default values and optional help text that will be displayed when user input is prompted during *instance init* when the `-y` flag is not set (otherwise it won't prompt for anything and just use the default value) :
+ASC provides the followig globals by default (see `asc/env/global.vars.sh`). These exemplify the syntax to declare default values and optional help text that will be displayed when user input is prompted in terminal during *instance init* when the `-y` flag is not set (otherwise it won't prompt for anything and just use the default value) :
 
 ```sh
 global PROJECT_DOCROOT "[default]='$PWD' [help]='Absolute path to project instance. All scripts using ASC *must* be run from this dir. No trailing slash.'"
@@ -227,7 +228,7 @@ asc/test/self_test.sh         - shortcut*** $ make self-test
 ```
 
 - `*` : Shortening rules can be defined using the `ASC_MAKE_TASKS_SHORTER` global. Ex : `global ASC_MAKE_TASKS_SHORTER "[append]='something_too_long_for_make_shortcut/stlfms'"`
-- `**` : The `instance` is implicit by default. It is omitted in ASC core actions for this subject.
+- `**` : The `instance` is implicit and omitted for default ASC actions' `make` shortcuts.
 - `***` : Some exceptions are hardcoded in this repo's `./Makefile`. Others can be added using the `ASC_MAKE_INC` global. Ex : `global ASC_MAKE_INC "[append]='$PROJECT_SCRIPTS/asc/extend/make.mk'"`
 
 Additional rules for *subject / action* pairs :

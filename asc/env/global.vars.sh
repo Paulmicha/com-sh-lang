@@ -48,5 +48,5 @@ global INSTANCE_LOCAL_FILES "[default]='$PROJECT_SCRIPTS/asc/local' [help]='Path
 # @see u_instance_write_mk()
 # @see u_instance_task_name()
 # @see Makefile
-global ASC_MAKE_INC "[append]='$PROJECT_SCRIPTS/asc/extend/make.mk'"
+global ASC_MAKE_INC "[append]='$(u_asc_extensions_get_makefiles)'"
 global ASC_MAKE_TASKS_SHORTER "[append]='registry/reg lookup-path/lp'"
