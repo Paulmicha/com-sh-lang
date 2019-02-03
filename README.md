@@ -16,7 +16,18 @@ ASC is not a program; it's the "glue" between programs. Third-party tools integr
 
 ASC "core" - this repo - contains common utilities related to managing global environment variables, some minimal local and remote host operations, optional git hooks intergration, and project instance self-tests.
 
-ASC is *not* meant to be used in production. It was designed to assist the production of diverse projects for individual developers or teams.
+ASC is *not* meant to be used in production. It was designed to assist the making of diverse projects for individual developers or teams.
+
+Here's the list of extensions included :
+
+| Path | Enabled by default ? | Description |
+|------|----------------------|-------------|
+| asc/extensions/db |  | Abstract hooks and entry points for database-related tasks. See the 'mysql' extension for an implementation example. |
+| asc/extensions/docker-compose |  | Implements instance start, stop, build, and destroy actions. Can be used in different ways : see `DC_MODE` help text (`asc/extensions/docker-compose/global.vars.sh`). |
+| asc/extensions/docker4drupal |  | Uses the `docker-compose` and provides Drupal-related tasks. |
+| asc/extensions/file_registry | ✔ | Default storage for ASC "registry" (minimal key/value store by scope - instance and host). |
+| asc/extensions/mysql |  | Implementations of the abstractions provided by the `db` extension. |
+| asc/extensions/remote |  | Utilities to synchronize local instance with remote instance(s). Uses SSH keys loaded in current terminal session. |
 
 ## PURPOSE
 
@@ -198,7 +209,7 @@ ASC provides generic actions most projects usually need. Some preset commands de
 
 Exceptions : folders beginning with a dot (e.g. `.git`), and files using double extensions (e.g. `my_file.inc.sh`) or beginning with a dot (e.g. `.asc_actions_ignore`).
 
-ASC will look in `./asc` to determine default ASC actions, then it will do the samefor every folders in `asc/extensions` and `scripts/asc/extend`. For detailed explanations and examples, see `u_asc_extend()` in `asc/utilities/asc.sh`.
+ASC will look in `./asc` to determine default ASC actions, then it will do the same for every folders in `asc/extensions` and `scripts/asc/extend`. For detailed explanations and examples, see `u_asc_extend()` in `asc/utilities/asc.sh`.
 
 To print the list of available actions in current project instance, you can use the following convenience command :
 
