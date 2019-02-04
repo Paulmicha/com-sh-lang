@@ -18,16 +18,16 @@ ASC "core" - this repo - contains common utilities related to managing global en
 
 ASC is *not* meant to be used in production. It was designed to assist the making of diverse projects for individual developers or teams.
 
-Here's the list of extensions included :
+Here's the list of extensions included (in folder `asc/extensions`) :
 
-| Path | Enabled by default ? | Description |
-|------|----------------------|-------------|
-| asc/extensions/db |  | Abstract hooks and entry points for database-related tasks. See the 'mysql' extension for an implementation example. |
-| asc/extensions/docker-compose |  | Implements instance start, stop, build, and destroy actions. Can be used in different ways : see `DC_MODE` help text (`asc/extensions/docker-compose/global.vars.sh`). |
-| asc/extensions/docker4drupal |  | Uses the `docker-compose` and provides Drupal-related tasks. |
-| asc/extensions/file_registry | ✔ | Default storage for ASC "registry" (minimal key/value store by scope - instance and host). |
-| asc/extensions/mysql |  | Implementations of the abstractions provided by the `db` extension. |
-| asc/extensions/remote |  | Utilities to synchronize local instance with remote instance(s). Uses SSH keys loaded in current terminal session. |
+| Name | Enabled by default ? | Description |
+|------|:--------------------:|-------------|
+| `db` |  | Abstract hooks and entry points for database-related tasks. See the 'mysql' extension for an implementation example. |
+| `docker-compose` |  | Implements instance start, stop, build, and destroy actions. Can be used in different ways : see `DC_MODE` help text (`asc/extensions/docker-compose/global.vars.sh`). |
+| `docker4drupal` |  | Uses the `docker-compose` and provides Drupal-related tasks. |
+| `file_registry` | ✔ | Default storage for ASC "registry" (minimal key/value store by scope - instance and host). |
+| `mysql` |  | Provides mysql implementations of the abstractions provided by the `db` extension such as database creation, dumps import/export, etc. |
+| `remote` |  | Utilities to synchronize local instance with remote instance(s). Uses SSH keys loaded in current terminal session. |
 
 ## PURPOSE
 
