@@ -11,6 +11,6 @@
 # @see asc/bootstrap.sh
 #
 
-global ASC_DB_MODE "[default]=none [help]='Specifies if ASC should handle DB credentials, and how. Possible values are none = credentials are handled externally, auto = local instance DB credentials are automatically generated (using random password), or manual = requests values once (using interactive terminal prompts).'"
+global ASC_DB_MODE "[default]=none [help]='Specifies if ASC should handle DB credentials, and how. Possible values are none = credentials are already available i.e. as local env vars, auto = local instance DB credentials are automatically generated (using random password), or manual = requests values once (using interactive terminal prompts).'"
 
-global ASC_DB_DUMPS_BASE_PATH "[default]=$PROJECT_DOCROOT/dumps"
+global ASC_DB_DUMPS_BASE_PATH "[default]=$PROJECT_DOCROOT/data/db-dumps"
