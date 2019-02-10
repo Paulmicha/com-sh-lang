@@ -7,7 +7,7 @@
 # @see asc/instance/fs_perms_set.hook.sh
 #
 # @example
-#   make fix_perms
+#   make fix-perms
 #   # Or :
 #   asc/instance/fix_perms.sh
 #
