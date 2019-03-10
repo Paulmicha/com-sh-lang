@@ -19,6 +19,11 @@
 #   asc/test/asc/global.test.sh
 #
 
+# We cannot have 'readonly' variables automatically loaded during ASC bootstrap
+# for this test to run properly.
+# @see asc/bootstrap.sh
+ASC_BS_SKIP_GLOBALS=1
+
 . asc/bootstrap.sh
 . asc/test/self_test.inc.sh
 
@@ -90,7 +95,6 @@ test_asc_global_aggregate() {
   local global_lookup_paths=''
   local p_ascii_dry_run=1
   local p_ascii_yes=1
-  local test_asc_global_aggregate=1
 
   unset GLOBALS
   declare -A GLOBALS
