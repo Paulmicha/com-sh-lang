@@ -214,7 +214,7 @@ ASC provides generic actions most projects usually need. Some preset commands de
 
 Exceptions : folders beginning with a dot (e.g. `.git`), and files using double extensions (e.g. `my_file.inc.sh`) or beginning with a dot (e.g. `.asc_actions_ignore`).
 
-ASC will look in `./asc` to determine default ASC actions, then it will do the same for every folders in `asc/extensions` and `scripts/asc/extend`. For detailed explanations and examples, see `u_asc_extend()` in `asc/utilities/asc.sh`.
+ASC will look in `./asc` to determine default ASC actions, then it will do the same for every *enabled* extension folder (in `asc/extensions`) and `scripts/asc/extend`. For detailed explanations and examples, see `u_asc_extend()` in `asc/utilities/asc.sh`.
 
 To print the list of available actions in current project instance, you can use the following convenience command :
 
@@ -224,33 +224,33 @@ make list-actions
 asc/instance/list_actions.make.sh
 ```
 
-ASC provides basic actions most projects usually need such as instance-specific settings setup and preset commands designed to trigger common tasks (compilation, git hooks, etc). By default, ASC generates the following *make* shortcuts correponding to these *subject / action* pairs - also called *entry points* - during *instance init* (this will differ when extensions are enabled, added and/or removed) :
+By default, ASC generates the following *make* shortcuts correponding to these *subject / action* pairs - also called *entry points* - during *instance init* (this will differ when extensions are enabled, added and/or removed) :
 
 | Name | Script | Shortcut |
 |------|--------|-----------------|
-| `app/compile` | `asc/app/compile.sh` | `make app-compile` |
-| `app/git` | `asc/app/git.sh` | `make app-git` |
-| `app/install` | `asc/app/install.sh` | `make app-install` |
-| `app/lint` | `asc/app/lint.sh` | `make app-lint` |
-| `app/watch` | `asc/app/watch.sh` | `make app-watch` |
-| `app/watch_stop` | `asc/app/watch_stop.sh` | `make app-watch-stop` |
-| `git/write_hooks` | `asc/git/write_hooks.sh` | `make git-write-hooks` |
-| `host/provision` | `asc/host/provision.sh` | `make host-provision` |
-| `host/registry_del` | `asc/host/registry_del.sh` | `make host-reg-del` * |
-| `host/registry_get` | `asc/host/registry_get.sh` | `make host-reg-get` * |
-| `host/registry_set` | `asc/host/registry_set.sh` | `make host-reg-set` * |
-| `instance/build` | `asc/instance/build.sh` | `make build` ** |
-| `instance/destroy` | `asc/instance/destroy.sh` | `make destroy` ** |
-| `instance/fix_ownership` | `asc/instance/fix_ownership.sh` | `make fix-ownership` ** |
-| `instance/fix_perms` | `asc/instance/fix_perms.sh` | `make fix-perms` ** |
-| `instance/init` | `asc/instance/init.sh` | `make init` (or just `make`) *** |
-| `instance/rebuild` | `asc/instance/rebuild.sh` | `make rebuild` ** |
-| `instance/registry_del` | `asc/instance/registry_del.sh` | `make reg-del` ** |
-| `instance/registry_get` | `asc/instance/registry_get.sh` | `make reg-get` ** |
-| `instance/registry_set` | `asc/instance/registry_set.sh` | `make reg-set` ** |
-| `instance/start` | `asc/instance/start.sh` | `make start` ** |
-| `instance/stop` | `asc/instance/stop.sh` | `make stop` ** |
-| `test/self_test` | `asc/test/self_test.sh` | `make self-test` *** |
+| *app compile* | `asc/app/compile.sh` | `make app-compile` |
+| *app git* | `asc/app/git.sh` | `make app-git` |
+| *app install* | `asc/app/install.sh` | `make app-install` |
+| *app lint* | `asc/app/lint.sh` | `make app-lint` |
+| *app watch* | `asc/app/watch.sh` | `make app-watch` |
+| *app watch-stop* | `asc/app/watch_stop.sh` | `make app-watch-stop` |
+| *git write-hooks* | `asc/git/write_hooks.sh` | `make git-write-hooks` |
+| *host provision* | `asc/host/provision.sh` | `make host-provision` |
+| *host registry-del* | `asc/host/registry_del.sh` | `make host-reg-del` * |
+| *host registry-get* | `asc/host/registry_get.sh` | `make host-reg-get` * |
+| *host registry-set* | `asc/host/registry_set.sh` | `make host-reg-set` * |
+| *instance build* | `asc/instance/build.sh` | `make build` ** |
+| *instance destroy* | `asc/instance/destroy.sh` | `make destroy` ** |
+| *instance fix-ownership* | `asc/instance/fix_ownership.sh` | `make fix-ownership` ** |
+| *instance fix-perms* | `asc/instance/fix_perms.sh` | `make fix-perms` ** |
+| *instance init* | `asc/instance/init.sh` | `make init` (or just `make`) *** |
+| *instance rebuild* | `asc/instance/rebuild.sh` | `make rebuild` ** |
+| *instance registry-del* | `asc/instance/registry_del.sh` | `make reg-del` ** |
+| *instance registry-get* | `asc/instance/registry_get.sh` | `make reg-get` ** |
+| *instance registry-set* | `asc/instance/registry_set.sh` | `make reg-set` ** |
+| *instance start* | `asc/instance/start.sh` | `make start` ** |
+| *instance stop* | `asc/instance/stop.sh` | `make stop` ** |
+| *test self-test* | `asc/test/self_test.sh` | `make self-test` *** |
 
 - `*` : Shortening rules can be defined using the `ASC_MAKE_TASKS_SHORTER` global. Ex : `global ASC_MAKE_TASKS_SHORTER "[append]='something_too_long_for_make_shortcut/stlfms'"`
 - `**` : The `instance` is implicit and omitted for default ASC actions' `make` shortcuts.
