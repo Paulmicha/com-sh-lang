@@ -226,31 +226,31 @@ asc/instance/list_actions.make.sh
 
 ASC provides basic actions most projects usually need such as instance-specific settings setup and preset commands designed to trigger common tasks (compilation, git hooks, etc). By default, ASC generates the following *make* shortcuts correponding to these *subject / action* pairs - also called *entry points* - during *instance init* (this will differ when extensions are enabled, added and/or removed) :
 
-```txt
-app/compile             (asc/app/compile.sh)            - shortcut    $ make app-compile
-app/git                 (asc/app/git.sh)                - shortcut    $ make app-git
-app/install             (asc/app/install.sh)            - shortcut    $ make app-install
-app/lint                (asc/app/lint.sh)               - shortcut    $ make app-lint
-app/watch               (asc/app/watch.sh)              - shortcut    $ make app-watch
-app/watch_stop          (asc/app/watch_stop.sh)         - shortcut    $ make app-watch-stop
-git/write_hooks         (asc/git/write_hooks.sh)        - shortcut    $ make git-write-hooks
-host/provision          (asc/host/provision.sh)         - shortcut    $ make host-provision
-host/registry_del       (asc/host/registry_del.sh)      - shortcut*   $ make host-reg-del
-host/registry_get       (asc/host/registry_get.sh)      - shortcut*   $ make host-reg-get
-host/registry_set       (asc/host/registry_set.sh)      - shortcut*   $ make host-reg-set
-instance/build          (asc/instance/build.sh)         - shortcut**  $ make build
-instance/destroy        (asc/instance/destroy.sh)       - shortcut**  $ make destroy
-instance/fix_ownership  (asc/instance/fix_ownership.sh) - shortcut**  $ make fix-ownership
-instance/fix_perms      (asc/instance/fix_perms.sh)     - shortcut**  $ make fix-perms
-instance/init           (asc/instance/init.sh)          - shortcut*** $ make init # (or just "make")
-instance/rebuild        (asc/instance/rebuild.sh)       - shortcut**  $ make rebuild
-instance/registry_del   (asc/instance/registry_del.sh)  - shortcut**  $ make reg-del
-instance/registry_get   (asc/instance/registry_get.sh)  - shortcut**  $ make reg-get
-instance/registry_set   (asc/instance/registry_set.sh)  - shortcut**  $ make reg-set
-instance/start          (asc/instance/start.sh)         - shortcut**  $ make start
-instance/stop           (asc/instance/stop.sh)          - shortcut**  $ make stop
-test/self_test          (asc/test/self_test.sh)         - shortcut*** $ make self-test
-```
+| Name | Script | Shortcut |
+|------|--------|-----------------|
+| `app/compile` | `asc/app/compile.sh` | `make app-compile` |
+| `app/git` | `asc/app/git.sh` | `make app-git` |
+| `app/install` | `asc/app/install.sh` | `make app-install` |
+| `app/lint` | `asc/app/lint.sh` | `make app-lint` |
+| `app/watch` | `asc/app/watch.sh` | `make app-watch` |
+| `app/watch_stop` | `asc/app/watch_stop.sh` | `make app-watch-stop` |
+| `git/write_hooks` | `asc/git/write_hooks.sh` | `make git-write-hooks` |
+| `host/provision` | `asc/host/provision.sh` | `make host-provision` |
+| `host/registry_del` | `asc/host/registry_del.sh` | `make host-reg-del` * |
+| `host/registry_get` | `asc/host/registry_get.sh` | `make host-reg-get` * |
+| `host/registry_set` | `asc/host/registry_set.sh` | `make host-reg-set` * |
+| `instance/build` | `asc/instance/build.sh` | `make build` ** |
+| `instance/destroy` | `asc/instance/destroy.sh` | `make destroy` ** |
+| `instance/fix_ownership` | `asc/instance/fix_ownership.sh` | `make fix-ownership` ** |
+| `instance/fix_perms` | `asc/instance/fix_perms.sh` | `make fix-perms` ** |
+| `instance/init` | `asc/instance/init.sh` | `make init` (or just `make`) *** |
+| `instance/rebuild` | `asc/instance/rebuild.sh` | `make rebuild` ** |
+| `instance/registry_del` | `asc/instance/registry_del.sh` | `make reg-del` ** |
+| `instance/registry_get` | `asc/instance/registry_get.sh` | `make reg-get` ** |
+| `instance/registry_set` | `asc/instance/registry_set.sh` | `make reg-set` ** |
+| `instance/start` | `asc/instance/start.sh` | `make start` ** |
+| `instance/stop` | `asc/instance/stop.sh` | `make stop` ** |
+| `test/self_test` | `asc/test/self_test.sh` | `make self-test` *** |
 
 - `*` : Shortening rules can be defined using the `ASC_MAKE_TASKS_SHORTER` global. Ex : `global ASC_MAKE_TASKS_SHORTER "[append]='something_too_long_for_make_shortcut/stlfms'"`
 - `**` : The `instance` is implicit and omitted for default ASC actions' `make` shortcuts.
@@ -369,7 +369,9 @@ echo "$hook_most_specific_dry_run_match" # <- Prints the most specific "docker-c
 
 ASC Extensions can provide additional actions and react to hooks. Any folder present in the `asc/extensions` dir is recognized as a ASC extension, as well as `scripts/asc/extend` which is meant for non-reusable, project-specific implementations.
 
-Extensions in `asc/extensions` can be enabled or disabled by overriding the file `asc/extensions/.asc_extensions_ignore` : copy/paste to `scripts/asc/override/.asc_extensions_ignore` and edit it (use 1 folder name per line to disable, or delete the line to enable). Also, if `scripts/asc/override/.${PROVISION_USING}.asc_extensions_ignore` or `scripts/asc/override/.${INSTANCE_DOMAIN}.asc_extensions_ignore` exist, they will take precendence (in this order). This allows to have different extensions enabled across different instances of the project.
+Extensions in `asc/extensions` can be enabled or disabled by overriding the file `asc/extensions/.asc_extensions_ignore` : copy/paste to `scripts/asc/override/.asc_extensions_ignore` and edit it (use 1 folder name per line to disable, or delete the line to enable). Leaving that file empty thus means "enable all extensions".
+
+Also, if `scripts/asc/override/.${PROVISION_USING}.asc_extensions_ignore` or `scripts/asc/override/.${INSTANCE_DOMAIN}.asc_extensions_ignore` exist, they will take precendence (in this order). This allows to have different extensions enabled across different instances of the project.
 
 Additional rules :
 
@@ -389,7 +391,7 @@ Example : if we want to override `asc/git/init.hook.sh` - effectively bypassing 
 scripts/asc/override/git/init.hook.sh
 ```
 
-The matching is done by by replacing the leading `asc/` in filepaths with `scripts/asc/override/`. It works for extensions too. Here's an example using an include instead of a hook implementation :
+The matching is done by replacing the leading `asc/` in filepaths with `scripts/asc/override/`. It works for extensions too. Here's an example using an include instead of a hook implementation :
 
 ```txt
 asc/extensions/docker-compose/docker-compose.inc.sh
@@ -398,6 +400,15 @@ asc/extensions/docker-compose/docker-compose.inc.sh
 
 For convenience, `asc/extensions/.asc_extensions_ignore` can be overridden using `scripts/asc/override/.asc_extensions_ignore` (instead of `scripts/asc/override/extensions/.asc_extensions_ignore`).
 
+## Roadmap
+
+The following improvements or ideas crossed my mind. Who knows, maybe one day I'll give it a go :
+
+- Use YAML or JSON files instead of the current `global` utility, i.e. with [yq](https://github.com/mikefarah/yq) or [jq](https://github.com/stedolan/jq) bundled in `vendor`
+- Generally, look for ways to offload more tasks to third-party projects
+- Remove bashisms / make POSIX-compliant for extending compatibility
+- So bash was fun. Use Python - or Rust / C / [Wasm+Wasi](https://twitter.com/solomonstre/status/1111004913222324225) instead
+
 ## License
 
-The MIT license.
+The MIT license (see [LICENSE](LICENSE)).
