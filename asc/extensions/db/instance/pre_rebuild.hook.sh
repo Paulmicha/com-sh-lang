@@ -7,6 +7,7 @@
 # during this action - e.g. docker-compose.
 #
 # @see asc/instance/rebuild.sh
+# @see asc/extensions/docker-compose/instance/rebuild.docker-compose.hook.sh
 #
 
 u_db_get_credentials
