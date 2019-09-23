@@ -17,7 +17,7 @@ global ASC_DB_MODE "[default]=auto [help]='Specifies if ASC should handle DB cre
 
 global ASC_DB_DUMPS_BASE_PATH "[default]=$PROJECT_DOCROOT/data/db-dumps [help]='This folder will contain DB dump files from local instance, but it also may contain dumps from remote instances (used during sync operations, see remote extension). In this folder, it is recommended to follow a directory structure by instance and database ID - ex: ’data/db-dumps/local/default’, which is the convention used for automatic routine backup dump file paths. See u_db_routine_backup().'"
 
-global ASC_DB_INITIAL_IMPORT "[default]=true [help]='Set to true to import the first dump file whose name matches « initial.* » found in ASC_DB_DUMPS_BASE_PATH (i.e. $ASC_DB_DUMPS_BASE_PATH) during app install / instance setup. See u_instance_init() and asc/instance/setup.sh'"
+global ASC_DB_INITIAL_IMPORT "[default]=true [help]='Set to true to import the first dump file whose name matches « initial.* » found in ASC_DB_DUMPS_BASE_PATH (i.e. $ASC_DB_DUMPS_BASE_PATH) during app install / instance setup. See asc/app/install.sh and asc/instance/setup.sh'"
 
 # Workaround minor issue when listing all paths for driver-specific hooks, e.g.
 # $ make hook-debug s:db a:exists v:DB_DRIVER HOST_TYPE INSTANCE_TYPE
