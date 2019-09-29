@@ -85,7 +85,7 @@ u_apache_write_vhost_conf() {
     # -> For projects using multiple databases, the distinction is made using
     # the following convention : prefix var names using $DB_ID, e.g. :
     # in the settings template, use {{ DEFAULT_DB_USER }}.
-    local db_vars='DB_NAME DB_USER DB_PASS DB_HOST DB_PORT'
+    local db_vars='DB_DRIVER DB_HOST DB_PORT DB_NAME DB_USER DB_PASS'
     local db_vars_backup="$db_vars"
     local asc_db_id=""
     for asc_db_id in $ASC_DB_IDS; do

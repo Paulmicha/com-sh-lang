@@ -16,6 +16,7 @@ if [[ $ASC_BS_FLAG -ne 1 ]]; then
   ASC_BS_FLAG=1
 
   # Include ASC core utilities.
+  . asc/utilities/shell.sh
   . asc/utilities/asc.sh
   . asc/utilities/global.sh
   . asc/utilities/hook.sh
