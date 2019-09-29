@@ -100,18 +100,12 @@ Finally, example code snippets and detailed explanations are provided in ASC sou
 
 ### Getting started examples
 
-By default, the *instance setup* action will use the following values (overridable using parameters in the order shown below) :
+By default, the *instance setup* action will use the following values, overridable using parameters in the order shown below. Like all ASC actions, the arguments to the corresponding script are extensively described directly in code comments - reproduced here for clarity (see "docblock" in `asc/instance/setup.sh`) :
 
-- `instance_type='dev'`
-- `host_type='local'`
-- `provision_using='docker-compose'`
-
-The arguments to the script are indicated directly in `asc/instance/setup.sh` code comments - reproduced here for clarity ("docblock" extract) :
-
-- param 1 [optional] String : instance type (INSTANCE_TYPE global value). Defaults to `dev`.
-- param 2 [optional] String : HOST_TYPE global value (flags instance as remote). Defaults to `local`.
-- param 3 [optional] String : INSTANCE_DOMAIN global value. Defaults to a fictional local domain generated using PROJECT_DOCROOT's folder name. @see `u_instance_domain()` in `asc/instance/instance.inc.sh`
-- param 4 [optional] String : PROVISION_USING global value. Defaults to `docker-compose`.
+- param 1 [optional] String : instance type (`INSTANCE_TYPE` global value). Defaults to `dev`.
+- param 2 [optional] String : `HOST_TYPE` global value (flags instance as remote). Defaults to `local`.
+- param 3 [optional] String : `INSTANCE_DOMAIN` global value. Defaults to a fictional local domain generated using PROJECT_DOCROOT's folder name. @see `u_instance_domain()` in `asc/instance/instance.inc.sh`
+- param 4 [optional] String : `PROVISION_USING` global value. Defaults to `docker-compose`.
 
 Here are a few common setup examples (to run AFTER having copied/pasted `sample.asc.yml` to `.asc.yml` & edited it accordingly) :
 
