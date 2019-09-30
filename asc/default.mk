@@ -49,6 +49,9 @@ init:
 init-debug:
 	@ asc/instance/init.make.sh -d -r $(filter-out $@,$(MAKECMDGOALS))
 
+setup:
+	@ asc/instance/setup.sh $(filter-out $@,$(MAKECMDGOALS))
+
 hook:
 	@ asc/instance/hook.make.sh $(filter-out $@,$(MAKECMDGOALS))
 

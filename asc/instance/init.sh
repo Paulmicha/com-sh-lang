@@ -11,15 +11,15 @@
 #   # Initializes an instance of type 'dev', host type 'local', provisionned
 #   # using 'ansible', identified by domain 'dev.asc.com', with git origin
 #   # 'git@my-git-origin.org:my-git-account/asc.git', app sources cloned in 'dist',
-#   # and using 'dist/web' as app dir - without terminal prompts (-y flag).
+#   # and using 'dist/web' as server docroot - without terminal prompts (-y flag).
 #   asc/instance/init.sh \
 #     -t 'dev' \
 #     -h 'local' \
 #     -p 'ansible' \
 #     -d 'dev.asc.com' \
 #     -g 'git@my-git-origin.org:my-git-account/asc.git' \
-#     -i 'dist' \
-#     -a 'dist/web' \
+#     -a 'dist' \
+#     -s 'dist/web' \
 #     -y
 #
 
