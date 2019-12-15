@@ -38,22 +38,25 @@ if [ -n "$ASC_EXTENSIONS" ]; then
 fi
 
 # 2. Files using variant in their name (i.e. 'global.docker-compose.vars.sh')
-hook -a 'global' -c "${PROVISION_USING}.vars.sh" -t -d
-if [ -n "$ASC_EXTENSIONS" ]; then
-  for extension in $ASC_EXTENSIONS; do
-    ext_path=''
-    u_asc_extension_path "$extension"
-    echo "$ext_path/$extension/global.${PROVISION_USING}.vars.sh "
-    if [ -f "$ext_path/$extension/global.${PROVISION_USING}.vars.sh" ]; then
-      echo "  exists"
-    fi
-  done
+if [[ -n "$PROVISION_USING" ]]; then
+  hook -a 'global' -c "${PROVISION_USING}.vars.sh" -t -d
+  if [ -n "$ASC_EXTENSIONS" ]; then
+    for extension in $ASC_EXTENSIONS; do
+      ext_path=''
+      u_asc_extension_path "$extension"
+      echo "$ext_path/$extension/global.${PROVISION_USING}.vars.sh "
+      if [ -f "$ext_path/$extension/global.${PROVISION_USING}.vars.sh" ]; then
+        echo "  exists"
+      fi
+    done
+  fi
 fi
 
 # 3. Using the .asc.yml method takes precedence.
-hook -s 'instance' -a '.asc' -c 'yml' -v 'HOST_TYPE INSTANCE_TYPE' -d -t
-
-echo ".asc.yml
+echo
+if [[ -n "$HOST_TYPE" ]] && [[ -n "$INSTANCE_TYPE" ]]; then
+  hook -s 'instance' -a '.asc' -c 'yml' -v 'HOST_TYPE INSTANCE_TYPE' -d -t
+  echo ".asc.yml
 .asc.$HOST_TYPE.yml
 .asc.$INSTANCE_TYPE.yml
 .asc.$HOST_TYPE.$INSTANCE_TYPE.yml
@@ -61,5 +64,9 @@ echo ".asc.yml
 .asc-local.$HOST_TYPE.yml
 .asc-local.$INSTANCE_TYPE.yml
 .asc-local.$HOST_TYPE.$INSTANCE_TYPE.yml"
+else
+  echo ".asc.yml
+.asc-local.yml"
+fi
 
 echo
