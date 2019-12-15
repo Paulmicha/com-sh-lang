@@ -3,14 +3,14 @@
 ##
 # Empties database + imports the last dump file.
 #
-# @param 1 [optional] String : $DB_NAME override.
+# @param 1 [optional] String : $DB_ID override.
 #
 # @example
 #   make db-restore-last
-#   make db-restore-last 'custom_db_name'
+#   make db-restore-last 'custom_db_id'
 #   # Or :
 #   asc/extensions/db/db/restore_last.sh
-#   asc/extensions/db/db/restore_last.sh 'custom_db_name'
+#   asc/extensions/db/db/restore_last.sh 'custom_db_id'
 #
 
 . asc/bootstrap.sh
