@@ -50,4 +50,16 @@ if [ -n "$ASC_EXTENSIONS" ]; then
   done
 fi
 
+# 3. Using the .asc.yml method takes precedence.
+hook -s 'instance' -a '.asc' -c 'yml' -v 'HOST_TYPE INSTANCE_TYPE' -d -t
+
+echo ".asc.yml
+.asc.$HOST_TYPE.yml
+.asc.$INSTANCE_TYPE.yml
+.asc.$HOST_TYPE.$INSTANCE_TYPE.yml
+.asc-local.yml
+.asc-local.$HOST_TYPE.yml
+.asc-local.$INSTANCE_TYPE.yml
+.asc-local.$HOST_TYPE.$INSTANCE_TYPE.yml"
+
 echo
