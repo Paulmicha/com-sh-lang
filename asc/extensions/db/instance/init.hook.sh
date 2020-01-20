@@ -7,10 +7,11 @@
 # crendentials initialization so that the values can be written once then
 # always read (cf. registry), if applicable.
 #
-# @see u_db_get_credentials() in asc/extensions/db/db.inc.sh
+# @see u_db_set() in asc/extensions/db/db.inc.sh
 # @see u_instance_init() in asc/instance/instance.inc.sh
 #
 
+# Multi-DB (manually set using the ASC_DB_IDS global) support.
 for ASC_DB_ID in $ASC_DB_IDS; do
-  u_db_get_credentials
+  u_db_set
 done

@@ -10,4 +10,4 @@
 # @see asc/extensions/docker-compose/instance/rebuild.docker-compose.hook.sh
 #
 
-u_db_get_credentials
+u_db_set

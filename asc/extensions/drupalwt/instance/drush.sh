@@ -10,7 +10,7 @@
 # @example
 #   make drush st
 #   # Or :
-#   asc/extensions/drupalwt/cli/drush.make.sh st
+#   asc/extensions/drupalwt/instance/drush.sh st
 #
 
 . asc/bootstrap.sh

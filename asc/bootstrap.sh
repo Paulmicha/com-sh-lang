@@ -24,6 +24,7 @@ if [[ $ASC_BS_FLAG -ne 1 ]]; then
   . asc/utilities/fs.sh
   . asc/utilities/array.sh
   . asc/utilities/string.sh
+  . asc/utilities/yaml.sh
 
   # If instance init was run at least once, automatically load locally generated
   # global env vars.

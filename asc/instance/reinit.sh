@@ -23,7 +23,7 @@ env -i \
   # @see scripts/asc/extend/remote/post_init.hook.sh
   ASC_SSH_PUBKEY="$ASC_SSH_PUBKEY" \
   # Also except ASC_DB_ID for the db extension.
-  # @see u_db_get_credentials() in asc/extensions/db/db.inc.sh
+  # @see u_db_set() in asc/extensions/db/db.inc.sh
   ASC_DB_ID="$ASC_DB_ID" \
   # Also except common shell env vars some programs use.
   HOME="$HOME" LC_CTYPE="${LC_ALL:-${LC_CTYPE:-$LANG}}" PATH="$PATH" USER="$USER" \

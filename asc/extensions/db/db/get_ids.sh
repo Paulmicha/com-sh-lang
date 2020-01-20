@@ -12,6 +12,6 @@
 #
 
 . asc/bootstrap.sh
-u_db_get_credentials $@
+u_db_set $@
 
 echo "ASC_DB_IDS = '$ASC_DB_IDS'"
