@@ -33,7 +33,7 @@ EOF
 # Create basic settings (server docroot folder name is 'web' by default, but
 # here we choose to use 'docroot' as in distributions like 'lightning' and
 # 'thunder').
-cat > '.asc.yml' <<EOF
+cat > 'asc.yml' <<EOF
 app:
   repo: git@my-git-host.com:TheGitUserAccount/the.project.repo.git
   docroot: app

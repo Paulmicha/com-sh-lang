@@ -56,7 +56,7 @@ By providing some abstractions to complement, combine, replace or add any operat
 
 ASC relies on **file structure**, **naming conventions**, and a few concepts :
 
-- **Globals** are the environment variables related to current project instance. They may be declared in `.asc.yml` or using the `global` function in files named `env.vars.sh` aggregated during initialization.
+- **Globals** are the environment variables related to current project instance. They may be declared in `asc.yml` or using the `global` function in files named `env.vars.sh` aggregated during initialization.
 - **Bootstrap** deals with the inclusion of all the relevant source files and loads global variables (e.g. host type, instance type, etc) and functions. Any script that includes the file `asc/bootstrap.sh` can use these. This depends on sourcing shell scripts using relative paths, which is made possible by the fact that *all* scripts (or `make` "shortcut" commands) must be run from the folder `$PROJECT_DOCROOT`.
 - **Instance init** is a preliminary step that will setup current project instance. Among other things, it will aggregate and write local values for globals, optionally write application git hooks (opt-in by using the corresponding GIT-related globals - see `asc/git/init.hook.sh`), and trigger some hooks in order to let extensions implement their own additional setup tasks. See `u_instance_init()` in `asc/instance/instance.inc.sh` for details and usage example.
 - **Actions** - also referred to as *entry points*, *operations*, *tasks*, or just *commands* - are scoped by subject, e.g. *instance init*, *app compile*, etc. ASC determines a list of available actions by looking up folders and shell scripts matching certain rules.
@@ -91,7 +91,7 @@ So the first step will always be to clone or download / copy / paste the files f
 
 1. Review the `.gitignore` file and adapt it to suit your needs.
 1. Override `asc/extensions/.asc_extensions_ignore` to enable and/or disable ASC extensions (i.e. copy/paste to `scripts/asc/override/.asc_extensions_ignore` and edit).
-1. Copy/paste `sample.asc.yml` to `.asc.yml` & edit for easier *instance (re)init* implementation. It is meant to contain settings that **do not vary** between the different types of instances (i.e. directory structure & app git remote).
+1. Copy/paste `sample.asc.yml` to `asc.yml` & edit for easier *instance (re)init* implementation. It is meant to contain settings that **do not vary** between the different types of instances (i.e. directory structure & app git remote).
 1. [optional] Implement your own alterations and/or extensions (see the *Adapt / Alter / Extend ASC* section below).
 1. Launch *instance setup* action (e.g. run `make setup`) - executes in this order the following actions :
     1. *instance init* - the first action to execute in any project instance in order to make ASC useful. It generates readonly global (env) vars, optional Git hooks implementations, convenience "make" shortcuts for all subjects & actions, and any (usually gitignored) dotfiles and/or local files specific to local instance
@@ -111,7 +111,7 @@ By default, the *instance setup* action will use the following values, overridab
 - param 3 [optional] String : `INSTANCE_DOMAIN` global value. Defaults to a fictional local domain generated using PROJECT_DOCROOT's folder name. @see `u_instance_domain()` in `asc/instance/instance.inc.sh`
 - param 4 [optional] String : `PROVISION_USING` global value. Defaults to `docker-compose`.
 
-Here are a few common setup examples (to run AFTER having copied/pasted `sample.asc.yml` to `.asc.yml` & edited it accordingly) :
+Here are a few common setup examples (to run AFTER having copied/pasted `sample.asc.yml` to `asc.yml` & edited it accordingly) :
 
 ```sh
 # Init instance using defaults.
@@ -159,7 +159,7 @@ make setup prod remote test.my-asc-project.com lamp
   │       └── override/ ← [optional] Allows to replace virtually any file sourced in ASC scripts
   ├── .gitignore        ← Don't forget to review and edit to suit project needs
   ├── Makefile          ← The "make" entry point that loads all (optional) makefile includes
-  └── sample.asc.yml    ← [optional] Copy/paste to ".asc.yml" (and/or ".asc-local.yml") & edit
+  └── sample.asc.yml    ← [optional] Copy/paste to "asc.yml" (and/or ".asc-local.yml") & edit
 ```
 
 ## Adapt / Alter / Extend ASC
@@ -181,7 +181,7 @@ Since every entry point sources `asc/bootstrap.sh` to load ASC functions and glo
 
 There are 2 ways to customize or add globals :
 
-1. by editing `.asc.yml` configuration files. Various names can be used to allow overrides between different project instances, and the YAML syntax is then transformed into globals declarations (and/or `u_instance_init()` arguments override). You can see an example file in this repo's docroot : `sample.asc.yml`, which you can rename to `.asc.yml` (or `.asc-local.yml`) to quickly get started.
+1. by editing `asc.yml` configuration files. Various names can be used to allow overrides between different project instances, and the YAML syntax is then transformed into globals declarations (and/or `u_instance_init()` arguments override). You can see an example file in this repo's docroot : `sample.asc.yml`, which you can rename to `asc.yml` (or `.asc-local.yml`) to quickly get started.
 1. by providing your own `global.vars.sh` file in current project instance's `scripts` folder. Any extension can provide its own - be it in the folder of the extension directly, or inside any of its subfolder (called *subjects*).
 
 The `.asc.yml` method is meant for simple declarations, while `global.vars.sh` allow things like deferred and/or conditional assignments, dynamic values, and plain bash scripting.
@@ -192,7 +192,7 @@ If all you need is a constant, the following syntax will not prompt for user inp
 global MY_CONSTANT_VALUE "the value"
 ```
 
-The same declaration using the `.asc.yml` method can be done in the following *strictly equivalent* ways :
+The same declaration using the `asc.yml` method can be done in the following *strictly equivalent* ways :
 
 ```yaml
 my:
@@ -237,11 +237,11 @@ make globals-lp
 asc/env/global_lookup_paths.make.sh
 ```
 
-Note that for convenience, if the above helper is run **after** *instance init*, more variants will appear for `.asc.yml` files). This allows more specific targeting of overrides.
+Note that for convenience, if the above helper is run **after** *instance init*, more variants will appear for `asc.yml` files). This allows more specific targeting of overrides.
 
-The declarations found in `.asc.yml` take precedence over `global.vars.sh` as they get loaded last during the aggregation process.
+The declarations found in `asc.yml` take precedence over `global.vars.sh` as they get loaded last during the aggregation process.
 
-Also, if you need local, "private" overrides that must NOT be checked out in any git repo, the following file can be used (+ variants, see convenience method above) :
+Also, if you need local, "private" overrides that must NOT be checked out in any git repo, the following file can be used (+ variants) :
 
 ```txt
 .asc-local.yml
@@ -305,12 +305,8 @@ By default, ASC generates the following *make* shortcuts correponding to these *
 
 | Name | Script | Shortcut |
 |------|--------|----------|
-| *app compile* | `asc/app/compile.sh` | `make app-compile` |
 | *app git* | `asc/app/git.sh` | `make app-git` |
 | *app install* | `asc/app/install.sh` | `make app-install` |
-| *app lint* | `asc/app/lint.sh` | `make app-lint` |
-| *app watch* | `asc/app/watch.sh` | `make app-watch` |
-| *app watch-stop* | `asc/app/watch_stop.sh` | `make app-watch-stop` |
 | *git write-hooks* | `asc/git/write_hooks.sh` | `make git-write-hooks` |
 | *host provision* | `asc/host/provision.sh` | `make host-provision` |
 | *host registry-del* | `asc/host/registry_del.sh` | `make host-reg-del` * |
@@ -330,6 +326,7 @@ By default, ASC generates the following *make* shortcuts correponding to these *
 | *instance setup* | `asc/instance/setup.sh` | `make setup` ** |
 | *instance start* | `asc/instance/start.sh` | `make start` ** |
 | *instance stop* | `asc/instance/stop.sh` | `make stop` ** |
+| *instance uninit* | `asc/instance/uninit.sh` | `make uninit` ** |
 | *instance upgrade-asc* | `asc/instance/upgrade_asc.sh` | `make upgrade-asc` ** |
 | *test self-test* | `asc/test/self_test.sh` | `make self-test` *** |
 
