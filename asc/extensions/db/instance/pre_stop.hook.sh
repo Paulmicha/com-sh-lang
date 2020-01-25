@@ -10,4 +10,4 @@
 # @see asc/extensions/docker-compose/instance/stop.docker-compose.hook.sh
 #
 
-u_db_set
+u_db_set_all

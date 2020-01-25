@@ -57,16 +57,17 @@ if [[ -n "$ASC_MAKE_INC" ]]; then
   exit 1
 fi
 
+# TODO [wip] check no longer required + remove.
 # Also, calling asc/instance/init.sh the way it is done below requires the YAML
 # file to be present in $PROJECT_DOCROOT.
-if [[ ! -f '.asc.yml' ]]; then
-  echo >&2
-  echo "Error in $BASH_SOURCE line $LINENO: the '.asc.yml' file is required." >&2
-  echo "Please copy/paste 'sample.asc.yml' to '.asc.yml' & edit accordingly, then retry." >&2
-  echo "-> Aborting (2)." >&2
-  echo >&2
-  exit 2
-fi
+# if [[ ! -f 'asc.yml' ]]; then
+#   echo >&2
+#   echo "Error in $BASH_SOURCE line $LINENO: the 'asc.yml' file is required." >&2
+#   echo "Please copy/paste 'sample.asc.yml' to 'asc.yml' & edit accordingly, then retry." >&2
+#   echo "-> Aborting (2)." >&2
+#   echo >&2
+#   exit 2
+# fi
 
 # Defaults (overridable using parameters to this script).
 instance_type='dev'
