@@ -23,12 +23,6 @@ INSTANCE_TYPE="$1"
 if [[ -f '.env' ]]; then
   while IFS= read -r line _; do
     case "$line" in
-      'INSTANCE_DOMAIN='*)
-        eval "$line"
-        ;;
-      'DC_NS='*)
-        eval "$line"
-        ;;
       'HOST_TYPE='*)
         eval "$line"
         ;;
@@ -38,18 +32,12 @@ if [[ -f '.env' ]]; then
       'ASC_SSH_PUBKEY='*)
         eval "$line"
         ;;
-      'ASC_DB_ID='*)
-        eval "$line"
-        ;;
     esac
   done < '.env'
 fi
 
 # Remove all previously initialized values.
 . asc/instance/uninit.sh
-
-# TODO [wip] rework globals to take Yaml files into consideration during
-# deferred values assignement. Simplifies reinit (remove "env -i") :
 
 # Wipe out env vars to avoid pile-ups for 'append' type globals during reinit.
 # See https://unix.stackexchange.com/a/49057
@@ -58,15 +46,12 @@ fi
 # Also except ASC_DB_ID for the db extension.
 # @see u_db_set() in asc/extensions/db/db.inc.sh
 # Also except common shell env vars some programs use.
-# env -i \
-#   ASC_SSH_PUBKEY="$ASC_SSH_PUBKEY" \
-#   ASC_DB_ID="$ASC_DB_ID" \
-#   HOME="$HOME" LC_CTYPE="${LC_ALL:-${LC_CTYPE:-$LANG}}" PATH="$PATH" USER="$USER" \
-
-. asc/instance/init.sh \
-  -t "$INSTANCE_TYPE" \
-  -d "$INSTANCE_DOMAIN" \
-  -c "$DC_NS" \
-  -h "$HOST_TYPE" \
-  -p "$PROVISION_USING" \
-  -y
+env -i \
+  ASC_SSH_PUBKEY="$ASC_SSH_PUBKEY" \
+  ASC_DB_ID="$ASC_DB_ID" \
+  HOME="$HOME" LC_CTYPE="${LC_ALL:-${LC_CTYPE:-$LANG}}" PATH="$PATH" USER="$USER" \
+  asc/instance/init.sh \
+    -t "$INSTANCE_TYPE" \
+    -h "$HOST_TYPE" \
+    -p "$PROVISION_USING" \
+    -y

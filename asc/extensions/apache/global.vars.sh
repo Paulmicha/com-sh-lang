@@ -11,4 +11,4 @@
 # @see asc/bootstrap.sh
 #
 
-global ASC_APACHE_INIT_VHOST "[default]=true [help]='Set to « true » to automatically generate a vhost definition for this instance during instance init.'"
+global ASC_APACHE_INIT_VHOST "[default]=false [help]='Set to « true » to automatically generate a vhost definition for this instance during instance init.'"
