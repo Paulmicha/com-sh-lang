@@ -14,4 +14,5 @@
 # @see asc/bootstrap.sh
 #
 
+# TODO [evol] support multi-db projects.
 global MYSQL_SNAME "[default]=mariadb"

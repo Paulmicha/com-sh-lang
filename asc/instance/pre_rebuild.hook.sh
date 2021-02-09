@@ -15,6 +15,7 @@
 # @see asc/instance/rebuild.sh
 #
 
+# TODO confirm and remove "env -i" if not needed.
 env -i \
   ASC_SSH_PUBKEY="$ASC_SSH_PUBKEY" \
   ASC_DB_ID="$ASC_DB_ID" \
