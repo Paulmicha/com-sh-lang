@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+##
+# ASC remote instance *setup* action.
+#
+# Starts by running the remote instance *init* action, then :
+#   - starts services (if any are implemented),
+#   - executes the app install action (if any operations are implemented).
+#
+# @param 1 String : remote instance ID.
+# @param ... all the memaining params are forwarded to asc/instance/init.sh (but
+#   the host type is preset to 'remote')
+#
+# @example
+#   # Sets up a new LAN instance of type 'prod' without interactive terminal
+#   # prompts, overriding the host type to 'local' (to avoid being assigned
+#   # the 'prod remote' INSTANCE_DOMAIN when we're using the local YAML settings
+#   # overrides - i.e. scripts/asc/override/.asc-local.remote.prod.yml):
+#   asc/extensions/remote/remote/setup.sh 'lan' -t 'prod' -h 'local'
+#
+
+asc/extensions/remote/remote/init.sh $@
+
+asc/extensions/remote/remote/exec.sh "$1" \
+  'asc/instance/start.sh && asc/app/install.sh'
