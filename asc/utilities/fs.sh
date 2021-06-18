@@ -396,9 +396,9 @@ u_fs_dir_list() {
 #
 #   # Looping example :
 #   u_fs_file_list 'scripts/asc/local/remote-instances'
-#   for file in $file_list; do
-#     rm "scripts/asc/local/remote-instances/$file"
-#   done
+#   while read -r file; do
+#     echo "$file"
+#   done <<< "$file_list"
 #
 u_fs_file_list() {
   local p_path="$1"
