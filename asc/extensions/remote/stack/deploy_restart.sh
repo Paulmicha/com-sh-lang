@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 
 ##
-# Deploy stack update to remote instance.
+# Deploy stack update to remote instance with restart of services.
 #
 # @example
 #   # Deploy target defaults to the 'prod' remote instance.
-#   make stack-deploy
+#   make stack-deploy-restart
 #   # Or :
 #   asc/extensions/remote/stack/deploy.sh
 #
 #   # Deploy to the 'dev' remote instance.
-#   make stack-deploy 'dev'
+#   make stack-deploy-restart 'dev'
 #   # Or :
-#   asc/extensions/remote/stack/deploy.sh 'dev'
+#   asc/extensions/remote/stack/deploy_restart.sh 'dev'
 #
 
 p_remote_id="$1"
@@ -22,4 +22,4 @@ if [[ -z "$p_remote_id" ]]; then
 fi
 
 asc/extensions/remote/remote/exec.sh "$p_remote_id" \
-  'git pull && asc/instance/reinit.sh'
+  'git pull && asc/instance/reinit.sh && asc/instance/restart.sh'
