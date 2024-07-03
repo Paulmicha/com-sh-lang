@@ -130,6 +130,22 @@ u_asc_extend() {
   if [[ "$p_namespace" == 'ASC' ]]; then
     export ASC_EXTENSIONS
     u_asc_extensions
+
+    # Update 2024-06 cache results.
+    # @see asc/bootstrap.sh
+    asc_primitives_cache_str+="
+ASC_INC='$ASC_INC'
+ASC_SUBJECTS='$ASC_SUBJECTS'
+ASC_ACTIONS='$ASC_ACTIONS'
+ASC_EXTENSIONS='$ASC_EXTENSIONS'
+"
+  else
+    local prefixed_subjects_var="${p_namespace}_SUBJECTS"
+    local prefixed_actions_var="${p_namespace}_ACTIONS"
+    asc_primitives_cache_str+="
+$prefixed_subjects_var='${!prefixed_subjects_var}'
+$prefixed_actions_var='${!prefixed_actions_var}'
+"
   fi
 }
 

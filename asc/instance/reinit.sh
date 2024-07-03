@@ -18,6 +18,11 @@
 #   asc/instance/reinit.sh
 #
 
+# Update 2024-06 cache results.
+if [[ -d scripts/asc/local/cache ]]; then
+  rm -rf scripts/asc/local/cache
+fi
+
 # Can't have read-only variables here, so we need to extract just the
 # variables we need.
 # TODO support all globals for reinits ? For ex. as in :
