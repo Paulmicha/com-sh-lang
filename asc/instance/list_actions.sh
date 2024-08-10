@@ -4,12 +4,12 @@
 # Convenience make task to list available actions in current project instance.
 #
 # @see Makefile
-# @see asc/default.mk
+# @see asc/make/default.mk
 #
 # @example
 #   make list-actions
 #   # Or :
-#   asc/instance/list_actions.make.sh
+#   asc/instance/list_actions.sh
 #
 
 . asc/bootstrap.sh

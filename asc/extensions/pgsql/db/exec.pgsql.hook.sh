@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 ##
-# Implements u_hook_most_specific -s 'db' -a 'import' -v 'DB_DRIVER HOST_TYPE INSTANCE_TYPE'
+# Implements u_hook_most_specific -s 'db' -a 'exec' -v 'DB_DRIVER HOST_TYPE INSTANCE_TYPE'
 #
 # This file is dynamically included when the "hook" is triggered.
-# @see u_db_import() in asc/extensions/db/db.inc.sh
+# @see u_db_exec() in asc/extensions/db/db.inc.sh
 #
 # The following variables are available here :
 #   - DB_ID - defaults to 'default'.
@@ -20,9 +20,9 @@
 # @see u_db_set() in asc/extensions/db/db.inc.sh
 #
 # @example
-#   make db-import
+#   make db-exec
 #   # Or :
-#   asc/extensions/db/db/import.sh
+#   asc/extensions/db/db/exec.sh
 #
 
 # Prereq check :
@@ -35,29 +35,29 @@ if [[ ! -f "$db_dump_file" ]]; then
   exit 1
 fi
 
-case "$DB_NAME" in
-  '*')
-    mysql --default_character_set="$SQL_CHARSET" \
-      --user="$DB_USER" \
-      --password="$DB_PASS" \
-      --host="$DB_HOST" \
-      --port="$DB_PORT" \
-      -B < "$db_dump_file"
-    ;;
-  *)
-    mysql --default_character_set="$SQL_CHARSET" \
-      --user="$DB_USER" \
-      --password="$DB_PASS" \
-      --host="$DB_HOST" \
-      --port="$DB_PORT" \
-      -B \
-      "$DB_NAME" < "$db_dump_file"
-    ;;
+# PostgreSQL utilities use the environment variables supported by libpq.
+# See https://www.postgresql.org/docs/current/libpq-envars.html
+PGPASSWORD="$DB_PASS"
+
+# TODO [wip] handle the case where the database is not specified.
+case "$DB_NAME" in '*')
+  echo >&2
+  echo "Error in $BASH_SOURCE line $LINENO: multi-DB imports or queries not targeting any particular database are not supported at this point." >&2
+  echo "-> Aborting (3)." >&2
+  echo >&2
+  exit 3
 esac
+
+psql \
+  -U "$DB_USER" \
+  -h "$DB_HOST" \
+  -p "$DB_PORT" \
+  -d "$DB_NAME" \
+  -f "$db_dump_file"
 
 if [[ $? -ne 0 ]]; then
   echo >&2
-  echo "Error in $BASH_SOURCE line $LINENO: unable to import dump file '$db_dump_file' into $DB_DRIVER DB '$DB_NAME'." >&2
+  echo "Error in $BASH_SOURCE line $LINENO: unable to exec the queries in file '$db_dump_file' into $DB_DRIVER DB '$DB_NAME'." >&2
   echo "-> Aborting (2)." >&2
   echo >&2
   exit 2

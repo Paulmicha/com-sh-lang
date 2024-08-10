@@ -280,7 +280,7 @@ u_asc_extension_path() {
 # @example
 #   primitive_values=''
 #   u_asc_primitive_values 'subjects'
-#   echo "$primitive_values" # Yields 'app git host instance remote test'
+#   echo "$primitive_values" # Yields 'app  cache  git  host  instance  make  test'
 #
 #   # Default path 'asc' can be modified by providing the 2nd argument :
 #   primitive_values=''
@@ -373,6 +373,7 @@ u_asc_primitive_values() {
       if [[ "$p_primitive" == 'actions' ]]; then
         v="${v%%.sh}"
         u_str_split1 'v_dots_arr' "$v" '.'
+
         if [[ ${#v_dots_arr[@]} -gt 1 ]]; then
           continue
         fi
@@ -558,9 +559,9 @@ u_asc_get_actions() {
 #   echo "$lookup_paths"
 #
 u_asc_extensions_get_makefiles() {
-  local mk_includes_lp
-  local asc_gm_ext
-  local ext_path
+  local mk_includes_lp=''
+  local asc_gm_ext=''
+  local ext_path=''
 
   for asc_gm_ext in $ASC_EXTENSIONS; do
     ext_path=''

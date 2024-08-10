@@ -6,9 +6,9 @@
 # Prints all databse ID(s) declared in this project instance.
 #
 # @example
-#   make db-get-ids
+#   make db-list-ids
 #   # Or :
-#   asc/extensions/db/db/get_ids.sh
+#   asc/extensions/db/db/list_ids.sh
 #
 
 . asc/bootstrap.sh
