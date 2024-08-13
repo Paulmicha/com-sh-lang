@@ -101,8 +101,8 @@ fi
 purge_list=()
 purge_list+=('.env')
 purge_list+=('scripts/asc/local/global.vars.sh')
-purge_list+=('scripts/asc/local/default.mk')
-purge_list+=('scripts/asc/local/make_args_check.sh')
+purge_list+=('scripts/asc/local/generated.mk')
+purge_list+=('scripts/asc/local/cache/make.sh')
 
 for entry in "${purge_list[@]}"; do
   if [[ -f "$entry" ]]; then

@@ -19,6 +19,8 @@
 #   asc/extensions/remote_asc/remote/setup.sh 'lan' -t 'prod' -h 'local'
 #
 
+u_remote_check_id "$1"
+
 asc/extensions/remote_asc/remote/init.sh $@
 
 if [[ $? -ne 0 ]]; then

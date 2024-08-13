@@ -2,6 +2,16 @@
 ##
 # Default ASC tasks.
 #
+# Uses a "call wrap" script as an entry point to any other ASC script.
+#
+# @see asc/make/call_wrap.make.sh
+#
+# It forwards escaped arguments to maintain the possibility to use values (in
+# single quotes) with space, $, ", etc.
+#
+# Like :
+# $ make drush ev '$test = "Hello Drupal php"; print $test;'
+#
 # By default, ASC provides the following tasks for all project instances :
 # - [default] 'init': the 1st common step necessary to actually make ASC & its
 #   extensions useful;
@@ -40,30 +50,34 @@
 #   make self-test
 #
 
-# .PHONY: init init-debug setup hook hook-debug globals-lp self-test debug
-.PHONY: init init-debug setup hook hook-debug globals-lp self-test
+.PHONY: init init-debug setup hook hook-debug globals-lp self-test debug
+# .PHONY: init init-debug reinit setup hook hook-debug globals-lp self-test debug
 
 init:
-	@ asc/make/default.hardcoded_check_args.make.sh $(MAKECMDGOALS) && instance/init.sh $(filter-out $@,$(MAKECMDGOALS))
+	@ asc/make/call_wrap.make.sh asc/instance/init.sh $(MAKECMDGOALS)
 
 init-debug:
-	@ asc/make/default.hardcoded_check_args.make.sh $(MAKECMDGOALS) && instance/init.sh -d -r $(filter-out $@,$(MAKECMDGOALS))
+	@ asc/make/call_wrap.make.sh asc/instance/init.sh -d -r $(MAKECMDGOALS)
 
-# Make this shortcut available before instance init.
+# TODO [evol] is this really overridden by scripts/asc/local/generated.mk ?
+# reinit:
+# 	@ asc/make/call_wrap.make.sh asc/instance/reinit.sh $(MAKECMDGOALS)
+
 setup:
-	@ asc/make/default.hardcoded_check_args.make.sh $(MAKECMDGOALS) && instance/setup.sh $(filter-out $@,$(MAKECMDGOALS))
+	@ asc/make/call_wrap.make.sh asc/instance/setup.sh $(MAKECMDGOALS)
 
 hook:
-	@ asc/make/default.hardcoded_check_args.make.sh $(MAKECMDGOALS) && instance/hook.make.sh $(filter-out $@,$(MAKECMDGOALS))
+	@ asc/make/call_wrap.make.sh asc/instance/hook.make.sh $(MAKECMDGOALS)
 
 hook-debug:
-	@ asc/make/default.hardcoded_check_args.make.sh $(MAKECMDGOALS) && instance/hook.make.sh -d -t $(filter-out $@,$(MAKECMDGOALS))
+	@ asc/make/call_wrap.make.sh asc/instance/hook.make.sh -d -t $(MAKECMDGOALS)
 
 globals-lp:
-	@ asc/make/default.hardcoded_check_args.make.sh $(MAKECMDGOALS) && env/global_lookup_paths.make.sh $(filter-out $@,$(MAKECMDGOALS))
+	@ asc/make/call_wrap.make.sh asc/env/global_lookup_paths.make.sh $(MAKECMDGOALS)
 
 self-test:
-	@ asc/make/default.hardcoded_check_args.make.sh $(MAKECMDGOALS) && test/self_test.sh $(filter-out $@,$(MAKECMDGOALS))
+	@ asc/make/call_wrap.make.sh asc/test/self_test.sh $(MAKECMDGOALS)
 
-# debug:
-# 	@ asc/make/default.hardcoded_check_args.make.sh $(MAKECMDGOALS) && scripts/asc/local/debug.sh $(filter-out $@,$(MAKECMDGOALS))
+debug:
+	@ echo "debug MAKECMDGOALS (unescaped, wrapped in single quotes) = '$(MAKECMDGOALS)'";
+	@ asc/make/call_wrap.make.sh asc/make/echo.make.sh $(MAKECMDGOALS)

@@ -86,6 +86,7 @@ done
 # ASC make shortcut scripts as well.
 file_list=''
 u_fs_file_list './asc' '*.make.sh' 32
+file_list+=' escape.sh'
 for f in $file_list; do
   chmod "$FS_E_FILES" "./asc/$f"
   check_chmod=$?

@@ -25,30 +25,12 @@
 #   asc/extensions/db/db/exec.sh
 #
 
-# PostgreSQL utilities use the environment variables supported by libpq.
-# See https://www.postgresql.org/docs/current/libpq-envars.html
-PGPASSWORD="$DB_PASS"
-
-# TODO [wip] handle the case where the database is not specified.
-case "$DB_NAME" in '*')
-  echo >&2
-  echo "Error in $BASH_SOURCE line $LINENO: multi-DB imports or queries not targeting any particular database are not supported at this point." >&2
-  echo "-> Aborting (3)." >&2
-  echo >&2
-  exit 3
-esac
-
-psql \
-  -U "$DB_USER" \
-  -h "$DB_HOST" \
-  -p "$DB_PORT" \
-  -d "$DB_NAME" \
-  -f "$db_dump_file"
+drush sql:query --file="$db_dump_file"
 
 if [[ $? -ne 0 ]]; then
   echo >&2
   echo "Error in $BASH_SOURCE line $LINENO: unable to exec the queries in file '$db_dump_file' into $DB_DRIVER DB '$DB_NAME'." >&2
-  echo "-> Aborting (2)." >&2
+  echo "-> Aborting (1)." >&2
   echo >&2
-  exit 2
+  exit 1
 fi
