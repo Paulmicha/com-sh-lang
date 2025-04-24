@@ -39,6 +39,8 @@ fi
 # Remove all previously initialized values.
 . asc/instance/uninit.sh
 
+# TODO [wip] refactoring : check what we really need to keep.
+# @see asc/instance/reinit.sh
 # Wipe out env vars to avoid pile-ups for 'append' type globals during reinit.
 # See https://unix.stackexchange.com/a/49057
 # Except individual public key path for ASC remote instances operations.
@@ -48,6 +50,7 @@ fi
 # Also except common shell env vars some programs use.
 env -i \
   ASC_SSH_PUBKEY="$ASC_SSH_PUBKEY" \
+  ASC_APPS="$ASC_APPS" \
   ASC_DB_ID="$ASC_DB_ID" \
   HOME="$HOME" LC_CTYPE="${LC_ALL:-${LC_CTYPE:-$LANG}}" PATH="$PATH" USER="$USER" \
   asc/instance/init.sh \

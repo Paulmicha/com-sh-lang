@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ##
-# Implements hook -s 'asc' -a 'alias' -v 'PROVISION_USING'.
+# Implements hook -s 'asc' -a 'alias' -v 'STACK_VERSION PROVISION_USING'.
 #
 # Declares default bash aliases for current project instance provisionned
 # manually (i.e. LAMP stack).

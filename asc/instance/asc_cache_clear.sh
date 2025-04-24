@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
 ##
-# Clears ASC cache.
+# Clears the local ASC cache.
 #
 # @see asc/bootstrap.sh
 # @see asc/utilities/asc.sh
 # @see asc/utilities/hook.sh
 #
 # @example
-#   make cache-clear
+#   make asc-cache-clear
 #   # Or :
-#   asc/cache/clear.sh
+#   asc/instance/asc_cache_clear.sh
 #
 
 if [[ -d scripts/asc/local/cache ]]; then

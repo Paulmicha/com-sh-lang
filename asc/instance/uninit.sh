@@ -6,7 +6,7 @@
 # The following hook is provided for letting extensions clean up their own
 # generated files and/or alter the purge_list :
 #
-# $ make hook-debug s:instance a:uninit v:PROVISION_USING HOST_TYPE INSTANCE_TYPE
+# $ make hook-debug s:instance a:uninit v:STACK_VERSION PROVISION_USING HOST_TYPE INSTANCE_TYPE
 #
 # These implementations may optionally alter entries to the following var in
 # calling scope :
@@ -23,13 +23,15 @@
 
 purge_list=()
 
-# Manual cleanup of ASC "core" global env vars.
+# Manual cleanup of ASC global env vars.
 purge_list+=('.env')
 purge_list+=('scripts/asc/local/global.vars.sh')
+
+# ASC make shortcuts too.
 purge_list+=('scripts/asc/local/generated.mk')
 
 # Let extensions clean up their own generated files and/or alter the purge_list.
-hook -s 'instance' -a 'uninit' -v 'PROVISION_USING HOST_TYPE INSTANCE_TYPE'
+hook -s 'instance' -a 'uninit' -v 'STACK_VERSION PROVISION_USING HOST_TYPE INSTANCE_TYPE'
 
 # Process the purge_list.
 for entry in "${purge_list[@]}"; do
@@ -62,4 +64,4 @@ for entry in "${purge_list[@]}"; do
 done
 
 # Clear all ASC cache entries.
-. asc/cache/clear.sh
+. asc/instance/asc_cache_clear.sh

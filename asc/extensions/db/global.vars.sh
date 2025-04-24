@@ -11,7 +11,8 @@
 # @see asc/bootstrap.sh
 #
 
-global ASC_DB_IDS "[default]=default [help]='Allows project instances to use several databases. By default, a single database ID is used : ’default’. These are used to differenciate DB settings and credentials and for automatic routine backup dump file paths - see u_db_routine_backup(). For declaring more database(s), use only space-separated strings, ex: ’default mig_buffer’.'"
+# TODO document defaulting to ASC_APPS.
+global ASC_DB_IDS "[default]='$ASC_APPS' [help]='Allows project instances to use several databases. By default, a single database ID is used : ’default’. These are used to differenciate DB settings and credentials and for automatic routine backup dump file paths - see u_db_routine_backup(). For declaring more database(s), use only space-separated strings, ex: ’default mig_buffer’.'"
 
 global ASC_DB_MODE "[default]=auto [help]='Specifies if ASC should handle DB credentials, and how. Possible values are none = credentials are already available i.e. as local env vars, auto = local instance DB credentials are automatically generated (using random password), or manual = requests values once using interactive terminal prompts during instance init.'"
 

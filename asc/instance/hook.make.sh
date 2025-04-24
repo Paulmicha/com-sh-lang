@@ -29,7 +29,7 @@
 #   # Print lookup paths for "instance start" using PROVISION_USING variant :
 #   asc/instance/hook.make.sh -d -t s:instance a:start v:PROVISION_USING
 #   # Same but using more variants :
-#   asc/instance/hook.make.sh -d -t s:instance a:start v:PROVISION_USING HOST_TYPE INSTANCE_TYPE
+#   asc/instance/hook.make.sh -d -t s:instance a:start v:STACK_VERSION PROVISION_USING HOST_TYPE INSTANCE_TYPE
 #
 
 . asc/bootstrap.sh

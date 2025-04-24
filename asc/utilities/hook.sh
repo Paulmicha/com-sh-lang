@@ -59,6 +59,8 @@
 # separate them. E.g. :
 # $ hook -a 'start' -s 'stack service instance app'
 #
+# TODO Document cache warmup.
+#
 # @examples
 #
 #   # 1. When providing a single action :
@@ -110,18 +112,18 @@
 #   # - asc/extensions/<ASC_EXTENSIONS>/<EXT_SUBJECTS>/pre_bootstrap.prod.hook.sh
 #
 #   # 6. Project root dir additional lookup :
-#   hook -s 'instance' -a 'asc' -c 'yml' -v 'HOST_TYPE INSTANCE_TYPE' -t -r
+#   hook -s 'instance' -a 'env' -c 'yml' -v 'HOST_TYPE INSTANCE_TYPE' -t -r
 #   # Yields the following lookup paths (not sourcing matches because -t flag) :
 #   # (given HOST_TYPE='local' and INSTANCE_TYPE='dev')
-#   # - asc/instance/asc.yml
+#   # - asc/instance/env.yml
 #   # - asc/instance/asc.local.yml
 #   # - asc/instance/asc.local.dev.yml
 #   # - asc/instance/asc.dev.yml
-#   # - asc/extensions/<ASC_EXTENSIONS>/instance/asc.yml
+#   # - asc/extensions/<ASC_EXTENSIONS>/instance/env.yml
 #   # - asc/extensions/<ASC_EXTENSIONS>/instance/asc.local.yml
 #   # - asc/extensions/<ASC_EXTENSIONS>/instance/asc.local.dev.yml
 #   # - asc/extensions/<ASC_EXTENSIONS>/instance/asc.dev.yml
-#   # - asc.yml
+#   # - env.yml
 #   # - asc.local.yml
 #   # - asc.local.dev.yml
 #   # - asc.dev.yml
@@ -159,6 +161,7 @@ hook() {
   local p_debug=0
   local p_dry_run=0
   local p_root_lookup=0
+  local p_cache_warmup=0
 
   # Parse current function arguments.
   # See https://stackoverflow.com/a/31443098
@@ -175,6 +178,7 @@ hook() {
       -d) p_debug=1; shift 1;;
       -t) p_dry_run=1; shift 1;;
       -r) p_root_lookup=1; shift 1;;
+      -w) p_cache_warmup=1; shift 1;;
       # Prevent unhandled arguments.
       -*) echo "Error in $BASH_SOURCE line $LINENO: unknown option: $1" >&2; return 1;;
       *) echo "Error in $BASH_SOURCE line $LINENO: unsupported unnamed argument: $1" >&2; return 2;;
@@ -352,7 +356,6 @@ hook() {
   local inc
   for inc in "${lookup_paths[@]}"; do
     if [ -f "$inc" ]; then
-
       # Note : for tests, the "dry run" option prevents "override" alterations.
       # @see asc/test/asc/hook.test.sh
       # @see u_hook_most_specific()
@@ -363,17 +366,23 @@ hook() {
       fi
 
       # Update 2024-06 cache results.
+      # Update 2025-04 cache warmup.
       local override=${p_script_path/asc/"scripts/overrides"}
+
       if [[ -f "$override" ]]; then
         hook_cache_contents+=". $override
 "
-        . "$override"
+        if [[ $p_cache_warmup -ne 1 ]]; then
+          . "$override"
+        fi
         continue
       fi
 
       hook_cache_contents+=". $inc
 "
-      . "$inc"
+      if [[ $p_cache_warmup -ne 1 ]]; then
+        . "$inc"
+      fi
     fi
   done
 

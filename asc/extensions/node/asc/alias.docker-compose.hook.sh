@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ##
-# Implements hook -s 'asc' -a 'alias' -v 'PROVISION_USING'.
+# Implements hook -s 'asc' -a 'alias' -v 'STACK_VERSION PROVISION_USING'.
 #
 # This file is dynamically included when the "hook" is triggered.
 # @see asc/bootstrap.sh

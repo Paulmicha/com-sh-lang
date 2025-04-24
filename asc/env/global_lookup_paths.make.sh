@@ -53,21 +53,28 @@ if [[ -n "$PROVISION_USING" ]]; then
   fi
 fi
 
-# 3. Using the asc.yml method takes precedence.
+# 3. Using the env.yml method takes precedence.
 echo
 if [[ -n "$HOST_TYPE" ]] && [[ -n "$INSTANCE_TYPE" ]]; then
-  hook -s 'instance' -a 'asc' -c 'yml' -v 'HOST_TYPE INSTANCE_TYPE' -d -t
-  echo "asc.yml
-asc.$HOST_TYPE.yml
-asc.$INSTANCE_TYPE.yml
-asc.$HOST_TYPE.$INSTANCE_TYPE.yml
-.asc-local.yml
-.asc-local.$HOST_TYPE.yml
-.asc-local.$INSTANCE_TYPE.yml
-.asc-local.$HOST_TYPE.$INSTANCE_TYPE.yml"
+  hook -s 'instance' -a 'env' -c 'yml' -v 'HOST_TYPE INSTANCE_TYPE' -d -t
+  echo "env.yml
+env.$INSTANCE_TYPE.yml
+env.$STACK_VERSION.yml
+env.$HOST_TYPE.$INSTANCE_TYPE.yml
+env.$STACK_VERSION.$HOST_TYPE.yml
+env.$STACK_VERSION.$INSTANCE_TYPE.yml
+env.$STACK_VERSION.$HOST_TYPE.$INSTANCE_TYPE.yml
+.env-local.yml
+.env-local.$HOST_TYPE.yml
+.env-local.$INSTANCE_TYPE.yml
+.env-local.$STACK_VERSION.yml
+.env-local.$HOST_TYPE.$INSTANCE_TYPE.yml
+.env-local.$STACK_VERSION.$HOST_TYPE.yml
+.env-local.$STACK_VERSION.$INSTANCE_TYPE.yml
+.env-local.$STACK_VERSION.$HOST_TYPE.$INSTANCE_TYPE.yml"
 else
-  echo "asc.yml
-.asc-local.yml"
+  echo "env.yml
+.env-local.yml"
 fi
 
 echo

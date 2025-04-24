@@ -3,6 +3,8 @@
 ##
 # Reinitializes current project instance without changing existing settings.
 #
+# TODO [wip] check which vars are really essential to be kept (hardcoded).
+#
 # Rewrites locally generated ASC files while keeping the values - if previously
 # set - for the following global env. vars :
 # - $INSTANCE_TYPE
@@ -19,7 +21,7 @@
 #
 
 # Update 2024-06 cache results.
-. asc/cache/clear.sh
+. asc/instance/asc_cache_clear.sh
 
 # Can't have read-only variables here, so we need to extract just the
 # variables we need.
@@ -30,15 +32,18 @@
 if [[ -f '.env' ]]; then
   while IFS= read -r line _; do
     case "$line" in
-      'INSTANCE_TYPE='*)
-        eval "$line"
-        ;;
-      'INSTANCE_DOMAIN='*)
-        eval "$line"
-        ;;
       'STACK_VERSION='*)
         eval "$line"
         ;;
+      'ASC_APPS='*)
+        eval "$line"
+        ;;
+      'INSTANCE_TYPE='*)
+        eval "$line"
+        ;;
+      # 'INSTANCE_DOMAIN='*)
+      #   eval "$line"
+      #   ;;
       'HOST_TYPE='*)
         eval "$line"
         ;;
@@ -49,6 +54,14 @@ if [[ -f '.env' ]]; then
         eval "$line"
         ;;
     esac
+
+    if [[ -n "$ASC_APPS" ]]; then
+      for app in $ASC_APPS; do
+        case "$line" in "${app}_DOMAIN="*|"${app}_GIT_ORIGIN="*|"${app}_SERVER_DOCROOT="*)
+          eval "$line"
+        esac
+      done
+    fi
   done < '.env'
 fi
 
@@ -62,11 +75,13 @@ fi
 env -i \
   ASC_SSH_PUBKEY="$ASC_SSH_PUBKEY" \
   ASC_DB_ID="$ASC_DB_ID" \
+  ASC_APPS="$ASC_APPS" \
   HOME="$HOME" LC_CTYPE="${LC_ALL:-${LC_CTYPE:-$LANG}}" PATH="$PATH" USER="$USER" \
   asc/instance/init.sh \
     -t "$INSTANCE_TYPE" \
-    -d "$INSTANCE_DOMAIN" \
-    -c "$STACK_VERSION" \
+    -s "$STACK_VERSION" \
     -h "$HOST_TYPE" \
     -p "$PROVISION_USING" \
     -y
+
+    # -d "$INSTANCE_DOMAIN" \
