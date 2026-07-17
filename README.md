@@ -258,8 +258,8 @@ After init, `data/asc/generated.mk` adds subject/action targets. Typical core sh
 | *instance logged-\** | `asc/instance/logged_*.sh` | `make lt` / `lc` / `ls` / `lb` / `lp` / `ll` |
 | *instance switch-stack-version* | `asc/instance/switch_stack_version.sh` | `make switch-stack-version` |
 | *instance uninit* | `asc/instance/uninit.sh` | `make uninit` |
-| *instance upgrade-asc* | `asc/instance/upgrade_asc.sh` | `make upgrade-asc` |
-| *instance asc-cache-clear* | `asc/instance/asc_cache_clear.sh` | `make asc-cache-clear` |
+| *asc upgrade* | `asc/asc/upgrade.sh` | `make asc-upgrade` |
+| *asc cache-clear* | `asc/asc/cache_clear.sh` | `make cc` |
 | *test asc* | `asc/test/asc.sh` | `make test-asc` |
 
 Logged runners and operators: [docs/asc/observability.md](docs/asc/observability.md), [docs/asc/layers.md](docs/asc/layers.md).

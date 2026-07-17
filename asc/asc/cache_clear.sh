@@ -8,9 +8,9 @@
 # @see asc/utilities/hook.sh
 #
 # @example
-#   make asc-cache-clear
+#   make cc
 #   # Or :
-#   asc/instance/asc_cache_clear.sh
+#   asc/asc/cache_clear.sh
 #
 
 if [[ -d data/asc/cache ]]; then

@@ -67,7 +67,7 @@ Typical eager includes (depends on enabled extensions): `asc/git/git.inc.sh`, `a
 Phase 40 prefers `data/asc/cache/asc.sh`. Miss → `u_asc_extend` then write cache.
 
 ```bash
-make asc-cache-clear
+make cc
 make reinit
 ```
 

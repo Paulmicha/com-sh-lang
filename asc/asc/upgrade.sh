@@ -10,26 +10,26 @@
 # The remote git URL is overridable using a global named 'ASC_REPO'.
 #
 # @example
-#   make upgrade-asc
+#   make asc-upgrade
 #   # Or :
-#   asc/instance/upgrade_asc.sh
+#   asc/asc/upgrade.sh
 #
 #   # If the temporary directory already exists, use existing folder without
 #   # prompt :
-#   make upgrade-asc n
+#   make asc-upgrade n
 #   # Or :
-#   asc/instance/upgrade_asc.sh n
+#   asc/asc/upgrade.sh n
 #
 #   # If the temporary directory already exists, force re-download the sources
 #   # from remote repo without prompt :
-#   make upgrade-asc y
+#   make asc-upgrade y
 #   # Or :
-#   asc/instance/upgrade_asc.sh y
+#   asc/asc/upgrade.sh y
 #
 #   # To keep the temporary directory once completed, use arg 2 (value 'k') :
-#   make upgrade-asc n k
+#   make asc-upgrade n k
 #   # Or :
-#   asc/instance/upgrade_asc.sh n k
+#   asc/asc/upgrade.sh n k
 #
 
 . asc/bootstrap.sh

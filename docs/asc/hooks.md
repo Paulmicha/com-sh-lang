@@ -66,6 +66,6 @@ make hook-debug ms s:instance a:stop v:PROVISION_USING HOST_TYPE   # most-specif
 make hook s:instance a:start
 ```
 
-Cache: `data/asc/cache/hook.*.sh` (clear with `make asc-cache-clear`).
+Cache: `data/asc/cache/hook.*.sh` (clear with `make cc`).
 
 SoT: `asc/utilities/hook.sh`, `asc/test/asc/hook.test.sh`.

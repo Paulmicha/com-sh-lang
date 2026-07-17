@@ -43,7 +43,8 @@ global HOST_OS "$(u_host_os)"
 # @see Makefile
 global ASC_MAKE_INC "[append]='$(u_asc_extensions_get_makefiles)'"
 
-global ASC_MAKE_TASKS_SHORTER "[append]='dependency/dep'"
+global ASC_MAKE_TASKS_SHORTER "[append]='asc-cache-clear/cc'"
+global ASC_MAKE_TASKS_SHORTER "[append]='host-dependency/dep'"
 global ASC_MAKE_TASKS_SHORTER "[append]='logged-thread/lt'"
 global ASC_MAKE_TASKS_SHORTER "[append]='logged-batch/lb'"
 global ASC_MAKE_TASKS_SHORTER "[append]='logged-chain/lc'"
