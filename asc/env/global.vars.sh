@@ -44,15 +44,14 @@ global HOST_OS "$(u_host_os)"
 global ASC_MAKE_INC "[append]='$(u_asc_extensions_get_makefiles)'"
 
 global ASC_MAKE_TASKS_SHORTER "[append]='dependency/dep'"
-global ASC_MAKE_TASKS_SHORTER "[append]='lookup-path/pl'"
 global ASC_MAKE_TASKS_SHORTER "[append]='logged-thread/lt'"
 global ASC_MAKE_TASKS_SHORTER "[append]='logged-batch/lb'"
 global ASC_MAKE_TASKS_SHORTER "[append]='logged-chain/lc'"
 global ASC_MAKE_TASKS_SHORTER "[append]='logged-sequence/ls'"
 global ASC_MAKE_TASKS_SHORTER "[append]='logged-loop/ll'"
 global ASC_MAKE_TASKS_SHORTER "[append]='logged-pipe/lp'"
+global ASC_MAKE_TASKS_SHORTER "[append]='lookup-path/pl'"
 global ASC_MAKE_TASKS_SHORTER "[append]='registry/reg'"
-# global ASC_MAKE_TASKS_SHORTER "[append]='transcribe-transcribe/transcribe'"
 
 # Per-case test registry written by u_make_generate_test_cases() during reinit.
 # @see u_make_generate_test_cases() in asc/make/make.inc.sh

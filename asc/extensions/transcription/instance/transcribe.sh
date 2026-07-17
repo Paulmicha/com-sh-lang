@@ -12,8 +12,13 @@
 #
 # @example
 #   make transcribe
-#   make transcribe -i data/media/2026/07 -l fr
-#   asc/extensions/transcription/transcribe/transcribe.sh -i data/media/2026/07
+#   # Or :
+#   asc/extensions/transcription/instance/transcribe.sh
+#
+#   # From custom dir, forcing output language in french :
+#   make transcribe -- -i data/media/2026/07 -l fr
+#   # Or :
+#   asc/extensions/transcription/instance/transcribe.sh -i data/media/2026/07 -l fr
 #
 
 . asc/bootstrap.sh
