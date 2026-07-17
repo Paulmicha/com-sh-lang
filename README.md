@@ -122,7 +122,7 @@ make setup prod remote myproject-2024 lamp
   │   ├── git/                ← git hooks integration + utilities
   │   ├── host/               ← host provision, registry, vitals
   │   ├── instance/           ← lifecycle + logged runners + chain/pipe
-  │   ├── log/,changelog/,loop/,thread/ ← core ASC wrappers
+  │   ├── log/,sidecar/,loop/,thread/ ← core ASC wrappers
   │   ├── make/               ← default.mk + call_wrap
   │   ├── test/               ← shunit2 low-level suite
   │   ├── utilities/          ← internal libraries
@@ -367,12 +367,12 @@ Full guide: [docs/asc/testing.md](docs/asc/testing.md).
 | [docs/asc/extensions.md](docs/asc/extensions.md) | Enable, override, families |
 | [docs/asc/builder.md](docs/asc/builder.md) | Builder (ex-preset) |
 | [docs/asc/nested-asc.md](docs/asc/nested-asc.md) | Nested virgin-env exec |
-| [docs/asc/changelog-wrap.md](docs/asc/changelog-wrap.md) | Durable sidecar SoT |
+| [docs/asc/sidecar-wrap.md](docs/asc/sidecar-wrap.md) | Durable sidecar SoT |
 
 ## Roadmap
 
 - Keep `make test-asc` (and per-case targets) current
-- Finish shared changelog wrap body and migrate writers ([docs/asc/changelog-wrap.md](docs/asc/changelog-wrap.md))
+- Finish shared sidecar wrap body and migrate writers ([docs/asc/sidecar-wrap.md](docs/asc/sidecar-wrap.md))
 - Fix macOS-specific errors
 - Offload more tasks to third-party projects where sensible
 - Reduce bashisms / improve POSIX compatibility where practical
