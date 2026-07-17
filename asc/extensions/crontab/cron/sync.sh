@@ -11,7 +11,7 @@
 . asc/bootstrap.sh
 
 # Ensure generated defs exist.
-if [[ ! -d scripts/asc/local/cron ]] || [[ -z "$(echo scripts/asc/local/cron/*.sh 2>/dev/null)" ]]; then
+if [[ ! -d data/asc/cron ]] || [[ -z "$(echo data/asc/cron/*.sh 2>/dev/null)" ]]; then
   u_cron_settings_setup || exit 1
 fi
 

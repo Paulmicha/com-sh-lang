@@ -27,7 +27,7 @@ oneTimeSetUp() {
 
   # Clear dry-run hook caches so newly touched files are visible.
   # @see hook() in asc/utilities/hook.sh
-  rm -f scripts/asc/local/cache/hook.*nftaschhnc*
+  rm -f data/asc/cache/hook.*nftaschhnc*
 
   for s in $ASC_SUBJECTS; do
     # bootstrap/ holds phase includes, not a normal subject action namespace.
@@ -109,7 +109,7 @@ asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
 asc/extensions/nftaschdehnc/stack/nftaschhnc_dry_run.hook.sh
 "
 
-  rm -f scripts/asc/local/cache/hook.*nftaschhnc*
+  rm -f data/asc/cache/hook.*nftaschhnc*
   hook -a 'nftaschhnc_dry_run' -t
 
   u_test_compare_expected_lookup_paths
@@ -124,7 +124,7 @@ test_asc_hook_subject() {
   local expected_list="asc/test/nftaschhnc_dry_run.hook.sh
 asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh"
 
-  rm -f scripts/asc/local/cache/hook.*nftaschhnc*
+  rm -f data/asc/cache/hook.*nftaschhnc*
   hook -a 'nftaschhnc_dry_run' -s 'test' -t
 
   u_test_compare_expected_lookup_paths
@@ -141,7 +141,7 @@ asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$HOST_TYPE.$INSTANCE_TYPE.ho
 asc/extensions/nftaschdehnc/test/nftaschhnc_dry_run.$HOST_TYPE.hook.sh
 "
 
-  rm -f scripts/asc/local/cache/hook.*nftaschhnc*
+  rm -f data/asc/cache/hook.*nftaschhnc*
   hook -a 'nftaschhnc_dry_run' -s 'test' -e 'nftaschdehnc' -v 'HOST_TYPE INSTANCE_TYPE' -t
 
   u_test_compare_expected_lookup_paths
@@ -155,7 +155,7 @@ test_asc_hook_prefix() {
   local hook_dry_run_matches=''
   local expected_list="asc/extensions/nftaschdehnc/test/pre_nftaschhnc_dry_run.hook.sh"
 
-  rm -f scripts/asc/local/cache/hook.*nftaschhnc*
+  rm -f data/asc/cache/hook.*nftaschhnc*
   hook -a 'nftaschhnc_dry_run' -p 'pre' -t
 
   u_test_compare_expected_lookup_paths
@@ -171,7 +171,7 @@ test_asc_hook_prefix_variants() {
 asc/extensions/nftaschdehnc/test/post_nftaschhnc_dry_run.$INSTANCE_TYPE.hook.sh
 "
 
-  rm -f scripts/asc/local/cache/hook.*nftaschhnc*
+  rm -f data/asc/cache/hook.*nftaschhnc*
   hook -a 'nftaschhnc_dry_run' -s 'test' -e 'nftaschdehnc' -p 'post' -t
 
   u_test_compare_expected_lookup_paths
@@ -185,7 +185,7 @@ test_asc_hook_prefix_combinatory_variants() {
   local hook_dry_run_matches=''
   local expected_list="asc/extensions/nftaschdehnc/test/undo_nftaschhnc_dry_run.$HOST_TYPE.$INSTANCE_TYPE.hook.sh"
 
-  rm -f scripts/asc/local/cache/hook.*nftaschhnc*
+  rm -f data/asc/cache/hook.*nftaschhnc*
   hook -a 'nftaschhnc_dry_run' -s 'test' -v 'HOST_TYPE INSTANCE_TYPE' -p 'undo' -t
 
   u_test_compare_expected_lookup_paths

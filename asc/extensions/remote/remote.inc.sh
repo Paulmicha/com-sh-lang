@@ -510,14 +510,14 @@ u_remote_definition_tokens_replace() {
 #   u_remote_instances_setup
 #
 #   # Will (re)generate the following files :
-#   # - scripts/asc/local/remote-instances/dev.sh
-#   # - scripts/asc/local/remote-instances/dev_node.sh
-#   # - scripts/asc/local/remote-instances/staging.sh
-#   # - scripts/asc/local/remote-instances/staging_node.sh
-#   # - scripts/asc/local/remote-instances/prod.sh
-#   # - scripts/asc/local/remote-instances/prod_node.sh
+#   # - data/asc/remote-instances/dev.sh
+#   # - data/asc/remote-instances/dev_node.sh
+#   # - data/asc/remote-instances/staging.sh
+#   # - data/asc/remote-instances/staging_node.sh
+#   # - data/asc/remote-instances/prod.sh
+#   # - data/asc/remote-instances/prod_node.sh
 #
-#   # Example content - e.g. of file scripts/asc/local/remote-instances/dev.sh :
+#   # Example content - e.g. of file data/asc/remote-instances/dev.sh :
 #   export REMOTE_INSTANCE_DOCROOT='/var/www/drupal/root'
 #   export REMOTE_INSTANCE_DOMAIN='dev.foobar.com'
 #   export REMOTE_INSTANCE_DUMPS_DEFAULT_BASE_DIR='/var/www/drupal/dump'
@@ -553,7 +553,7 @@ u_remote_instances_setup() {
   fi
 
   # (Re)init destination file (make empty).
-  cat > 'scripts/asc/local/remote-instances.sh' <<EOF
+  cat > 'data/asc/remote-instances.sh' <<EOF
 #!/usr/bin/env bash
 
 ##
@@ -572,11 +572,11 @@ EOF
 
   # Write remotes definitions.
   local parsed_yaml_remotes="$(u_yaml_parse "$hook_most_specific_dry_run_match" 'ascri_')"
-  echo "$parsed_yaml_remotes" >> 'scripts/asc/local/remote-instances.sh'
+  echo "$parsed_yaml_remotes" >> 'data/asc/remote-instances.sh'
 
   # Process & adapt parsed result for use with u_remote_instance_load().
-  if [[ -f 'scripts/asc/local/remote-instances.sh' ]]; then
-    . scripts/asc/local/remote-instances.sh
+  if [[ -f 'data/asc/remote-instances.sh' ]]; then
+    . data/asc/remote-instances.sh
 
     local remote_id
     local var_prefix
@@ -697,19 +697,19 @@ EOF
       fi
 
       # Finally, create the resulting definition file.
-      if [[ ! -d 'scripts/asc/local/remote-instances' ]]; then
-        mkdir -p 'scripts/asc/local/remote-instances'
+      if [[ ! -d 'data/asc/remote-instances' ]]; then
+        mkdir -p 'data/asc/remote-instances'
 
         if [[ $? -ne 0 ]]; then
           echo >&2
-          echo "Error in $BASH_SOURCE line $LINENO: failed to create missing required dir scripts/asc/local/remote-instances." >&2
+          echo "Error in $BASH_SOURCE line $LINENO: failed to create missing required dir data/asc/remote-instances." >&2
           echo "-> Aborting (1)." >&2
           echo >&2
           return 1
         fi
       fi
 
-      local conf="scripts/asc/local/remote-instances/${remote_id}.sh"
+      local conf="data/asc/remote-instances/${remote_id}.sh"
 
       cat > "$conf" <<EOF
 #!/usr/bin/env bash
@@ -886,7 +886,7 @@ u_remote_definition_get_key() {
 #
 # @param 1 [optional] String : remote instance's id (short name, no space,
 #   _a-zA-Z0-9 only). Defaults to the first *.sh file found in folder :
-#   scripts/asc/local/remote-instances.
+#   data/asc/remote-instances.
 #
 # @example
 #   # Only need to call the function for exporting globals in current shell :
@@ -894,7 +894,7 @@ u_remote_definition_get_key() {
 #
 u_remote_instance_load() {
   local p_id="$1"
-  local conf="scripts/asc/local/remote-instances/${p_id}.sh"
+  local conf="data/asc/remote-instances/${p_id}.sh"
 
   if [[ ! -f "$conf" ]]; then
     echo >&2
@@ -918,14 +918,14 @@ u_remote_purge_instances() {
 
   echo "Clearing generated remote instances definitions ..."
 
-  u_fs_file_list 'scripts/asc/local/remote-instances'
+  u_fs_file_list 'data/asc/remote-instances'
 
   for file in $file_list; do
-    rm "scripts/asc/local/remote-instances/$file"
+    rm "data/asc/remote-instances/$file"
 
     if [[ $? -ne 0 ]]; then
       echo >&2
-      echo "Error in u_remote_purge_instances() - $BASH_SOURCE line $LINENO: failed to remove locally generated instance '$file' (in scripts/asc/local/remote-instances)." >&2
+      echo "Error in u_remote_purge_instances() - $BASH_SOURCE line $LINENO: failed to remove locally generated instance '$file' (in data/asc/remote-instances)." >&2
       echo "-> Aborting (1)." >&2
       echo >&2
       return 1
@@ -955,14 +955,14 @@ u_remote_get_instances() {
   local file=''
 
   # Cache results.
-  if [[ -f scripts/asc/local/cache/remote_instance_ids.sh ]]; then
-    . scripts/asc/local/cache/remote_instance_ids.sh
+  if [[ -f data/asc/cache/remote_instance_ids.sh ]]; then
+    . data/asc/cache/remote_instance_ids.sh
   else
     local file
     local remote_id
     local remote_instance_ids_cache_str=''
 
-    u_fs_file_list 'scripts/asc/local/remote-instances'
+    u_fs_file_list 'data/asc/remote-instances'
 
     for file in $file_list; do
       remote_id="${file%.sh}"
@@ -971,8 +971,8 @@ u_remote_get_instances() {
 "
     done
 
-    mkdir -p scripts/asc/local/cache
-    cat > scripts/asc/local/cache/remote_instance_ids.sh <<CACHE
+    mkdir -p data/asc/cache
+    cat > data/asc/cache/remote_instance_ids.sh <<CACHE
 #!/usr/bin/env bash
 
 ##

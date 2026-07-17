@@ -19,17 +19,17 @@ echo "Project : $marker"
 echo "crontab : $(command -v crontab)"
 echo
 
-if [[ -d scripts/asc/local/cron ]]; then
+if [[ -d data/asc/cron ]]; then
   echo "=== Generated entries ==="
   shopt -s nullglob
-  for f in scripts/asc/local/cron/*.sh; do
+  for f in data/asc/cron/*.sh; do
     # shellcheck disable=SC1090
     . "$f"
     echo "- $ASC_CRON_ENTRY  enabled=$ASC_CRON_ENABLED  preset=$ASC_CRON_PRESET  schedule=$ASC_CRON_SCHEDULE"
   done
   echo
 else
-  echo "(no generated scripts/asc/local/cron yet)"
+  echo "(no generated data/asc/cron yet)"
   echo
 fi
 

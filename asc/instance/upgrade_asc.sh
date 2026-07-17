@@ -36,10 +36,10 @@
 
 echo "Upgrading ASC from the source repo on Github..."
 
-tmp_dir="scripts/asc/local/tmp-core-upgrade"
+tmp_dir="data/asc/tmp-core-upgrade"
 
-if [[ ! -d 'scripts/asc/local' ]]; then
-  mkdir -p 'scripts/asc/local'
+if [[ ! -d 'data/asc' ]]; then
+  mkdir -p 'data/asc'
 fi
 
 # Support retries without having to re-download the sources from remote repo

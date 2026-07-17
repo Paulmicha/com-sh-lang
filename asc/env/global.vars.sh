@@ -6,7 +6,7 @@
 # This file (and every others named like it in ASC extensions and in the ASC
 # customization dir) is used during "instance init" to generate a single script :
 #
-# scripts/asc/local/global.vars.sh
+# data/asc/global.vars.sh
 #
 # That script file will contain declarations for every global variables found in
 # this project instance as readonly. It is git-ignored and loaded on every
@@ -42,12 +42,12 @@ global HOST_OS "$(u_host_os)"
 # @see u_make_task_name()
 # @see Makefile
 global ASC_MAKE_INC "[append]='$(u_asc_extensions_get_makefiles)'"
-global ASC_MAKE_TASKS_SHORTER "[append]='registry/reg lookup-path/pl logged-thread/lt logged-batch/lb logged-chain/lc logged-sequence/ls logged-loop/ll logged-pipe/lp'"
+global ASC_MAKE_TASKS_SHORTER "[append]='registry/reg lookup-path/pl logged-thread/lt logged-batch/lb logged-chain/lc logged-sequence/ls logged-loop/ll logged-pipe/lp transcribe-transcribe/transcribe'"
 
 # Per-case test registry written by u_make_generate_test_cases() during reinit.
 # @see u_make_generate_test_cases() in asc/make/make.inc.sh
 # @see u_test_case_cache_load() in asc/test/test.inc.sh
-global ASC_TEST_CASE_CACHE "[default]='scripts/asc/local/cache/test-cases.sh'"
+global ASC_TEST_CASE_CACHE "[default]='data/asc/cache/test-cases.sh'"
 global ASC_TEST_CASE_ENVS "[default]='local preprod recette prod'"
 
 # 2. ASC "apps" (or components) enforce a naming convention for dynamically
@@ -84,7 +84,7 @@ global ASC_APPS "[default]='site' [help]='ASC apps allow for example to provide 
 # value automatically generated, use the ':' as separator. E.g. :
 # mandatory_globals+=('{{ APP }}_{{ SERVICE }}_DB_ID:{{ APP }}')
 # mandatory_globals+=('{{ APP }}_{{ SERVICE }}_DB_DRIVER:mysql')
-# @see asc/extensions/preset/preset/db/list_mandatory_globals.hook.tpl.sh
+# @see asc/extensions/builder/templates/services/db/list_mandatory_globals.hook.tpl.sh
 
 # TODO [refacto] wip: ASC_DB_IDS : allow multiple databases per component.
 # For now, provided on an opt-in basis like :

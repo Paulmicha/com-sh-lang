@@ -3,7 +3,7 @@
 ##
 # Re-generates (local) remote instances definitions.
 #
-# @see scripts/asc/local/remote-instances/${REMOTE_ID}.sh
+# @see data/asc/remote-instances/${REMOTE_ID}.sh
 #
 # @example
 #   make local-setup-remotes

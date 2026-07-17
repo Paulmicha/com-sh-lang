@@ -3,9 +3,6 @@
 ##
 # Logged sequence composition: log/wrap → thread/sequence.
 #
-# This file is generated from template :
-# @see asc/extensions/preset/preset/sequence/logged_sequence.tpl.sh
-#
 # @example
 #   # Manually hardcoded shortcut :
 #   # @see ASC_MAKE_TASKS_SHORTER in asc/env/global.vars.sh

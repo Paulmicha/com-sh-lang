@@ -22,7 +22,7 @@
 # (Internal shunit2 function called before all tests have run.)
 #
 oneTimeSetUp() {
-  local f='scripts/asc/local/_tmphnc.txt'
+  local f='data/asc/_tmphnc.txt'
   echo 'This is a test for ASC filesystem compression-related utilities.' > "$f"
 }
 
@@ -73,8 +73,8 @@ test_u_str_sanitize_var_name() {
 # TODO [wip] complete series with all arguments + using folder (not just file).
 #
 test_u_fs_compress_in_place() {
-  u_fs_compress_in_place 'scripts/asc/local/_tmphnc.txt'
-  assertTrue 'Failed to compress test file.' "[ -f 'scripts/asc/local/_tmphnc.txt.tgz' ]"
+  u_fs_compress_in_place 'data/asc/_tmphnc.txt'
+  assertTrue 'Failed to compress test file.' "[ -f 'data/asc/_tmphnc.txt.tgz' ]"
 }
 
 ##
@@ -84,11 +84,11 @@ test_u_fs_compress_in_place() {
 #
 test_u_fs_extract_in_place() {
   # Delete existing result before attempting the test.
-  if [[ -f 'scripts/asc/local/_tmphnc.txt' ]]; then
-    rm 'scripts/asc/local/_tmphnc.txt'
+  if [[ -f 'data/asc/_tmphnc.txt' ]]; then
+    rm 'data/asc/_tmphnc.txt'
   fi
-  u_fs_extract_in_place 'scripts/asc/local/_tmphnc.txt.tgz'
-  assertTrue 'Failed to extract test file.' "[ -f 'scripts/asc/local/_tmphnc.txt' ]"
+  u_fs_extract_in_place 'data/asc/_tmphnc.txt.tgz'
+  assertTrue 'Failed to extract test file.' "[ -f 'data/asc/_tmphnc.txt' ]"
 }
 
 ##
@@ -97,11 +97,11 @@ test_u_fs_extract_in_place() {
 # (Internal shunit2 function called after all tests have run.)
 #
 oneTimeTearDown() {
-  if [[ -f 'scripts/asc/local/_tmphnc.txt' ]]; then
-    rm 'scripts/asc/local/_tmphnc.txt'
+  if [[ -f 'data/asc/_tmphnc.txt' ]]; then
+    rm 'data/asc/_tmphnc.txt'
   fi
-  if [[ -f 'scripts/asc/local/_tmphnc.txt.tgz' ]]; then
-    rm 'scripts/asc/local/_tmphnc.txt.tgz'
+  if [[ -f 'data/asc/_tmphnc.txt.tgz' ]]; then
+    rm 'data/asc/_tmphnc.txt.tgz'
   fi
 }
 

@@ -16,7 +16,7 @@ echo "=== Effective crontab definitions ==="
 echo
 
 shopt -s nullglob
-for f in scripts/asc/local/cron/*.sh; do
+for f in data/asc/cron/*.sh; do
   # shellcheck disable=SC1090
   . "$f"
   echo "entry      : $ASC_CRON_ENTRY"

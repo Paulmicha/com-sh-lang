@@ -13,7 +13,7 @@
 #   asc/instance/asc_cache_clear.sh
 #
 
-if [[ -d scripts/asc/local/cache ]]; then
-  rm -rf scripts/asc/local/cache
-  echo "Cleared local scripts/asc/local/cache dir."
+if [[ -d data/asc/cache ]]; then
+  rm -rf data/asc/cache
+  echo "Cleared local data/asc/cache dir."
 fi

@@ -411,7 +411,7 @@ u_fs_dir_list() {
 #   echo "$file_list"
 #
 #   # Looping example :
-#   u_fs_file_list 'scripts/asc/local/remote-instances'
+#   u_fs_file_list 'data/asc/remote-instances'
 #   while read -r file; do
 #     echo "$file"
 #   done <<< "$file_list"

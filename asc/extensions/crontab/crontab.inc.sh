@@ -266,9 +266,9 @@ u_cron_apply_includes() {
 # Purge generated cron scripts.
 #
 u_cron_purge_generated() {
-  rm -rf scripts/asc/local/cron
-  rm -f scripts/asc/local/cron.sh
-  mkdir -p scripts/asc/local/cron
+  rm -rf data/asc/cron
+  rm -f data/asc/cron.sh
+  mkdir -p data/asc/cron
 }
 
 ##
@@ -310,7 +310,7 @@ u_cron_settings_setup() {
     peer_count["$cron_preset"]=$(( ${peer_count[$cron_preset]:-0} + 1 ))
   done
 
-  cat > scripts/asc/local/cron.sh <<'EOF'
+  cat > data/asc/cron.sh <<'EOF'
 #!/usr/bin/env bash
 
 ##
@@ -394,7 +394,7 @@ EOF
         ;;
     esac
 
-    local out="scripts/asc/local/cron/${entry}.sh"
+    local out="data/asc/cron/${entry}.sh"
     cat > "$out" <<EOF
 #!/usr/bin/env bash
 # Generated from ${f} — do not edit.
@@ -418,10 +418,10 @@ export ASC_CRON_MONITOR_OUTER_RETRY='$(u_cron_scalar "${croncj_monitor_outer_ret
 export ASC_CRON_CMD='${cmd}'
 EOF
 
-    echo "ASC_CRON_ENTRIES+=\"${entry} \"" >> scripts/asc/local/cron.sh
+    echo "ASC_CRON_ENTRIES+=\"${entry} \"" >> data/asc/cron.sh
   done
 
-  echo "Crontab definitions written under scripts/asc/local/cron/ (${#files[@]} entries)."
+  echo "Crontab definitions written under data/asc/cron/ (${#files[@]} entries)."
 }
 
 ##
@@ -429,7 +429,7 @@ EOF
 #
 u_cron_entry_load() {
   local p_entry="$1"
-  local f="scripts/asc/local/cron/${p_entry}.sh"
+  local f="data/asc/cron/${p_entry}.sh"
 
   if [[ ! -f "$f" ]]; then
     return 1
@@ -554,13 +554,13 @@ u_cron_sync() {
 
   u_cron_require_crontab || return 1
 
-  if [[ ! -d scripts/asc/local/cron ]]; then
+  if [[ ! -d data/asc/cron ]]; then
     echo >&2 "No generated cron definitions. Run make reinit first."
     return 1
   fi
 
   body=''
-  for f in scripts/asc/local/cron/*.sh; do
+  for f in data/asc/cron/*.sh; do
     [[ -f "$f" ]] || continue
     # shellcheck disable=SC1090
     . "$f"
@@ -585,7 +585,7 @@ u_cron_stop_entry() {
 
   u_cron_require_crontab || return 1
 
-  for f in scripts/asc/local/cron/*.sh; do
+  for f in data/asc/cron/*.sh; do
     [[ -f "$f" ]] || continue
     # shellcheck disable=SC1090
     . "$f"

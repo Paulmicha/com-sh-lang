@@ -13,8 +13,10 @@ scripts/asc/override/git/init.hook.sh
 The matching is done by by replacing the leading `asc/` in filepaths with `scripts/asc/override/`. It works for extensions too. Here's an example using an include instead of a hook implementation for a change :
 
 ```txt
-asc/extensions/docker-compose/docker-compose.inc.sh
--> scripts/asc/override/extensions/docker-compose/docker-compose.inc.sh
+asc/extensions/compose/compose.inc.sh
+-> scripts/asc/override/extensions/compose/compose.inc.sh
 ```
 
 For convenience, `asc/extensions/.asc_extensions_ignore` can be overridden using `scripts/asc/override/.asc_extensions_ignore` (instead of `scripts/asc/override/extensions/.asc_extensions_ignore`).
+
+See also [docs/asc/extensions.md](../../../docs/asc/extensions.md).

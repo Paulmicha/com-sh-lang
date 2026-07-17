@@ -5,17 +5,14 @@
 #
 # Stages may be shell command strings and/or make entries (e:).
 #
-# This file is generated from template :
-# @see asc/extensions/preset/preset/pipe/logged_pipe.tpl.sh
-#
 # @example
 #   # Manually hardcoded shortcut :
 #   # @see ASC_MAKE_TASKS_SHORTER in asc/env/global.vars.sh
-#   make lp e:agent-implement-last-plan e:transcribe-all
+#   make lp e:blueprint-generate e:transcribe-all
 #   # Equivalent to :
-#   make logged-pipe e:agent-implement-last-plan e:transcribe-all
+#   make logged-pipe e:blueprint-generate e:transcribe-all
 #   # Or :
-#   asc/instance/logged_pipe.sh e:agent-implement-last-plan e:transcribe-all
+#   asc/instance/logged_pipe.sh e:blueprint-generate e:transcribe-all
 #
 
 . asc/bootstrap.sh

@@ -40,17 +40,12 @@
 #
 
 .PHONY: init init-debug setup hook hook-debug globals-lp debug
-# .PHONY: init init-debug reinit setup hook hook-debug globals-lp debug
 
 init:
 	@ asc/make/call_wrap.make.sh asc/instance/init.sh $(MAKECMDGOALS)
 
 init-debug:
 	@ asc/make/call_wrap.make.sh asc/instance/init.sh $@ -d -r $(filter-out $@,$(MAKECMDGOALS))
-
-# TODO [evol] is this really overridden by scripts/asc/local/generated.mk ?
-# reinit:
-# 	@ asc/make/call_wrap.make.sh asc/instance/reinit.sh $(MAKECMDGOALS)
 
 setup:
 	@ asc/make/call_wrap.make.sh asc/instance/setup.sh $(MAKECMDGOALS)

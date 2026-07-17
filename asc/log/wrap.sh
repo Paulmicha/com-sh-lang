@@ -14,7 +14,7 @@
 #   # And also add a new line in its corresponding "registry file" :
 #   # data/logs/transcribe-all.changelog.txt
 #   asc/log/wrap.sh \
-#     scripts/asc/extend/transcribe/all.sh
+#     asc/extensions/transcription/transcribe/all.sh
 #
 #   # Works with raw make entry points too :
 #   make log-wrap e:test-asc
@@ -37,7 +37,6 @@ p_script="$1"
 shift
 
 log_file="$p_script"
-log_dir='data/logs'
 uses_thread_inner_wrap=0
 is_valid=0
 
@@ -109,4 +108,4 @@ if [[ ! -f "$hook_most_specific_dry_run_match" ]]; then
   exit 1
 fi
 
-. $hook_most_specific_dry_run_match $@
+. "$hook_most_specific_dry_run_match" "$@"

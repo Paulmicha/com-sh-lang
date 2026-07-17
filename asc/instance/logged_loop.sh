@@ -5,17 +5,14 @@
 #
 # Composition: log/wrap → loop/wrap (systemd user unit for long-running entries).
 #
-# This file is generated from template :
-# @see asc/extensions/preset/preset/loop/logged_loop.tpl.sh
-#
 # @example
 #   # Manually hardcoded shortcut :
 #   # @see ASC_MAKE_TASKS_SHORTER in asc/env/global.vars.sh
-#   make ll e:agent-loop
+#   make ll e:blueprint-generate
 #   # Equivalent to :
-#   make logged-loop e:agent-loop
+#   make logged-loop e:blueprint-generate
 #   # Or :
-#   asc/instance/logged_loop.sh e:agent-loop
+#   asc/instance/logged_loop.sh e:blueprint-generate
 #
 
 . asc/bootstrap.sh

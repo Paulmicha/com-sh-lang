@@ -10,8 +10,8 @@
 # instance is initialized and the generated cache file does not exist yet.
 #
 # @see asc/make/default.mk
-# @see scripts/asc/local/generated.mk
-# @see scripts/asc/local/cache/make.sh
+# @see data/asc/generated.mk
+# @see data/asc/cache/make.sh
 # @see u_instance_init() in asc/instance/instance.inc.sh
 # @see u_make_generate() in asc/make/make.inc.sh
 #
@@ -74,8 +74,8 @@ make_entries=()
 real_scripts=()
 
 # Use the complete generated list of entries if it exists.
-if [[ -f scripts/asc/local/cache/make.sh ]]; then
-  . scripts/asc/local/cache/make.sh
+if [[ -f data/asc/cache/make.sh ]]; then
+  . data/asc/cache/make.sh
 else
   # Default to hardcoded values.
   u_make_list_hardcoded

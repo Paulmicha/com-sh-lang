@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+##
+# [abstract] Triggers a generic 'prompt generate' wrapped command.
+#
+# @example
+#   make prompt-generate $(asc/escape.sh 'Hello "world".')
+#   # Or :
+#   asc/instance/prompt_generate.sh 'Hello "world".'
+#
+
+. asc/bootstrap.sh
+
+prompt_generate_variants='STACK_VERSION PROVISION_USING HOST_OS'
+
+hook -s 'log' -p 'pre' -a 'prompt_generate' -v "$prompt_generate_variants"
+hook -s 'gpt' -p 'pre' -a 'prompt_generate' -v "$prompt_generate_variants"
+
+. asc/extensions/gpt/gpt/wrap.sh "$@"
+
+hook -s 'log' -p 'post' -a 'prompt_generate' -v "$prompt_generate_variants"
+hook -s 'gpt' -p 'post' -a 'prompt_generate' -v "$prompt_generate_variants"

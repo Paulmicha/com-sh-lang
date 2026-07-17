@@ -11,14 +11,14 @@
 # Initializes "primitives" for hooks and lookups (ASC extension mecanisms).
 # These are : subjects, actions, prefixes, variants and extensions.
 # Update 2024-06 cache results.
-if [[ -f scripts/asc/local/cache/asc.sh ]]; then
-  . scripts/asc/local/cache/asc.sh
+if [[ -f data/asc/cache/asc.sh ]]; then
+  . data/asc/cache/asc.sh
 else
   export asc_primitives_cache_str=''
   ASC_INC=''
   u_asc_extend
-  mkdir -p scripts/asc/local/cache
-  cat > scripts/asc/local/cache/asc.sh <<CACHE
+  mkdir -p data/asc/cache
+  cat > data/asc/cache/asc.sh <<CACHE
 #!/usr/bin/env bash
 
 ##

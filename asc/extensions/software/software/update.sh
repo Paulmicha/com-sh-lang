@@ -1,16 +1,15 @@
 #!/usr/bin/env bash
 
 ##
-# [abstract] Software update.
-#
-# May require sudoing.
+# Software update: alias of apply (upgrade outdated pinned tools).
 #
 # @example
-#   (sudo) make software-update
+#   make software-update
 #   # Or :
-#   (sudo) asc/extensions/software/software/update.sh
+#   asc/extensions/software/software/update.sh
 #
 
 . asc/bootstrap.sh
 
-# TODO
+u_software_parse_args "$@"
+u_software_provision apply

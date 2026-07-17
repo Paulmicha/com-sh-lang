@@ -25,10 +25,10 @@ purge_list=()
 
 # Manual cleanup of ASC global env vars.
 purge_list+=('.env')
-purge_list+=('scripts/asc/local/global.vars.sh')
+purge_list+=('data/asc/global.vars.sh')
 
 # ASC make shortcuts too.
-purge_list+=('scripts/asc/local/generated.mk')
+purge_list+=('data/asc/generated.mk')
 
 # Let extensions clean up their own generated files and/or alter the purge_list.
 hook -s 'instance' -a 'uninit' -v 'STACK_VERSION PROVISION_USING HOST_TYPE INSTANCE_TYPE'

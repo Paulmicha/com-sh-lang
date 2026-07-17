@@ -27,7 +27,7 @@ u_traefik_generate_acme_conf() {
   local var_name
   local token_prefix='{{ '
   local token_suffix=' }}'
-  local traefik_conf="$PROJECT_DOCROOT/scripts/asc/local/traefik.yml"
+  local traefik_conf="$PROJECT_DOCROOT/data/asc/traefik.yml"
   local hook_most_specific_dry_run_match=''
 
   u_hook_most_specific 'dry-run' \
@@ -63,8 +63,8 @@ u_traefik_generate_acme_conf() {
     fi
   done
 
-  # Special extra step : need to generate once scripts/asc/local/acme.json
-  if [[ ! -f "$PROJECT_DOCROOT/scripts/asc/local/acme.json" ]]; then
-    touch "$PROJECT_DOCROOT/scripts/asc/local/acme.json"
+  # Special extra step : need to generate once data/asc/acme.json
+  if [[ ! -f "$PROJECT_DOCROOT/data/asc/acme.json" ]]; then
+    touch "$PROJECT_DOCROOT/data/asc/acme.json"
   fi
 }

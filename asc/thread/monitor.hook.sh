@@ -6,9 +6,6 @@
 # Host-level thread monitor sweep: mark stale, reclaim locks, heal sibling index
 # under $HOME/.local/share/asc/threads/. Gated by ASC_MONITORING / ASC_HOST_THREAD_MONITOR.
 #
-# This file is generated from template :
-# @see asc/extensions/preset/preset/thread/monitor.hook.tpl.sh
-#
 # @example
 #   hook -s thread -a monitor
 #

@@ -53,10 +53,13 @@
 # incompatible with the globals aggregation and assignment process.
 # @see u_instance_init() in asc/instance/instance.inc.sh
 # @see global() + u_global_assign_value() in asc/utilities/global.sh
-if [[ -n "$ASC_MAKE_INC" ]]; then
+# Detect via a core readonly (ASC_MAKE_INC may be empty when no extension
+# ships a make.mk).
+if declare -p PROJECT_DOCROOT 2>/dev/null | grep -qE '^declare -[^ ]*r'; then
   echo >&2
   echo "Error in $BASH_SOURCE line $LINENO: the 'instance init' step requires that no ASC globals be loaded in current shell scope, otherwise idempotence of step 1 (instance init) can't be guaranteed." >&2
   echo "Try running this script in a new terminal session or isolated (using 'env -i ...')." >&2
+  echo "Or : use 'instance reinit'." >&2
   echo "-> Aborting (1)." >&2
   echo >&2
   exit 1
@@ -88,9 +91,9 @@ fi
 # the setup script before uninit.
 purge_list=()
 purge_list+=('.env')
-purge_list+=('scripts/asc/local/global.vars.sh')
-purge_list+=('scripts/asc/local/generated.mk')
-purge_list+=('scripts/asc/local/cache/make.sh')
+purge_list+=('data/asc/global.vars.sh')
+purge_list+=('data/asc/generated.mk')
+purge_list+=('data/asc/cache/make.sh')
 
 for entry in "${purge_list[@]}"; do
   if [[ -f "$entry" ]]; then

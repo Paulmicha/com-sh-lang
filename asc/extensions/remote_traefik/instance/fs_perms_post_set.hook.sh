@@ -8,6 +8,6 @@
 # @see u_instance_set_permissions()
 #
 
-if [[ -f "$PROJECT_DOCROOT/scripts/asc/local/acme.json" ]]; then
-  chmod 600 "$PROJECT_DOCROOT/scripts/asc/local/acme.json"
+if [[ -f "$PROJECT_DOCROOT/data/asc/acme.json" ]]; then
+  chmod 600 "$PROJECT_DOCROOT/data/asc/acme.json"
 fi
