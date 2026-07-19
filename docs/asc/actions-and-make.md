@@ -9,7 +9,7 @@ flowchart TD
   prim --> mk["data/asc/generated.mk"]
   shorter["ASC_SYNONYMS"] --> mk
   mk --> makeCall["make subject-action / lt / …"]
-  makeCall --> wrap["make.wrap.sh"]
+  makeCall --> wrap["call_wrap.make.sh"]
   wrap --> script["action script"]
   script --> bs[". asc/bootstrap.sh"]
 ```

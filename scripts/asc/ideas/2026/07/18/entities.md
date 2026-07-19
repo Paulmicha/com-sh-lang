@@ -1,4 +1,4 @@
-# ASC core concept : Entities
+# ASC core concept : Entities (synonym : node ?)
 
 ## General idea (the shape of contracts for defining entities)
 
@@ -41,7 +41,9 @@ TODO asc/extensions/entity/has/origin.sh
 TODO asc/extensions/entity/has/author.sh
 TODO asc/extensions/entity/has/license.sh
 TODO asc/extensions/entity/has/version.sh
-TODO asc/extensions/entity/has/state.sh (synonyms : status, health, vitals ?)
+TODO asc/extensions/entity/has/state.sh (synonym : status ? Close to : health, vitals)
+TODO asc/extensions/entity/has/created.sh (synonyms : written, creation (<date,datestamp,timestamp>))
+TODO asc/extensions/entity/has/changed.sh (synonyms : touched, modification (<date,datestamp,timestamp>))
 TODO asc/extensions/entity/implements/hook.sh
 TODO asc/extensions/entity/uses/global.sh
 
@@ -54,10 +56,12 @@ TODO asc/extensions/entity/uses/global.sh
 
 TODO recap all *.able.yml known to date :
 
-- "$wrapper.able" (asc log, host process, asc thread, logged-thread, etc)
-- "$nested.able" (nested-git, nested-asc, nested-host (vm ?), nested-cmd ?, nested-process ?, nested-thread ?, nested-protocol ? nested-crypt ? etc)
+- "$wrap.able" (asc log, host process, asc thread, logged-thread = lt, etc)
+- "$nest.able" (nested-git, nested-asc, nested-host (vm ?), nested-cmd ?, nested-process ?, nested-thread ?, nested-protocol ? nested-crypt ? etc)
 - "$action.able" (asc entry points by subject - ex: rotate, recognize, protocol, asc/extensions/entity/has/cognition.sh, etc)
 - "$sidecar.able" (changelog, accesslog ?, timestamp (ms precision, last 5min...), datestamp (daily, monthly, yearly))
+- "$implement.able" (asc/extensions/entity/implements/hook.sh ?)
+- "$use.able" (TODO asc/extensions/entity/uses/global.sh ?)
 
 ## Entities
 
