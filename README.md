@@ -123,7 +123,7 @@ make setup prod remote myproject-2024 lamp
   │   ├── env/                ← core global.vars.sh + helpers
   │   ├── extensions/         ← bundled extensions (opt-in via ignore file)
   │   │   ├── $ext/           ← [$subject/$action ext.point] core asc extension
-  │   │   │   ├── .asc_subjects_ignore  ← [nested $ext] in this case, blacklisted subfolder(s) = submodule(s)
+  │   │   │   ├── .asc_subjects_ignore  ← [nested $ext] submodule(s) (recursive)
   │   │   │   └── ...
   │   │   ├── .asc_extensions_ignore  ← default blacklisted core asc extensions
   │   │   └── ...
@@ -139,9 +139,14 @@ make setup prod remote myproject-2024 lamp
   │   └── bootstrap.sh        ← included in all entry points, loads bash functions and globals
   ├── data/                   ← runtime / generated (mostly gitignored)
   │   ├── cronjobs/           ← [optional, git-ignored] default place for cron jobs outputs
+  │   │   └── $subject/       ← $action per $subject filesystem structure
+  │   │       └── $action/
+  │   │           └── ...
   │   ├── asc/                ← [git-ignored] Generated files specific to this local instance
   │   │   ├── cache/          ← current local instance generated hooks and *.opt-inc.sh auto-include cache
-  │   │   │   └── $subject/   ← $action per $subject flat filesystem structure
+  │   │   │   └── $subject/   ← $action per $subject filesystem structure
+  │   │   │       └── $action/
+  │   │   │           └── ...
   │   │   ├── registry/       ← [optional] contains keyed "file-based store" values
   │   │   ├── generated.mk    ← current local instance generated make entry points
   │   │   └── global.vars.sh  ← current local instance generated (readonly) ENV vars
@@ -151,6 +156,7 @@ make setup prod remote myproject-2024 lamp
   │   ├── private/            ← [optional, git-ignored] default place for private files
   │   ├── test-results/       ← [optional] frozen (versionned) test results
   │   ├── threads/            ← [optional, git-ignored] default place for storing threads info
+  │   ├── process/            ← [optional, git-ignored] default place for storing process info
   │   ├── tmp/                ← [optional, git-ignored] default place for temporary files
   │   └── ...
   ├── docs/
@@ -160,11 +166,11 @@ make setup prod remote myproject-2024 lamp
   │   └── asc/
   │       ├── contrib/             ← contrib asc implementations
   │       │   ├── $ext/            ← [$subject/$action ext.point] contrib asc extension
-  │       │   │   ├── .asc_subjects_ignore  ← [nested $ext] in this case, blacklisted subfolder(s) = submodule(s)
+  │       │   │   ├── .asc_subjects_ignore  ← [nested $ext] submodule(s) (recursive)
   │       │   │   └── ...
   │       │   └── .asc_extensions_ignore  ← blacklisted contrib asc extensions
   │       ├── extend/             ← [$subject/$action ext.point] project-specific asc implementations
-  │       │       ├── .asc_subjects_ignore  ← [nested $ext] in this case, blacklisted subfolder(s) = submodule(s)
+  │       │       ├── .asc_subjects_ignore  ← [nested $ext] submodule(s) (recursive)
   │       │       └── ...
   │       └── override/           ← replace any sourced (core or contrib) ASC path
   │           ├── .asc_extensions_ignore  ← this instance's blacklisted (core or contrib) asc extensions
