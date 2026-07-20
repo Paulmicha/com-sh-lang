@@ -123,7 +123,7 @@ make setup prod remote myproject-2024 lamp
   │   ├── env/                ← core global.vars.sh + helpers
   │   ├── extensions/         ← bundled extensions (opt-in via ignore file)
   │   │   ├── $ext/           ← [$subject/$action ext.point] core asc extension
-  │   │   │   ├── .asc_subjects_ignore  ← [$subject/$action ext.point] blacklisted subfolder(s)
+  │   │   │   ├── .asc_subjects_ignore  ← [nested $ext] in this case, blacklisted subfolder(s) = submodule(s)
   │   │   │   └── ...
   │   │   ├── .asc_extensions_ignore  ← default blacklisted core asc extensions
   │   │   └── ...
@@ -160,10 +160,12 @@ make setup prod remote myproject-2024 lamp
   │   └── asc/
   │       ├── contrib/             ← contrib asc implementations
   │       │   ├── $ext/            ← [$subject/$action ext.point] contrib asc extension
-  │       │   │   ├── .asc_subjects_ignore  ← [$subject/$action ext.point] blacklisted subfolder(s)
+  │       │   │   ├── .asc_subjects_ignore  ← [nested $ext] in this case, blacklisted subfolder(s) = submodule(s)
   │       │   │   └── ...
   │       │   └── .asc_extensions_ignore  ← blacklisted contrib asc extensions
   │       ├── extend/             ← [$subject/$action ext.point] project-specific asc implementations
+  │       │       ├── .asc_subjects_ignore  ← [nested $ext] in this case, blacklisted subfolder(s) = submodule(s)
+  │       │       └── ...
   │       └── override/           ← replace any sourced (core or contrib) ASC path
   │           ├── .asc_extensions_ignore  ← this instance's blacklisted (core or contrib) asc extensions
   │           └── ...
