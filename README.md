@@ -206,13 +206,14 @@ Generated (do not hand-edit): `.env`, `data/asc/global.vars.sh`, `data/asc/gener
 
 ## Five implementation layers
 
-| # | Layer | Owns |
-|---|-------|------|
-| 1 | Data | `data/…`, host files — state only |
-| 2 | Global ENV vars | readonly globals vs calling-scope mutables |
-| 3 | Abstract core entry points | wraps / placeholders |
-| 4 | Core extensions | abstract + minimal concrete |
-| 5 | Project extend | `scripts/asc/extend/**` |
+| # | Layer | Owns | Examples |
+|---|-------|------|----------|
+| 1 | Data | `data/…`, host files — state only | Examples |
+| 2 | Global ENV vars | readonly globals vs calling-scope mutables | Examples |
+| 3 | Abstract core entry points | wraps / placeholders | Examples |
+| 4 | Core extensions | abstract + minimal concrete | Examples |
+| 5 | Contrib extensions | Shareable / optionally integrable ASC implementations (see LICENSEs) | Examples |
+| 6 | Project (scope-specific) extend | Any ASC implementation specific to the current project / scope | Examples |
 
 Full table, mermaid, and **launch** layer stack (raw → thread → log wrap): [docs/asc/layers.md](docs/asc/layers.md).
 
