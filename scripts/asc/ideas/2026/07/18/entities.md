@@ -17,6 +17,7 @@ TODO asc/extensions/entity/is/relation.sh (for fieldable relationships)
 TODO asc/extensions/entity/is/root.sh (synonyms : primordial, prime, original)
 TODO asc/extensions/entity/is/sibling.sh (synonyms : neighbor, sister, brother)
 TODO asc/extensions/entity/is/leaf.sh
+
 TODO asc/extensions/entity/has/label.sh (synonyms : title, name)
 TODO asc/extensions/entity/has/type.sh (synonyms : category)
 TODO asc/extensions/entity/has/bundle.sh (synonyms : subtype)
@@ -44,6 +45,7 @@ TODO asc/extensions/entity/has/version.sh
 TODO asc/extensions/entity/has/state.sh (synonym : status ? Close to : health, vitals)
 TODO asc/extensions/entity/has/created.sh (synonyms : written, creation (<date,datestamp,timestamp>))
 TODO asc/extensions/entity/has/changed.sh (synonyms : touched, modification (<date,datestamp,timestamp>))
+
 TODO asc/extensions/entity/implements/hook.sh
 TODO asc/extensions/entity/uses/global.sh
 
@@ -78,6 +80,8 @@ Scale of entities "genericity", descending order of most to least :
 1. self = level n
 1. child = level n + 1
 1. descendants = from level n + 2
+
+In ASC, the "core" (upstream repo) represents up to "primitive-level" contracts and implementations.
 
 ## Subjects x Actions
 

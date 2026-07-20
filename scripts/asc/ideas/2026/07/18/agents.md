@@ -1,4 +1,4 @@
-# ASC subject : agent
+# ASC core concept : Agents
 
 # Dependencies
 
