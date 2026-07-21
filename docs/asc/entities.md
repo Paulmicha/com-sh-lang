@@ -1,5 +1,15 @@
 # ASC core concept : Entities (synonym : node ?)
 
+TODO rewrite below contents with sections :
+
+1. represents ? (why it exists)
+1. definition (scope ?)
+1. capabilities
+1. applicability ?
+1. yml includes
+
+--
+
 ## General idea (the shape of contracts for defining entities)
 
 TODO *.yml minimal structure to say "hello, this entity depends on :"
@@ -64,6 +74,7 @@ TODO recap all *.able.yml known to date :
 
 Other (unelaborated) *.able.yml :
 - contract.able : the original "able"
+- break.able : will it ever end ?
 - hook.able : or implement.able or both ? (emitter / reciever ~ directional thing ?)
 - nest.able : nested-git, nested-asc, nested-host (vm ?), nested-cmd ?, nested-process ?, nested-thread ?, nested-protocol ? nested-crypt ? etc.
 - crud.able : TODO or just hardcoded default actions in entities instead ?
