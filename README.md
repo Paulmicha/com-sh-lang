@@ -75,7 +75,7 @@ Prefer the lowest of five **implementation layers** (data → globals → abstra
 - other `*.yml` (ex: remote instances or any entity)
 - encrypted (git) versionned files (cf. `data/crypted`)
 
-### ASC extension points = `$subject`/`$action`.sh containing folders
+### ASC extension points = the containing folders of `$subject`/`$action`.sh scripts
 
 - `./asc`
 - `./asc/extensions/$extension`
