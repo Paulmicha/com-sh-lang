@@ -4,6 +4,8 @@
 
 This project attempts to tackle the hard problem of naming things. Its ambition is to set a common, shared vocabulary for anything interacting with the shell somehow, including linux kernel (or OS-level) interactions and beyond.
 
+ideal overarching goal : self-explanatory filenames and filepaths
+
 ***Let's make words matter***
 
 ## TL;DR

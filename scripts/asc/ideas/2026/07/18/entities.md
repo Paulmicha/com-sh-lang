@@ -59,10 +59,17 @@ TODO asc/extensions/entity/uses/global.sh
 TODO recap all *.able.yml known to date :
 
 - "$wrap.able" (asc log, host process, asc thread, logged-thread = lt, etc)
-- "$nest.able" (nested-git, nested-asc, nested-host (vm ?), nested-cmd ?, nested-process ?, nested-thread ?, nested-protocol ? nested-crypt ? etc)
 - "$action.able" (asc entry points by subject - ex: rotate, recognize, protocol, asc/extensions/entity/has/cognition.sh, etc)
 - "$sidecar.able" (changelog, accesslog ?, timestamp (ms precision, last 5min...), datestamp (daily, monthly, yearly))
-- "$implement.able" (asc/extensions/entity/implements/hook.sh ?)
+
+Other (unelaborated) *.able.yml :
+- contract.able : the original "able"
+- hook.able : or implement.able or both ? (emitter / reciever ~ directional thing ?)
+- nest.able : nested-git, nested-asc, nested-host (vm ?), nested-cmd ?, nested-process ?, nested-thread ?, nested-protocol ? nested-crypt ? etc.
+- crud.able : TODO or just hardcoded default actions in entities instead ?
+- forget.able : All (forget.able ?) data must have a lifetime (logrotate-like but for any data/* structure)
+- depend.able : TODO contrib extensions (remote git repos ?)
+- build.able : TODO blueprints (delegated pattern extractors ? partially out of scope)
 - "$use.able" (TODO asc/extensions/entity/uses/global.sh ?)
 
 ## Entities
@@ -71,7 +78,7 @@ TODO recap all *.able.yml known to date :
 - Inheriting is done like remote instances yml "includes"
 - Inheriting from Parent(s) entities could be synonym of "genericity".
 
-Scale of entities "genericity", descending order of most to least :
+Scale of entities "nesting", descending order of most to least :
 
 1. primordial = most abstract
 1. primitive ancestor ?
