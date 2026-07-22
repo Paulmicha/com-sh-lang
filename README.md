@@ -4,9 +4,21 @@
 
 This project attempts to tackle the hard problem of naming things. Its ambition is to set a common, shared vocabulary for anything interacting with the shell somehow, including linux kernel (or OS-level) interactions and beyond.
 
-ideal overarching goal : self-explanatory filenames and filepaths
+***Let's make words matter*** 📚
 
-***Let's make words matter***
+## Overarching goal
+
+a slot-based abstraction layer to easily combine and pivot between any "shellable" entity (via entry points and conditional loading via hooks, with opt-in default minimal implementations via ASC "core" - this repo).
+
+## Current status
+
+Massive rewrite to shrink it to bare essentials, rethink things through.
+
+See changelogs.
+
+## End goal
+
+Less reliant on bash (support any posix shell ?), make the shell scripts themselves "variant.able" via hooks...
 
 ## TL;DR
 
