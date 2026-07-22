@@ -1,6 +1,6 @@
 # Agnostic Shell Controller (ASC) 🔤🔠🔡🔢🔣🆒🆓
 
-**Origin:** Forked from [Paulmicha/common-web-tools](https://github.com/Paulmicha/common-web-tools) branch `v2.0.0`, which is this repo’s **`main`**. That line diverged enough to warrant a dedicated project. Git history was rewritten (ASC→ASC / “agnostic shell controller”→“agnostic shell controller”, sensitive traces removed).
+**Origin:** Forked from [Paulmicha/common-web-tools](https://github.com/Paulmicha/common-web-tools) branch `v2.0.0`, which is this repo’s **`main`**. That line diverged enough to warrant a dedicated project. Git history was rewritten to **ASC** identity (toolkit `asc/`, symbols `ASC_*` / `asc_*`), and the project is licensed under Apache-2.0; sensitive traces were removed.
 
 This project attempts to tackle the hard problem of naming things. Its ambition is to set a common, shared vocabulary for anything interacting with the shell somehow, including linux kernel (or OS-level) interactions and beyond.
 
@@ -459,4 +459,4 @@ Full guide: [docs/asc/testing.md](docs/asc/testing.md).
 
 ## License
 
-The MIT license (see [LICENSE](LICENSE)).
+Apache License 2.0 (see [LICENSE](LICENSE)).

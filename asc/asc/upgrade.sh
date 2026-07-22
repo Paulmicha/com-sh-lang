@@ -8,7 +8,7 @@
 # the latest remote sources).
 #
 # The remote branch/tag is overridable using a global named 'ASC_BRANCH'
-# (defaults to 'v2.0.0').
+# (defaults to 'main').
 #
 # @example
 #   make asc-upgrade
@@ -69,7 +69,7 @@ case "$proceed_with_download" in y*|Y*)
   fi
 
   asc_upstream_git='https://github.com/Paulmicha/asc.git'
-  asc_branch="${ASC_BRANCH:-v2.0.0}"
+  asc_branch="${ASC_BRANCH:-main}"
   u_str_sanitize "$asc_branch" '-' 'asc_branch'
 
   git clone --depth 1 -b "$asc_branch" "$asc_upstream_git" "$tmp_dir"
