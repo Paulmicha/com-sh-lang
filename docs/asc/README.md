@@ -32,6 +32,8 @@ Table of contents :
     1. [thread](wrappers.md#thread)
     1. [tunnel](wrappers.md#tunnel)
     1. [vpn](wrappers.md#vpn)
+    1. [curl](wrappers.md#curl)
+    1. [$protocol ? (http, etc)](wrappers.md#protocol)
 1. [entities](entities.md)
     1. [represents ? (why it exists)](entities.md#represents-why-it-exists)
     1. [definition (scope ?)](entities.md#definition-scope)

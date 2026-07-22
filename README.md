@@ -476,6 +476,8 @@ Full guide: [docs/asc/testing.md](docs/asc/testing.md).
     1. [thread](docs/asc/wrappers.md#thread)
     1. [tunnel](docs/asc/wrappers.md#tunnel)
     1. [vpn](docs/asc/wrappers.md#vpn)
+    1. [curl](docs/asc/wrappers.md#curl)
+    1. [$protocol ? (http, etc)](docs/asc/wrappers.md#protocol)
 1. [entities](docs/asc/entities.md)
     1. [represents ? (why it exists)](docs/asc/entities.md#represents-why-it-exists)
     1. [definition (scope ?)](docs/asc/entities.md#definition-scope)

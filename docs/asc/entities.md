@@ -1,15 +1,17 @@
 # ASC core concept : Entities (synonym : node ?)
 
+Entities are the shared vocabulary for “things” ASC can name, wrap, nest, and relate. Most of the `entity` extension is still design/stub; this page records the contract so living docs and ideas stay aligned.
+
 Table of contents :
 
-1. represents ? (why it exists)
-1. definition (scope ?)
-1. capabilities
-1. relationships
-1. compatibility, applicability ? (protocols, etc)
-1. yml includes
+1. [represents ? (why it exists)](entities.md#represents-why-it-exists)
+1. [definition (scope ?)](entities.md#definition-scope)
+1. [capabilities](entities.md#capabilities)
+1. [relationships](entities.md#relationships)
+1. [compatibility, applicability ? (protocols, etc)](entities.md#compatibility-applicability-protocols-etc)
+1. [yml includes (synonym : inheritance)](entities.md#yml-includes)
 
-Entities are the shared vocabulary for “things” ASC can name, wrap, nest, and relate. Most of the `entity` extension is still design/stub; this page records the contract so living docs and ideas stay aligned.
+TODO below is to be rewrtten to fit the TOC :
 
 ---
 
