@@ -45,9 +45,11 @@ ASC is **not** meant for production. It helps individual developers or teams kee
 - Simple, minimal, self-explanatory
 - Delegate as much as possible, but still provide usual, optional (opt-in), generic needs as (overridable) "exemplar" implementation blueprints
 - Define things and (implementation) contracts
+- Generate simple ASC code from $slot.able file / folder templates or strings.
 
 ### Non-goals ("out of scope"s)
 
+- code refactoring
 - self-organizing abominable all-orchestrating plaform
 - complex nl-related or agent-related stuff should be delegated to nested apps, e.g. :
   - ontology stuff (prompt engineering)
