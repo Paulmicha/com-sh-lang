@@ -14,6 +14,7 @@ Table of contents :
 1. stream ?
 1. thread
 1. tunnel
+1. vpn
 
 Wrappers are how ASC launches and supervises work: one job, many jobs, ordered steps, pipes, long runners, and nested contexts. Most day-to-day use goes through **logged** shortcuts that stack `log.wrap.sh` outside a more specific wrap (thread, loop, batch, sequence, pipe).
 
@@ -275,3 +276,9 @@ Supervised single-job lifecycle.
 Placeholder in the TOC — **no core implementation or extract facts yet**.
 
 Intended direction (open): a supervised channel between contexts (host ↔ remote, nested ↔ parent) distinct from [pipe](#pipe) (local stdin/stdout) and [remote](#remote) (SSH sync helpers). Do not add make targets named `tunnel` until the contract is specified under [entities.md](entities.md) / ideas.
+
+---
+
+## vpn
+
+Placeholder in the TOC — **no core implementation or extract facts yet**.
