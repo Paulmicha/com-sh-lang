@@ -403,47 +403,49 @@ Default `fs_perms_set` only touches ASC-managed paths (`./data`, `./asc`, `./scr
 
 Enable/disable via ignore files (see above). Catalog of bundled folders:
 
-| Name | Default on? | Description |
-|------|:-----------:|-------------|
-| `agent` | | Plan subject stubs (`plan-iterate`, `plan-review`) |
-| `apache` | | Apache VHost helpers (classic LAMP, non-compose) |
-| `apt` | ✔ | Host apt `dependency-*` hooks (stubs) |
-| `arangodb` | | Alias / image tag defaults |
-| `builder` | | Templates / blueprints / prototypes stubs ([docs/asc/builder.md](docs/asc/builder.md)) |
-| `cognition` | | `observe-*` / `recognize-*` / `categorize-*` / `compare-*` stubs |
-| `compose` | | Docker Compose start/stop/build/destroy (`DC_MODE`, stack helpers) |
-| `crontab` | | Host crontab sync helpers |
-| `db` | | Abstract DB hooks |
-| `docker` | | Placeholder (empty) |
-| `drupalwt` | | Drupal tasks ([extension README](asc/extensions/drupalwt/README.md)) |
-| `drupalwt_d4d` | | Drupal + compose / docker4drupal-oriented stack |
-| `drush` | | Drush aliases / hooks |
-| `entity` | | Entity model stubs (`has-*`, `is-*`, field) |
-| `file_registry` | ✔ | Default file-based registry (instance / host) |
-| `git_crypt` | | Opt-in encryption hooks (stub) |
-| `gpt` | | LLM abstracts (`gpt-start`, …) |
-| `hosts_file` | | `/etc/hosts` helpers |
-| `interaction` | | Interactive prompt helpers |
-| `link` | ✔ | `linkable` entity type |
-| `memory` | | Storage / store stubs |
-| `moodle_d4php` | | Moodle + docker4php-oriented stack |
-| `mysql` | | MySQL implementations of `db` |
-| `nested_asc` | | Nested instance list/exec ([docs/asc/nested-asc.md](docs/asc/nested-asc.md)) |
-| `nested_git` | ✔ | Nested git / `subgit` wrap (`nested-git` synonym) |
-| `node` | | Aliases / default port |
-| `ollama` | | Default hooks for `gpt-*` via Ollama |
-| `pgsql` | | Postgres implementations of `db` |
-| `remote` | | SSH sync utilities |
-| `remote_asc` | | Remote ASC helpers |
-| `remote_db` | | DB dump sync via `db` + `remote` |
-| `remote_traefik` | | Traefik / Let’s Encrypt defaults |
-| `rules` | | Rule stubs |
-| `software` | | Host package / provision hooks |
-| `taxonomy` | | Term / vocabulary entity stubs |
-| `transcription` | | `transcribe` / `transcribe-all` |
-| `views` | | View stubs |
+| Name | Default on? | Submodules | Description |
+|------|:-----------:|:-----------|-------------|
+| `agent` | | | Plan subject stubs (`plan-iterate`, `plan-review`) |
+| `apache` | | | Apache VHost helpers (classic LAMP, non-compose) |
+| `apt` | ✔ | | Host apt `dependency-*` hooks (stubs) |
+| `arangodb` | | | Alias / image tag defaults |
+| `builder` | | | Templates / blueprints / prototypes stubs ([docs/asc/builder.md](docs/asc/builder.md)) |
+| `cognition` | | | `observe-*` / `recognize-*` / `categorize-*` / `compare-*` stubs |
+| `compose` | | | Docker Compose start/stop/build/destroy (`DC_MODE`, stack helpers) |
+| `crontab` | | | Host crontab sync helpers |
+| `db` | | | Abstract DB hooks |
+| `docker` | | `nested_docker` | Nested docker list/connect/exec stubs |
+| `drupalwt` | | | Drupal tasks ([extension README](asc/extensions/drupalwt/README.md)) |
+| `drupalwt_d4d` | | | Drupal + compose / docker4drupal-oriented stack |
+| `drush` | | | Drush aliases / hooks |
+| `entity` | | | Entity model stubs (`has-*`, `is-*`, field) |
+| `file_registry` | ✔ | | Default file-based registry (instance / host) |
+| `git_crypt` | | | Opt-in encryption hooks (stub) |
+| `gpt` | | | LLM abstracts (`gpt-start`, …) |
+| `hardware` | | `nested_hardware` | Hardware entity stubs |
+| `hosts_file` | | | `/etc/hosts` helpers |
+| `interaction` | | | Interactive prompt helpers |
+| `link` | ✔ | | `linkable` entity type |
+| `memory` | | | Storage / store stubs |
+| `moodle_d4php` | | | Moodle + docker4php-oriented stack |
+| `mysql` | | | MySQL implementations of `db` |
+| `nested_asc` | | | Nested instance list/exec ([docs/asc/nested-asc.md](docs/asc/nested-asc.md)) |
+| `nested_git` | | | Nested git / `subgit` wrap (`nested-git` synonym) |
+| `nested_host` | | | Nested host list/connect/exec stubs |
+| `node` | | | Aliases / default port |
+| `ollama` | | | Default hooks for `gpt-*` via Ollama |
+| `pgsql` | | | Postgres implementations of `db` |
+| `remote` | | | SSH sync utilities |
+| `remote_asc` | | | Remote ASC helpers |
+| `remote_db` | | | DB dump sync via `db` + `remote` |
+| `remote_traefik` | | | Traefik / Let’s Encrypt defaults |
+| `rules` | | | Rule stubs |
+| `software` | | `nested_software` | Host package / provision hooks |
+| `taxonomy` | | | Term / vocabulary entity stubs |
+| `transcription` | | | `transcribe` / `transcribe-all` |
+| `views` | | | View stubs |
 
-Default-on assumes the stock core ignore list (everything listed there is off; `apt`, `file_registry`, `link`, and `nested_git` are usually the exceptions). Project overrides win. More: [docs/asc/extensions.md](docs/asc/extensions.md), [`asc/extensions/README.md`](asc/extensions/README.md).
+Default-on assumes the stock core ignore list (everything listed there is off; `apt`, `file_registry`, and `link` are usually the exceptions). Nested subjects under an extension (Submodules column) can also be ignored via that extension’s `.asc_subjects_ignore`. Project overrides win. More: [docs/asc/extensions.md](docs/asc/extensions.md), [`asc/extensions/README.md`](asc/extensions/README.md).
 
 ## Automated tests
 
