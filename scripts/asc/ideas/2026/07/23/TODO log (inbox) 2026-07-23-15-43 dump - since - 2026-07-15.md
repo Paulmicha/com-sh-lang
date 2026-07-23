@@ -8,7 +8,11 @@ Cubic / tree like fractal or auto-moving creatures like sand creatures from eu a
 
 But the connections could be “real” ASC level (layer) like a google map layer, webgl ?
 
-Genericity scale applicable to links, connections (relations) too \- color coding, texture, pattern, animation, depth (layers but also tree, nodes / edges, mesh networks, both software and hardware, etc
+**Genericity scale** applicable to links (synonyms: connections, or use “relations” here instead ?) too \- color coding, texture, pattern, animation, depth (layers but also tree, nodes / edges, mesh networks, both software and hardware, etc
+
+Applicability could be like receptors conceptually based on the human neurons system analogy (close to : interactivity, reactivity, sensitivity ? compatibility ?)
+
+Diagram.able \= kind of view.able or preview.able, where format or style (synonym ? cosmetic, surface …) can be a triple-like relation (rendered, hydrated \- ex: slot or template, heredoc.able, etc.)
 
 \--
 
