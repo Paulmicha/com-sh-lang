@@ -13,12 +13,16 @@ drush
 entity
 git_crypt
 gpt
+hardware
 hosts_file
 interaction
 memory
 moodle_d4php
 mysql
 nested_asc
+nested_docker
+nested_git
+nested_host
 node
 ollama
 pgsql
