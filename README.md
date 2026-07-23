@@ -18,7 +18,9 @@ See changelogs.
 
 ## End goal
 
-Less reliant on bash (support any posix shell ?), make the shell scripts themselves "variant.able" via hooks...
+- Capabilities first, entities second
+- Sibling UI project in Tauri + SolidJS : a "second-brain" based on [projet-complexe](https://github.com/Paulmicha/projet-complexe) in order to implement a "code refactorer" agent role
+- Offload more tasks to third-party projects where sensible ? Criterias ?
 
 ## TL;DR
 
@@ -513,11 +515,10 @@ Full guide: [docs/asc/testing.md](docs/asc/testing.md).
 
 ## Roadmap
 
-- Keep `make test-asc` (and per-case targets) current
-- Finish shared sidecar wrap body and migrate writers ([docs/asc/sidecar-wrap.md](docs/asc/sidecar-wrap.md))
-- Fix macOS-specific errors
-- Offload more tasks to third-party projects where sensible
-- Reduce bashisms / improve POSIX compatibility where practical
+- Bash strict mode for all ASC (once refactored)
+- Reduce bashisms / improve POSIX compatibility where practical ~ less reliant on bash (support any posix shell ?), make the shell scripts themselves "variant.able" via hooks...
+- Windows support via tests in (nested) vm ?
+- macOS-specific errors ?
 
 ## Contributors
 
