@@ -5,7 +5,7 @@ Idea.able
 Review.able
 
 Should wrappers and nesters be synonyms ??  
-No : call\_wrap[.make.sh](http://.make.sh/) vs log-wrap ?
+No : call_wrap[.make.sh](http://.make.sh/) vs log-wrap ?
 
 Coulb be presets of different link or relation types (parent child vs sibling or same plane)
 

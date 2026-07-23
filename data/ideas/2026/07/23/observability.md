@@ -54,9 +54,9 @@ crash prevention ?
 tailed remote file sync :  
 data/remote-$entity (data/remote-instance, data/remote-host, data/remote-aws, data/remote-s3 etc.) tailed logs didecars ex :
 
-data/remote-instance/ = REMOTE\_INSTANCE\_DOCROOT
+data/remote-instance/ = REMOTE_INSTANCE_DOCROOT
 
-data/remote-instance/$data\_subdir/*.tailsync.txt ?
+data/remote-instance/$data_subdir/*.tailsync.txt ?
 
 make tail = loop-wrap   
 make logged-tail = log-wrap loop-wrap (debounced ?)

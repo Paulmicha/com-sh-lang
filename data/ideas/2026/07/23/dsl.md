@@ -56,7 +56,7 @@ is:
 
 --
 
-TODO make prefixed options uniformization (instead of "-a foobar" or "--a foobar" use "a:foobar" everywhere) // chantier e\_foobar scope var, f\_foobar functions, (local) p\_foobar argument, (local) o\_foobar option)
+TODO make prefixed options uniformization (instead of "-a foobar" or "--a foobar" use "a:foobar" everywhere) // chantier e_foobar scope var, f_foobar functions, (local) p_foobar argument, (local) o_foobar option)
 
 --
 

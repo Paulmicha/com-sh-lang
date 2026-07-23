@@ -32,7 +32,7 @@ git as inspiration regarding blame, merge conflicts (all boils down to tree (nes
 --
 
 semantic collisions principle (how to deal) :  
-polysémie, sinon c'est synonymie (MAKE\_TASKS\_SHORTER)
+polysémie, sinon c'est synonymie (MAKE_TASKS_SHORTER)
 
 --
 
