@@ -232,10 +232,15 @@ make setup prod remote myproject-2024 lamp
   ├── scripts/
   │   └── asc/
   │       ├── contrib/             ← contrib asc implementations
-  │       │   ├── $ext/            ← [$subject/$action ext.point] contrib asc extension
-  │       │   │   ├── .asc_subjects_ignore  ← [nested $ext] submodule(s) (recursive)
+  │       │   ├── asc/             ← asc ships its own "vendor" contrib "namespace"
+  │       │   │   └── ...          ← ... as well as some vendor-specific default implementations
+  │       │   ├── $provider/       ← yields : $provider.$ext exclusions patterns in .asc_extensions_ignore
+  │       │   │   ├── $ext/            ← [$subject/$action ext.point] contrib asc extension
+  │       │   │   │   ├── .asc_subjects_ignore  ← [nested $ext] submodule(s) (recursive)
+  │       │   │   │   └── ...
+  │       │   │   ├── .asc_extensions_ignore  ← blacklisted contrib asc extensions
   │       │   │   └── ...
-  │       │   └── .asc_extensions_ignore  ← blacklisted contrib asc extensions
+  │       │   └── ...
   │       ├── extend/             ← [$subject/$action ext.point] project-specific asc implementations
   │       │       ├── .asc_subjects_ignore  ← [nested $ext] submodule(s) (recursive)
   │       │       └── ...
@@ -252,6 +257,8 @@ make setup prod remote myproject-2024 lamp
   ├── SPECIMEN.remote_instances.yml  ← [optional] copy to remote_instances.yml
   └── ...
 ```
+
+TODO 2026/07/23 the .asc_extensions_ignore must be modified to accept dot prefix for new $provider/$ext paths.
 
 The canonical path for writing files related to time-recurrent or long processes is :
 
