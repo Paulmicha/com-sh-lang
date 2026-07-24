@@ -46,6 +46,7 @@ Table of contents :
     1. [file kinds](yml-structure.md#file-kinds)
     1. [state able (git draft)](yml-structure.md#state-able-git-draft)
     1. [subject inventory](yml-structure.md#subject-inventory)
+    1. [repo entity (git draft)](yml-structure.md#repo-entity-git-draft)
     1. [open / living](yml-structure.md#open--living)
 1. [builder](builder.md)
     1. [documenting (~ minimal OKF ? dedicated core extension ?)](builder.md#documenting-minimal-okf-dedicated-core-extension)

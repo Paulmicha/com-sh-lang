@@ -5,7 +5,7 @@
 | **Date** | 2026-07-24 |
 | **Status** | plan / review (draft for iterative amendment; **not** implementation go-ahead) |
 | **Scope** | ASC repo `/home/paul/Documents/asc` — conventions for **inside** YAML (`*.able.yml`, `*.hook.yml`, entity / specimen / includes); anchor use case = **git `$state`** draft |
-| **Related** | Filename DSL plan `changelog/2026/07/24-filename-dsl.md` (**separate**, complementary — owns filename stems / `$action.able.yml` *path* mapping, not YAML body schema); `docs/asc/entities.md` (`.able.yml` catalog); `docs/asc/organization.md` (globals / cache / state layers); entity blueprint stubs under `asc/extensions/entity/`; draft commit `af31aca` (*wip: draft state yml system.*) |
+| **Related** | Filename DSL plan `changelog/2026/07/24-filename-dsl.md` (**separate**, complementary — owns filename stems / `$action.able.yml` *path* mapping, not YAML body schema); `docs/asc/entities.md` (`.able.yml` catalog); `docs/asc/organization.md` (globals / cache / state layers); entity blueprint stubs under `asc/extensions/entity/`; draft commits `af31aca` (*wip: draft state yml system.*) → `58b89a5` / `3f61912` (`repo.entity.yml`) → `71b4f71` (expanded `state.able.yml` enums) |
 | **Lifecycle** | Local review stub: `data/plans/review/2026-07-24-yml-structure.md` (dir mostly gitignored — **this changelog is the tracked SoT**, same pattern as `24-filename-dsl.md`). Move stub across `review` → `iterate` → `accepted` / `rejected` per `data/ideas/2026/07/23/idea-changelog-workflow.md`. |
 | **Living docs** | `docs/asc/yml-structure.md` (new — YAML body conventions; pointer added in `docs/asc/README.md`) |
 
@@ -17,7 +17,9 @@ ASC already uses many YAML surfaces: specimen env / remotes, `*.able.yml` capabi
 
 The **filename DSL** plan locks how YAML shows up in **paths** (e.g. `$action.able.yml` → `$subject.$action`; `slot` on `*.hook.yml`; `.hook.yml` vs `.hook.sh`). It deliberately leaves **YAML body schema** open (see that plan’s open Qs on `$action.able.yml` keys, `asc.extendable` / `asc.overridable`, YAML `slot` field shape).
 
-**This plan is the complementary SoT for structuring YAML contents.** It starts from a concrete draft already pushed: the **git state** able pair under `$subject` `git`.
+**This plan is the complementary SoT for structuring YAML contents.** It starts from a concrete draft already pushed: the **git state** able pair under `$subject` `git`, plus a sibling **`repo.entity.yml`** sketch.
+
+**Amendment (2026-07-24):** re-synced worked example to HEAD `71b4f71` — expanded `state.able.yml` enums; added `repo.entity.yml` (`depends_on` + `url.field`).
 
 **Plan-only for schema / loaders.** Do not invent a second YAML dialect, rewrite empty `*.able.yml` trees, or wire runtime state machines until this plan is accepted and implementation is explicitly requested. Amending the draft files below during review is OK when the user asks.
 
@@ -35,14 +37,15 @@ Non-goals (for now): shipping a YAML schema validator; renaming every empty `*.a
 
 ---
 
-## Anchor draft — git `$state` YAML
+## Anchor draft — git `$state` YAML (+ `repo` entity)
 
-**Commit:** `af31aca` — *wip: draft state yml system.* (branch `naming-convention-changelog`)
+**Branch:** `naming-convention-changelog`. **Example SoT at:** HEAD `71b4f71` (initial draft `af31aca`; `repo.entity.yml` in `58b89a5`/`3f61912`; enum expand in `71b4f71`).
 
 | Path | Role (draft reading) |
 |------|----------------------|
 | `asc/git/git.able.yml` | Subject-adjacent able: declares **which entities** the `git` subject cares about (`folder`, `file`). |
 | `asc/git/state.able.yml` | `$action.able.yml` for `$action` = `state`: per-entity **default** + **allowed states**. |
+| `asc/git/repo.entity.yml` | Named **entity** body for `repo`: `depends_on.entity` list + `url.field` pointer (`str.url`). |
 
 ### Current draft bodies
 
@@ -61,6 +64,9 @@ folder:
   states:
     - gitignored
     - versionned
+    - modified
+    - deleted
+    - conflicted
     - unclean
 
 file:
@@ -70,22 +76,41 @@ file:
     - gitignored
     - versionned
     - modified
+    - deleted
     - conflicted
 ```
+
+```yaml
+# asc/git/repo.entity.yml
+repo:
+  depends_on:
+    entity:
+      - file
+      - folder
+      - relation
+  url:
+    field: str.url
+```
+
+Related field stub (outside `git/`, referenced by `url.field`): `asc/asc/utils/str/url.field.yml` → `url: { validate: limit[2048](str.length) }`.
 
 ### What problem this sketch solves
 
 - Names **state** as an explicit `$action` under `$subject` `git` (filesystem-visible; matches “files = actions”).
 - Separates **entity inventory** (`git.able.yml`) from **state machine / enum** (`state.able.yml`).
 - Gives humans and agents a readable enum of git-ish folder/file conditions without hard-coding them only in shell.
+- Starts a concrete **`*.entity.yml`** shape (`depends_on` + field ref) beside the able pair — inventory (`entities:`) and entity definition are no longer the same file.
 
 ### Draft gaps (expected — plan will fill)
 
 - No runtime loader / transition graph yet.
 - Spelling `versionned` vs `versioned` undecided.
 - Unclear whether `new` is only a default or also a member of `states`.
+- Folder vs file enums still diverge (`unclean` on folder only).
+- How `git.able.yml` `entities:` relates to `repo.entity.yml` `depends_on.entity` (and to `relation`) is open.
 - No link yet to `is.*.yml` “state markers” noted in `docs/asc/entities.md`.
 - No `includes` / extend / override story for these files.
+- `url.field: str.url` → `*.field.yml` resolution path / nesting convention still open.
 
 ---
 
@@ -100,7 +125,7 @@ Amend freely in conversation. Locked only when explicitly marked later.
 | Action able | `$subject/$action.able.yml` | Capability / relation / **state** payloads for that `$action` |
 | Subject able | `$subject/$subject.able.yml` (draft: `git.able.yml`) | Subject-wide inventory / defaults (e.g. `entities:`) |
 | Hook YAML | `$subject/….hook.yml` | Smart defaults + `slot` (field names TBD; path rules stay in filename-DSL) |
-| Entity / includes | `*.entity.yml`, YAML `includes:` | Inheritance — see `docs/asc/entities.md` § yml includes; detail later |
+| Entity / includes | `*.entity.yml` (draft: `repo.entity.yml`), YAML `includes:` | Named entity body — deps / fields; inheritance later (`docs/asc/entities.md`) |
 
 ### 2. State able shape (proposed — from git draft)
 
@@ -131,7 +156,7 @@ entities:
   - …
 ```
 
-Keeps “what entities exist for this `$subject`” out of the per-action state file.
+Keeps “what entities exist for this `$subject`” out of the per-action state file. Draft also shows a richer **entity** body (`repo.entity.yml`) with `depends_on.entity` + field refs — see open Q1 / Q8.
 
 ### 4. Relationship to filename-DSL (do not conflate)
 
@@ -145,23 +170,25 @@ Keeps “what entities exist for this `$subject`” out of the per-action state 
 
 ## Open questions
 
-1. **Subject able vs action able:** is `$subject/$subject.able.yml` (`git.able.yml`) the locked home for `entities:`, or should inventory live elsewhere (`$subject.entity.yml`, globals, …)?
+1. **Subject able vs entity YAML:** is `$subject/$subject.able.yml` (`git.able.yml`) still the locked home for `entities:`, or does `*.entity.yml` (`repo.entity.yml`) take over inventory / deps? How do `entities:` and `depends_on.entity` relate?
 2. **`new` vs `states`:** must `default.state` always be listed under `states`, or is default allowed outside the enum?
 3. **Spelling:** `versionned` (draft) vs `versioned` (EN)? Any other enum renames (`unclean` vs `dirty`)?
-4. **Transitions:** enum-only for v1, or declare edges (`from` / `to`) in the same YAML later?
-5. **`is.*.yml` markers:** same SoT as `state.able.yml`, generated views, or orthogonal?
-6. **Reuse beyond git:** should `folder` / `file` state enums be core-shared (`asc/folder/state.able.yml`) and merely referenced by git, or stay git-local?
-7. **YAML `includes`:** adopt remote-instance-style includes for ables in v1, or keep files self-contained until entity work lands?
-8. **`*.hook.yml` body:** land a minimal stub section in this plan soon, or wait for filename-DSL Phase 3?
-9. **Validation:** docs-only convention first, or early shunit2 fixture checks under `make test-asc`?
-10. **Typo / schema versioning:** add a top-level `asc.yml.schema` / `version:` key, or avoid until multiple consumers exist?
+4. **Folder vs file enum asymmetry:** keep `unclean` folder-only (current draft), align both lists, or treat `unclean` as a rollup of other states?
+5. **Transitions:** enum-only for v1, or declare edges (`from` / `to`) in the same YAML later?
+6. **`is.*.yml` markers:** same SoT as `state.able.yml`, generated views, or orthogonal?
+7. **Reuse beyond git:** should `folder` / `file` state enums be core-shared (`asc/folder/state.able.yml`) and merely referenced by git, or stay git-local?
+8. **`depends_on` / field refs:** freeze `depends_on.entity` + `url.field: str.url` as the entity-body pattern? How does `str.url` resolve to `…/str/url.field.yml`?
+9. **YAML `includes`:** adopt remote-instance-style includes for ables/entities in v1, or keep files self-contained until entity work lands?
+10. **`*.hook.yml` body:** land a minimal stub section in this plan soon, or wait for filename-DSL Phase 3?
+11. **Validation:** docs-only convention first, or early shunit2 fixture checks under `make test-asc`?
+12. **Typo / schema versioning:** add a top-level `asc.yml.schema` / `version:` key, or avoid until multiple consumers exist?
 
 ---
 
 ## Next iterative steps
 
 - [ ] Review / amend this plan in conversation (status stays `plan / review`).
-- [ ] Decide open Qs 1–3 first (inventory home, `new`∈`states`, spelling) — enough to refine the git draft.
+- [ ] Decide open Qs 1–4 first (inventory vs `*.entity.yml`, `new`∈`states`, spelling, folder/file enum asymmetry) — enough to refine the git draft.
 - [ ] Expand living doc `docs/asc/yml-structure.md` when decisions lock (keep thin until then).
 - [ ] Optionally amend `asc/git/*.able.yml` to match agreed shape (only when asked).
 - [ ] Cross-link filename-DSL open Qs that this plan answers (`$action.able.yml` schema, YAML `slot` shape) once frozen.

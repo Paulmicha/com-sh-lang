@@ -10,6 +10,8 @@ This project attempts to tackle the hard problem of naming things. Its ambition 
 
 Like the Go (game) but with entry points, env vars, scripts (wrappers, nesters, "regular"), namespaces and hooks.
 
+If you name things right, projects write themselves.
+
 ## Current status
 
 Massive rewrite to shrink it to bare essentials, rethink things through.

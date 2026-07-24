@@ -8,9 +8,12 @@ Table of contents :
 1. [file kinds](#file-kinds)
 1. [state able (git draft)](#state-able-git-draft)
 1. [subject inventory](#subject-inventory)
+1. [repo entity (git draft)](#repo-entity-git-draft)
 1. [open / living](#open--living)
 
 Status: **living draft**. Decision SoT while in review: `changelog/2026/07/24-yml-structure.md`. Amend with the plan; do not invent runtime behavior here.
+
+Example SoT: branch `naming-convention-changelog` @ `71b4f71` (`asc/git/{git.able,state.able,repo.entity}.yml`).
 
 ---
 
@@ -33,16 +36,15 @@ Related: [entities.md](entities.md) (what `*.able.yml` *means*), [organization.m
 |------|--------------|-------------------|
 | Action able | `$subject/$action.able.yml` | Capability / relation / **state** for that `$action` |
 | Subject able | `$subject/$subject.able.yml` | Subject-wide inventory (e.g. entity list) |
+| Entity | `$subject/<name>.entity.yml` | Named entity — deps / fields (draft: `repo.entity.yml`) |
 | Hook YAML | `….hook.yml` | Smart defaults + `slot` (field names TBD) |
-| Entity / includes | `*.entity.yml`, `includes:` | Inheritance — see [entities.md](entities.md) § yml includes |
+| Includes | YAML `includes:` | Inheritance — see [entities.md](entities.md) § yml includes |
 
 Most historical `*.able.yml` under `asc/folder/` (and peers) are still empty stubs — prefer one worked example over mass-filling.
 
 ---
 
 ## state able (git draft)
-
-First concrete sketch (commit `af31aca`, subject `git`):
 
 **Path:** `asc/git/state.able.yml` → `$action` = `state` under `$subject` = `git` (doc: `$git.$state`).
 
@@ -53,6 +55,9 @@ folder:
   states:
     - gitignored
     - versionned
+    - modified
+    - deleted
+    - conflicted
     - unclean
 
 file:
@@ -62,6 +67,7 @@ file:
     - gitignored
     - versionned
     - modified
+    - deleted
     - conflicted
 ```
 
@@ -71,7 +77,7 @@ file:
 | `default.state` | Initial / unset state |
 | `states` | Allowed state ids (enum) |
 
-No transition graph or loader yet — enum + default only.
+Notes from current draft: folder and file share most ids; **`unclean` is folder-only**. No transition graph or loader yet — enum + default only.
 
 ---
 
@@ -85,7 +91,26 @@ entities:
   - file
 ```
 
-Keeps “which entities this `$subject` names” separate from per-entity state enums. Whether `$subject/$subject.able.yml` is the locked home for `entities:` is still open (see plan changelog).
+Keeps a flat “which entities this `$subject` names” list separate from per-entity state enums. How this relates to `*.entity.yml` `depends_on` is still open (see plan changelog).
+
+---
+
+## repo entity (git draft)
+
+Sibling sketch: `asc/git/repo.entity.yml`
+
+```yaml
+repo:
+  depends_on:
+    entity:
+      - file
+      - folder
+      - relation
+  url:
+    field: str.url
+```
+
+`url.field: str.url` points at a field stub (`asc/asc/utils/str/url.field.yml` today). Resolution / nesting rules for `*.field.yml` are not frozen yet.
 
 ---
 
@@ -93,9 +118,10 @@ Keeps “which entities this `$subject` names” separate from per-entity state 
 
 Track decisions in `changelog/2026/07/24-yml-structure.md` § Open questions. High-priority while amending:
 
-1. Must `default.state` appear in `states`?
-2. Spelling: `versionned` vs `versioned`.
-3. Share folder/file state enums core-wide vs keep git-local.
-4. When to stub `*.hook.yml` body conventions (vs filename-DSL Phase 3).
+1. `entities:` (subject able) vs `depends_on.entity` / `*.entity.yml`.
+2. Must `default.state` appear in `states`?
+3. Spelling: `versionned` vs `versioned`.
+4. Keep `unclean` folder-only, or align folder/file enums?
+5. Freeze `depends_on` + `*.field` refs as the entity-body pattern?
 
 Update this page when those lock; keep thin until then.
