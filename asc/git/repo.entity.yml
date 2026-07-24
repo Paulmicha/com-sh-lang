@@ -1,0 +1,8 @@
+repo:
+  depends_on:
+    entity:
+      - file
+      - folder
+
+git:
+  repo: url.validate(str.url)
