@@ -4,6 +4,9 @@ folder:
   states:
     - gitignored
     - versionned
+    - modified
+    - deleted
+    - conflicted
     - unclean
 
 file:
@@ -13,4 +16,5 @@ file:
     - gitignored
     - versionned
     - modified
+    - deleted
     - conflicted
