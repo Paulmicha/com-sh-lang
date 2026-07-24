@@ -84,15 +84,70 @@ ext          := 'sh' | 'yml' | 'ps1' | …                       # ext policy fo
 
 **Shell in the suffix (locked):** `shell_id` sits **before** the include kind (`inc` / `opt-inc`), not after it.
 
-**Hyphen layers (locked — do not conflate):**
+**Hyphen / underscore layers (locked — do not conflate):**
 
 | Surface | Shape | Role |
 |---------|-------|------|
-| **First `-`** (single hyphen inside a token) | `head-tail`, `o-…`, `b-…` | Intra-token head/tail split — **not** a relation construct; replaces the superseded same-word `_` rule |
+| **First `-`** (single hyphen inside a token) | `head-tail`, `o-…`, `b-…` | Intra-token head/tail split — **not** a relation construct; replaces the superseded same-word `_` rule. **Positional meaning is locked.** |
+| **Optional `_`** (prefix in `$action` stem — **position matters**) | `$subject_$action…` / `$object_$action…` | Soft reading of a leading `_`-separated segment as `$subject` or `$object`, then `$action` (see below). **Not** a same-word / head-tail separator; **not** folder nest; **not** a relation. |
 | **Field `--`** | `(field.able.subject)--(field.able.object)` | **Field** relation (two able members) |
 | **Triple `--`…`--`** | `(triple.able.subject)--(triple.able.predicate)--(triple.able.object)` | **Triple** / the rest (three able members) |
 
-**First `-` separator policy (locked — replaces “same-word separator”):** do **not** invent a special same-word separator rule (the superseded idea `data/ideas/2026/07/23/dsl.md` proposed `_` for that). Compound key/value (and similar head/tail) splits **inside** freeform / prefixed tokens are read from the **position of the first `-`**: left of the first hyphen = head/key; right = remainder/value (further single `-` / `_` in the remainder are literal content, not a second separator class). This policy applies **inside** tokens; it does **not** compete with relation `--` delimiters between `(…)` able members.
+**First `-` separator policy (locked — replaces “same-word separator”):** do **not** invent a special same-word separator rule (the superseded idea `data/ideas/2026/07/23/dsl.md` proposed `_` for that). Compound key/value (and similar head/tail) splits **inside** freeform / prefixed tokens are read from the **position of the first `-`**: left of the first hyphen = head/key; right = remainder/value (further single `-` in the remainder are literal content, not a second separator class). This policy applies **inside** tokens; it does **not** compete with relation `--` delimiters between `(…)` able members.
+
+#### Optional `_` prefix in `$action` naming (locked intent — not enforced)
+
+Because first-`-` already owns positional head/tail meaning, `_` is **free** for a different, softer role. The `_`-separated **prefix in `$action`** (**position matters**) **can** (not must / not enforced) mean:
+
+```text
+$subject / $object _ $action . (variants)? . (hook|inc|opt-inc)? . sh
+```
+
+I.e. an optional reading of an `$action` filename / stem where:
+
+1. A **leading** `_`-separated segment is `$subject` or `$object`,
+2. then `$action`,
+3. then optional dotted **variants**, then optional **`hook` / `inc` / `opt-inc`**, then **`.sh`**.
+
+**Position matters:** only a leading `_` prefix on the `$action` stem carries this soft reading. Later `_` inside the action name (or inside a first-`-` remainder) may stay ordinary multi-word glue / literal content unless the author intends the prefix reading.
+
+**Contrast with relations (do not conflate):**
+
+| Construct | Delimiter | Role |
+|-----------|-----------|------|
+| **Relations** | `--` between `(…)` able members | Locked **field** / **triple** able mapping → `$action.able.yml` → `$subject.$action` |
+| **Optional `_`** | `_` inside `$action` naming | Soft **prefix** reading (`$subject` / `$object` then `$action`) — **not** a replacement for relations |
+
+Do **not** require `_` anywhere; do **not** revive the superseded same-word `_` rule — that job stays with first `-`. Do **not** treat this `_` rule as a relation construct or as folder / DSL `.` nest.
+
+Illustrative shapes (intent only — not enforced):
+
+| Filename / stem | Soft `$action`-prefix reading |
+|-----------------|-------------------------------|
+| `db_dump.sh` | `$subject`/`$object` `db` + `$action` `dump` |
+| `remote_sync.hook.sh` | prefix `remote` + action `sync` + `.hook.sh` |
+| `host_setup.local.opt-inc.sh` | prefix `host` + action `setup` + variant `local` + `.opt-inc.sh` |
+
+**Most minimal implementation (prefer this — docs / convention first, not Phase 1–3 DSL parser):**
+
+1. **Docs + convention only (default next step):** lock the `$action`-prefix reading above; when living docs are touched, one short note — no new runtime.
+2. **No parser obligation:** do not add a filename-DSL lexer rule that *requires* `_` = `$subject`/`$object` prefix.
+3. **No conflation** with first-`-` head/tail or with relation `--`.
+
+**Explicitly do NOT build yet:**
+
+- No mandatory `_` = subject/object prefix in the DSL lexer.
+- No mass rename of existing action stems to force the prefix pattern.
+- No hierarchy resolver or make-target rewriting from `_` splits.
+- No conflation with first-`-` or with relation `--`.
+
+#### Historical / peer-subject note (demoted — not the locked `_` SoT)
+
+Earlier drafts elaborated `_` as a soft **sub-`$subject` / remote-family** hint on **peer subject IDs** (e.g. `remote_db`, `remote_asc`, contrib `remote_traefik` beside `remote`). That reading is **demoted**: it may still describe how some flat subject/extension folder names look today, but it is **not** the locked optional-`_` intent for this plan.
+
+- **Locked SoT for `_`:** soft **prefix in `$action`** naming (`$subject` / `$object` `_` `$action` …) — see above.
+- **Peer IDs like `remote_db`:** historical / discoverability footnote only — flat compound subject IDs, not the `$action`-prefix rule. Folder nest stays path segments (`remote_db/remote/…`); DSL nest stays `.`.
+- Do **not** treat every `_` in an action stem as a subject/object prefix (`db_dump` may still be ordinary multi-word glue when the author does not intend the soft reading).
 
 Illustrative (from the same idea file’s examples, punctuation roles updated to this plan’s SoT):
 
@@ -102,7 +157,7 @@ Illustrative (from the same idea file’s examples, punctuation roles updated to
 | `b-oneline` | (after `b-` prefix) `oneline` | boolean flag `oneline` — idea form `instance-giw[log,b-oneline]` |
 | `o-s-gpt` | (after `o-` prefix) `s` \| `gpt` | option head `s`, value `gpt` |
 
-So `instance-giw[log,b-oneline]` needs no `_`-as-same-word rule: `instance` / `giw` relates on the first `-` in the atom; `b-oneline` is a boolean member.
+So `instance-giw[log,b-oneline]` needs no `_`-as-same-word rule: `instance` / `giw` relates on the first `-` in the atom; `b-oneline` is a boolean member. Optional `_` remains available for the soft `$action`-prefix reading above — never as a mandatory same-word separator, never as a `--` relation.
 
 #### Relations / fields (locked — mapping complete)
 
@@ -255,9 +310,11 @@ asc/asc/core.inc.sh
 
 # Specific alternate (ASC_SHELL=<shell>) — name.<shell>.(opt-)inc.sh — only if exists:
 asc/asc/utils/shell.zsh.opt-inc.sh
-asc/asc/utils/shell.posix.opt-inc.sh
 asc/asc/core.zsh.inc.sh
 asc/asc/utils/shell.powershell.opt-inc.sh   # ext policy still open (e.g. .ps1)
+
+# Special future artifact (not a normal ASC_SHELL alternate — see Future next-step):
+asc/asc/utils/shell.ideal.opt-inc.sh
 ```
 
 | `ASC_SHELL` | Loader hook prefers | Fallback if missing |
@@ -428,6 +485,7 @@ Parser / runtime fixtures in Phase 1–2 must include at least: one nest-only te
 | `data/asc/` generated state | May generate files; still must materialize explicit `$action` artifacts. |
 | Variant dotted hooks today (`init.local.dev.hook.sh`) | Remain valid; DSL adds `()`, `[]`, and richer stems — precedence vs pure variant dots is an open task. |
 | First `-` (not same-word `_`) | Compound head/tail via **first hyphen** position inside tokens; superseded idea’s “same word separator : `_`” is **not** adopted. Distinct from relation `--` between `(…)` able members. |
+| Optional `_` (prefix in `$action`) | `_`-separated **prefix in `$action`** (**position matters**) **can** read as `$subject` / `$object` `_` `$action` `. (variants)? . (hook\|inc\|opt-inc)? . sh` — not enforced; not a relation; not a replacement for `--` field/triple forms. Peer IDs like `remote_db` are a demoted historical note only. |
 | Relations / fields (mapping complete) | Fields: `(field.able.subject)--(field.able.object)`. Triples: `(triple.able.subject)--(triple.able.predicate)--(triple.able.object)`. Map via `$action.able.yml` → `$subject.$action`. |
 | YAML `*.hook.yml` / slot | **Slot** is a YAML hook-definition concern; smart defaults + extendable/overridable stay on `.hook.yml`. Builder `docs/asc/builder.md` § slots is a separate scaffold concept. |
 | Eager `*.inc.sh` / lazy `*.opt-inc.sh` | Include bodies loaded by a **single include-loader hook** (locked). Multi-shell: try `*.$ASC_SHELL.(opt-)inc.sh` if present; else unqualified bash set (default + fallback). Primordial: eager core at `asc/asc/*.inc.sh`, lazy utils at `asc/asc/utils/*.opt-inc.sh`. Timing: phase 60 `ASC_INC`, phase 90 caller opt-inc, colocated seed before `*.hook.sh`. |
@@ -459,7 +517,18 @@ Parser / runtime fixtures in Phase 1–2 must include at least: one nest-only te
 - [x] Freeze **slot** home: YAML hook definition (`*.hook.yml`) — not filename-DSL bracket payload (`…[slot]` superseded).
 - [x] Freeze **boolean** class: `b-` tokens in `[]`; MAKE_TASKS_SHORTER `b` → boolean; variable prefix **`b_`** (parallel to `p_` / `o_`).
 - [x] Freeze **first `-` separator policy:** no same-word `_` rule; head/tail from position of the first hyphen (intra-token only).
-- [x] Freeze **relations / fields (mapping complete):** `(field.able.subject)--(field.able.object)`; `(triple.able.subject)--(triple.able.predicate)--(triple.able.object)`; via `$action.able.yml` → `$subject.$action` (distinct from first-`-`).
+- [x] Freeze **optional `_` prefix in `$action` naming:** `_`-separated leading segment **can** (not enforced) mean `$subject` / `$object` `_` `$action` `. (variants)? . (hook|inc|opt-inc)? . sh`; **position matters**; does **not** revive same-word `_`; first `-` keeps positional head/tail; **not** a relation / not a replacement for `--` able forms. See [Optional `_` prefix in `$action` naming](#optional-_-prefix-in-action-naming-locked-intent--not-enforced).
+- [x] Freeze **remote-family / peer-subject `_` elaboration as demoted:** `remote_db` / `remote_asc` / `remote_traefik` are historical peer-ID notes only — not the locked optional-`_` SoT. See [Historical / peer-subject note](#historical--peer-subject-note-demoted--not-the-locked-_-sot).
+- [x] Freeze **minimal `_` implementation approach:** docs/convention first for the `$action`-prefix reading; **no** DSL parser rule, renames, or mandatory splits. See same section (“Most minimal implementation” / “do NOT build yet”).
+- [x] Freeze **relations / fields (mapping complete):** `(field.able.subject)--(field.able.object)`; `(triple.able.subject)--(triple.able.predicate)--(triple.able.object)`; via `$action.able.yml` → `$subject.$action` (distinct from first-`-` and from optional `_`).
+
+### Phase 0a — Optional `_` `$action`-prefix note (docs-first)
+
+**When:** can land anytime after Phase 0 accept; **orthogonal** to multi-shell Phase 0b and **before** Phase 1 DSL parser work. Prefer docs-only.
+
+- [ ] Living-docs note: optional `_` prefix in `$action` naming **can** read as `$subject` / `$object` `_` `$action` … (not enforced; position matters); contrast with `--` relations; first `-` unchanged.
+- [ ] Do **not** fold this into Phase 1–3 filename-DSL lexer work.
+- [ ] Do **not** revive peer-subject / remote-family `_` as the locked SoT (demoted note only).
 
 ### Phase 0b — Complete multi-shell groundwork (already pushed)
 
@@ -479,7 +548,7 @@ Parser / runtime fixtures in Phase 1–2 must include at least: one nest-only te
 - Filename DSL punctuation: `()` = **wrap**, `.` = **nest**, `[]` = **args**; `b-*` = boolean; `o-*` = options; else positional.
 - Variable prefixes in DSL / calling scope: positionals → `p_`; options → `o_`; booleans → `b_`; no `f_` *variable* prefix for actions / entry points.
 - Symbol prefixes (when touching bootstrapped utilities / exports — see `changelog/2026/07/23-f-e-naming-convention.md`): utilities `f_*` (from `u_*`); exports `e_*`; CLI option storage `o_*`; special-case `hookms` (not `f_hook_most_specific`).
-- Compound tokens: relate on **first `-`** (no same-word `_` separator rule); distinct from relation `--` between `(…)` able members.
+- Compound tokens: relate on **first `-`** (no same-word `_` separator rule); distinct from relation `--` between `(…)` able members. Optional `_` **can** (not enforced) be a **leading `$action` prefix** reading `$subject` / `$object` `_` `$action` `. (variants)? . (hook|inc|opt-inc)? . sh` — position matters; never same-word head/tail; never a replacement for `--` relations.
 - **Relations / fields (mapping complete):** `(field.able.subject)--(field.able.object)`; `(triple.able.subject)--(triple.able.predicate)--(triple.able.object)`; map via `$action.able.yml` to `$subject.$action`.
 - **Slot** only in **YAML hook definitions** (`*.hook.yml`) — never as `…[slot]` in filename stems.
 - Include suffixes: unqualified `*.inc.sh` / `*.opt-inc.sh` = bash default + fallback; alternates `*.$ASC_SHELL.inc.sh` / `*.$ASC_SHELL.opt-inc.sh` (shell segment **before** kind).
@@ -584,6 +653,8 @@ Writing tests is a **required deliverable of this phase**, not deferred to “ve
 16. **YAML `slot` field shape:** exact key(s) / nesting under `*.hook.yml` (and relation to builder `slotable` in `docs/asc/builder.md` — keep distinct).
 17. **`b_` stacking with `e_*`:** if boolean locals are also exported, same open stacking question as `o_` / `e_` in the naming-convention plan.
 18. **`$action.able.yml` schema:** exact keys for `(field.able.subject)--(field.able.object)` vs `(triple.able.subject)--(triple.able.predicate)--(triple.able.object)`; path relative to `$subject/$action`; overlap with entity `.able` / `asc.extendable` naming.
+19. **Optional `_` `$action`-prefix split:** first `_` only (`db_dump` → `db` + `dump`) vs more segments? When is the soft `$subject` vs `$object` reading intended vs ordinary multi-word glue?
+20. **Peer-subject IDs with `_` (demoted):** keep `remote_db`-style flat IDs as-is forever, or eventually align with folder/DSL nest — orthogonal to the locked `$action`-prefix `_` rule?
 
 ---
 
@@ -593,7 +664,8 @@ Writing tests is a **required deliverable of this phase**, not deferred to “ve
 - [ ] Update or banner `data/ideas/2026/07/23/dsl.md` as superseded on accept
 - [ ] Phase 0 decisions (especially `.` ambiguity, YAML extend/override names, include-loader hook identity; shell suffix order + bash fallback are frozen)
 - [ ] **Complete multi-shell groundwork** already pushed (`648a4d7`, `8f3faa8`, `f971316`) — Phase 0b
-- [ ] **Cursor rules** (Phase 0c): project-local `.cursor/rules/*.mdc` enforcing locked naming / DSL (`b-`/`o-`/`p_`, first `-`, field/triple able forms / `$action.able.yml`, slot-in-yml) / include-loader / MAKE_TASKS_SHORTER / test harness — before Phase 1 coding
+- [ ] **Phase 0a** (optional `_`): living-docs note for `$action`-prefix reading (`$subject` / `$object` `_` `$action` …); remote-family peer IDs demoted — **not** DSL parser work
+- [ ] **Cursor rules** (Phase 0c): project-local `.cursor/rules/*.mdc` enforcing locked naming / DSL (`b-`/`o-`/`p_`, first `-`, optional `_` `$action`-prefix reading, field/triple able forms / `$action.able.yml`, slot-in-yml) / include-loader / MAKE_TASKS_SHORTER / test harness — before Phase 1 coding
 - [ ] Implement DSL only after explicit go-ahead (Phases 1–5), **including** shunit2 / `make test-asc` cases and nest/wrap + `llv-*` fixtures from Phase 1 onward
 
 ---
@@ -608,6 +680,10 @@ foo[b-oneline]                   → boolean(b-*)                  → b_
 foo[bar,o-option-bar]            → option(o-*) | arg(*)          → o_ / p_
 foo[a,b-flag,o-x]                → arg(*) | b-* | o-*            → ordered mix
 retention-5m / instance-giw      → first '-' splits head | tail  (no same-word '_' rule)
+db_dump / remote_sync.hook.sh    → optional '_' prefix in $action (position matters, not enforced):
+                                 → $subject/$object _ $action . (variants)? . (hook|inc|opt-inc)? . sh
+# relations are '--' able forms — optional '_' is NOT a relation replacement
+# peer IDs like remote_db = demoted historical note only (not locked '_' SoT)
 (field.able.subject)--(field.able.object)
                                  → field → $action.able.yml → $subject.$action
 (triple.able.subject)--(triple.able.predicate)--(triple.able.object)
@@ -645,3 +721,13 @@ Primordial layout (settled) — include files:
   asc/asc/{core,global,hook,autoload}.inc.sh     → eager
   asc/asc/utils/{array,fs,shell,string}.opt-inc.sh → lazy
 ```
+
+---
+
+## Future next-step (deferred — not Phase 0b required)
+
+**Idea:** make `asc/asc/utils/shell.ideal.opt-inc.sh` a file that **receives pull requests**, so that in this file (wherever the repo locates it) we can discover whether some action has a **"universal" (shell-agnostic)** implementation.
+
+**Open question:** `limit.able` / `scope.able` ?
+
+Frame: future idea / next step only — do **not** treat as current Phase 0b required work unless it later fits cleanly as deferred groundwork.
